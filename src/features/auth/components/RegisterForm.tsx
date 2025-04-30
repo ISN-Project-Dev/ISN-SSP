@@ -50,7 +50,7 @@ export default function RegisterForm() {
             { value: "user", label: "Non-Student" },
             { value: "student", label: "Student" },
             { value: "university", label: "University" },
-            { value: "organizer", label: "Organizer" },
+            { value: "industry", label: "Industry" },
           ]}
           error={data?.roleError}
         />
