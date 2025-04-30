@@ -117,35 +117,39 @@ export const AdminUserDataColumns: ColumnDef<AdminUserData>[] = [
     },
   },
 
-  // Data Action
   {
     id: "actions",
-    cell: ({ row }) => {
-      const router = useRouter();
-      const adminUser = row.original;
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-4 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => router.push(`/admin/editProfile/${adminUser.id}`)}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => router.push(`/profile/${adminUser.slug}`)}
-            >
-              View
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
+    cell: ({ row }) => <AdminUserActionsCell row={row} />,
+  }
+  
 ];
+
+function AdminUserActionsCell({ row }: { row: any }) {
+  const router = useRouter();
+  const adminUser = row.original;
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-4 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuItem
+          onClick={() => router.push(`/admin/editProfile/${adminUser.id}`)}
+        >
+          Edit
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => router.push(`/profile/${adminUser.slug}`)}
+        >
+          View
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+

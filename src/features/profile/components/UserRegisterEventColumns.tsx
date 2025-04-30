@@ -77,33 +77,33 @@ export const UserRegisterEventColumns: ColumnDef<UserRegisterEventData>[] = [
       );
     },
   },
-  // Data Action
   {
     id: "actions",
-    cell: ({ row }) => {
-      const router = useRouter();
-      const eventRegistered = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() =>
-                router.push(`/event/${eventRegistered.event.slug}`)
-              }
-            >
-              View Event
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
+    cell: ({ row }) => <UserRegisterEventActionsCell row={row} />,
+  }
 ];
+
+function UserRegisterEventActionsCell({ row }: { row: any }) {
+  const router = useRouter();
+  const eventRegistered = row.original;
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuItem
+          onClick={() => router.push(`/event/${eventRegistered.event.slug}`)}
+        >
+          View Event
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+

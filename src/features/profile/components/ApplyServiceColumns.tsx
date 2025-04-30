@@ -78,55 +78,43 @@ export const ApplyServiceColumns: ColumnDef<ApplyServiceData>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const [_data, action, _isPending] = useActionState(
-        updateServiceAction,
-        undefined,
-      );
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <form action={action}>
-              <input type="hidden" name="id" value={row.original.id} />
-              <input type="hidden" name="userId" value={row.original.userId} />
-              <input
-                type="hidden"
-                name="eventId"
-                value={row.original.eventId}
-              />
-              <input
-                type="hidden"
-                name="status"
-                value="approve" // Indicate the action type
-              />
-              <Button variant="ghost" type="submit">
-                Approve
-              </Button>
-            </form>
-            <form action={action}>
-              <input type="hidden" name="id" value={row.original.id} />
-              <input type="hidden" name="userId" value={row.original.userId} />
-              <input
-                type="hidden"
-                name="eventId"
-                value={row.original.eventId}
-              />
-              <input type="hidden" name="status" value="reject" />
-              <Button variant="ghost" type="submit">
-                Reject
-              </Button>
-            </form>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => <ApplyServiceActionsCell row={row} />,
   },
 ];
+
+function ApplyServiceActionsCell({ row }: { row: any }) {
+  const [_data, action, _isPending] = useActionState(updateServiceAction, undefined);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <form action={action}>
+          <input type="hidden" name="id" value={row.original.id} />
+          <input type="hidden" name="userId" value={row.original.userId} />
+          <input type="hidden" name="eventId" value={row.original.eventId} />
+          <input type="hidden" name="status" value="approve" />
+          <Button variant="ghost" type="submit">
+            Approve
+          </Button>
+        </form>
+        <form action={action}>
+          <input type="hidden" name="id" value={row.original.id} />
+          <input type="hidden" name="userId" value={row.original.userId} />
+          <input type="hidden" name="eventId" value={row.original.eventId} />
+          <input type="hidden" name="status" value="reject" />
+          <Button variant="ghost" type="submit">
+            Reject
+          </Button>
+        </form>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
