@@ -1,21 +1,24 @@
 "use server";
-import { redirect } from "next/navigation";
 
 import prisma from "@/databases/db";
 import convertFileToBufferService from "@/features/files/services/convertFileToBufferService";
+import { redirect } from "next/navigation";
 
-export const addEvent = async (_previousState: unknown, formData: FormData) => {
-  const eventImage = formData.get("eventImage") as File | null;
-  const title = formData.get("title") as string;
+export const createEvent = async (_previousState: unknown, formData: FormData) => {
   const slug = (formData.get("title") as string)
-    .replace(/\s+/g, "-")
-    .toLowerCase();
+  .replace(/\s+/g, "-")
+  .toLowerCase();
+  const title = formData.get("title") as string;
   const description = formData.get("description") as string;
+  const venue = formData.get("venue") as string;
+  const dateStr = formData.get("date") as string;
+  const date = dateStr ? new Date(dateStr) : null;
   const courseLevel = formData.get("courseLevel") as string;
+  const type = formData.get("type") as string;
   const creditHour = Number(formData.get("creditHour"));
-  const certificate = formData.get("certificate") as File | null;
-  const eventType = formData.get("eventType") as string;
   const numberOfPeople = Number(formData.get("numberOfPeople"));
+  const eventImage = formData.get("eventImage") as File | null;
+  const certificate = formData.get("certificate") as File | null;
 
   let eventImageId: string | null = null;
   let eventCertificateId: string | null;
@@ -26,11 +29,12 @@ export const addEvent = async (_previousState: unknown, formData: FormData) => {
       fieldData: {
         title,
         description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
         courseLevel,
+        type,
         creditHour,
-        certificate,
         numberOfPeople,
-        eventType,
       },
     };
   }
@@ -43,94 +47,162 @@ export const addEvent = async (_previousState: unknown, formData: FormData) => {
 
   if (matchTitle.length > 0) {
     return {
-      titleError: "Title Event has been used",
+      titleError: "Title has been used",
       fieldData: {
         title,
         description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
         courseLevel,
+        type,
         creditHour,
-        certificate,
         numberOfPeople,
-        eventType,
+      },
+    };
+  }
+
+  if (!description) {
+    return {
+      descriptionError: "Description is required",
+      fieldData: {
+        title,
+        description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
+        courseLevel,
+        type,
+        creditHour,
+        numberOfPeople,
+      },
+    };
+  }
+
+  if (!venue) {
+    return {
+      venueError: "Venue is required",
+      fieldData: {
+        title,
+        description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
+        courseLevel,
+        type,
+        creditHour,
+        numberOfPeople,
+      },
+    };
+  }
+
+  if (!date) {
+    return {
+      dateError: "Date is required",
+      fieldData: {
+        title,
+        description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
+        courseLevel,
+        type,
+        creditHour,
+        numberOfPeople,
       },
     };
   }
 
   if (!courseLevel) {
     return {
-      courseLevelError: "Course Level is required",
+      courseLevelError: "Event level is required",
       fieldData: {
         title,
         description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
         courseLevel,
+        type,
         creditHour,
-        certificate,
         numberOfPeople,
-        eventType,
+      },
+    };
+  }
+
+  if (!type) {
+    return {
+      typeError: "Event type is required",
+      fieldData: {
+        title,
+        description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
+        courseLevel,
+        type,
+        creditHour,
+        numberOfPeople,
       },
     };
   }
 
   if (creditHour < 1) {
     return {
-      creditHourError: "Credit Level cannot be lower than 0",
+      creditHourError: "Credit hour cannot be lower than 0",
       fieldData: {
         title,
         description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
         courseLevel,
+        type,
         creditHour,
-        certificate,
         numberOfPeople,
-        eventType,
       },
     };
   }
 
-  if (!eventType) {
-    return {
-      eventTypeError: "Event Type is required",
-      fieldData: {
-        title,
-        description,
-        courseLevel,
-        creditHour,
-        certificate,
-        numberOfPeople,
-        eventType,
-      },
-    };
-  }
-
-  if (numberOfPeople && numberOfPeople < 0) {
+  if (numberOfPeople < 0) {
     return {
       numberOfPeopleError: "Number of people cannot be lower than 0",
       fieldData: {
         title,
         description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
         courseLevel,
+        type,
         creditHour,
-        certificate,
         numberOfPeople,
-        eventType,
       },
     };
   }
 
-  if (
-    !certificate ||
-    certificate.size === 0 ||
-    certificate.name === "undefined"
-  ) {
+  if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
+    try {
+      const imageBuffer = await convertFileToBufferService(eventImage);
+      const imageRecord = await prisma.eventImage.create({
+        data: {
+          filename: eventImage.name,
+          contentType: eventImage.type,
+          data: imageBuffer,
+        },
+      });
+
+      eventImageId = imageRecord.id;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw new Error("Failed to upload image");
+    }
+  }
+
+  if (!certificate || certificate.size === 0 || certificate.name === "undefined") {
     return {
       certificateError: "Certificate is required",
       fieldData: {
         title,
         description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
         courseLevel,
+        type,
         creditHour,
-        certificate,
         numberOfPeople,
-        eventType,
       },
     };
   }
@@ -148,44 +220,28 @@ export const addEvent = async (_previousState: unknown, formData: FormData) => {
     eventCertificateId = certificateRecord.id;
   } catch (error) {
     console.error("Error uploading certificate:", error);
-    throw new Error("Failed to upload certificate.");
-  }
-
-  if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
-    try {
-      const imageBuffer = await convertFileToBufferService(eventImage);
-      const imageRecord = await prisma.eventImage.create({
-        data: {
-          filename: eventImage.name,
-          contentType: eventImage.type,
-          data: imageBuffer,
-        },
-      });
-
-      eventImageId = imageRecord.id;
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      throw new Error("Failed to upload image.");
-    }
+    throw new Error("Failed to upload certificate");
   }
 
   try {
     await prisma.event.create({
       data: {
-        title: title,
         slug: slug,
+        title: title,
         description: description,
+        venue: venue,
+        date: date,
         courseLevel: courseLevel,
+        type: type,
         creditHour: creditHour,
         numberOfPeople: numberOfPeople,
-        type: eventType,
         eventImageId: eventImageId,
         eventCertificateId: eventCertificateId, // Associating event certificate ID (nullable)
       },
     });
   } catch (error) {
     console.error("Error creating event:", error);
-    throw new Error("Failed to create event.");
+    throw new Error("Failed to create event");
   }
 
   redirect("/event");

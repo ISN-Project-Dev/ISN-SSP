@@ -1,13 +1,13 @@
 "use client";
-import { useState, useActionState } from "react";
-import { Checkbox } from "@/components/ui/checkbox"; // Shadcn Checkbox
+
+import { useActionState } from "react";
+import { createEvent } from "../servers/createEventAction";
 import FormField from "@/components/common/FormField";
 import TextareaField from "@/components/common/TextareaField";
 import { SelectField } from "@/components/common/SelectField";
-import { Button } from "@/components/ui/button";
 import DragAndDropImage from "@/components/common/DragAndDropImage";
 import UploadFile from "@/components/common/UploadFile";
-import { addEvent } from "../servers/createEventAction";
+import { Button } from "@/components/ui/button";
 
 type EventFormProps = {
   actionType: "Create" | "Edit";
@@ -15,8 +15,12 @@ type EventFormProps = {
     id: string;
     title: string;
     description: string;
+    venue: string;
+    date: Date;
     courseLevel: string;
+    type: string;
     creditHour: number;
+    numberOfPeople: number;
     eventCertificate?: {
       id: string;
     } | null;
@@ -27,16 +31,15 @@ type EventFormProps = {
 };
 
 const EventForm = ({ actionType, initialData }: EventFormProps) => {
-  const [data, action, _isPending] = useActionState(addEvent, undefined);
-  const [requireService, setRequireService] = useState(false);
+  const [data, action, _isPending] = useActionState(createEvent, undefined);
 
   return (
-    <div className="event-page my-6 flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="event-form w-full max-w-lg rounded-lg bg-white p-8 shadow-md">
-        <h2 className="event-title-form mb-4 text-center text-2xl font-semibold">
+    <div className="event-page my-20 flex min-h-screen items-center justify-center">
+      <div className="event-form w-full max-w-3xl rounded-lg bg-white px-20 py-10 shadow-md">
+        <h2 className="event-form-title mb-10 text-center text-3xl font-bold">
           {actionType} Event Form
         </h2>
-        <form className="space-y-4" action={action}>
+        <form className="space-y-5" action={action}>
           <input name="eventId" type="hidden" value={initialData?.id ?? ""} />
           <input
             name="eventImageId"
@@ -48,75 +51,125 @@ const EventForm = ({ actionType, initialData }: EventFormProps) => {
             type="hidden"
             value={initialData?.eventCertificate?.id ?? ""}
           />
-          <DragAndDropImage name="eventImage" />
           <FormField
             label="Title"
-            type="text"
             name="title"
-            defaultValue={initialData?.title ?? data?.fieldData?.title ?? ""}
+            type="text"
+            defaultValue={
+              data?.fieldData?.title !== undefined
+                ? data.fieldData.title
+                : initialData?.title ?? ""
+            }
             error={data?.titleError}
           />
-          <TextareaField label="Description" rows={4} name="description" />
-          <SelectField
-            label="Course Level"
-            name="courseLevel"
-            options={[
-              { value: "beginner", label: "Beginner" },
-              { value: "intermediate", label: "Intermediate" },
-              { value: "professional", label: "Professional" },
-            ]}
-            error={data?.courseLevelError}
+          <TextareaField 
+            label="Description"
+            name="description"
+            rows={4} 
+            defaultValue={
+              data?.fieldData?.description !== undefined
+                ? data.fieldData.description
+                : initialData?.description ?? ""
+            }            error={data?.descriptionError}
           />
-          <SelectField
-            label="Event Type"
-            name="eventType"
-            options={[
-              { value: "course", label: "Course" },
-              { value: "workshop", label: "Workshop" },
-              { value: "competition", label: "Competition" },
-            ]}
-            error={data?.eventTypeError}
-          />
-          <FormField
-            label="Credit Hour"
-            type="number"
-            name="creditHour"
-            error={data?.creditHourError}
+          <div className="grid grid-cols-3 items-start gap-5">
+            <div className="col-span-2">
+              <FormField
+                label="Venue"
+                name="venue"
+                type="text"
+                defaultValue={
+                  data?.fieldData?.venue !== undefined
+                    ? data.fieldData.venue
+                    : initialData?.venue ?? ""
+                }
+                error={data?.venueError}
+              />
+            </div>
+            <div className="col-span-1">
+              <FormField
+                label="Date"
+                name="date"
+                type="date"
+                defaultValue={
+                  data?.fieldData?.date !== undefined
+                    ? data.fieldData.date
+                    : initialData?.date
+                      ? new Date(initialData.date).toISOString().split("T")[0]
+                      : ""
+                }
+                error={data?.dateError}
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 items-start gap-5">
+            <SelectField
+              label="Event Level"
+              name="courseLevel"
+              options={[
+                { value: "beginner", label: "Beginner" },
+                { value: "intermediate", label: "Intermediate" },
+                { value: "professional", label: "Professional" },
+              ]}
+              placeholder="Select a level"
+              defaultValue={
+                data?.fieldData?.courseLevel ?? initialData?.courseLevel
+              }
+              error={data?.courseLevelError}
+            />
+            <SelectField
+              label="Event Type"
+              name="type"
+              options={[
+                { value: "course", label: "Course" },
+                { value: "workshop", label: "Workshop" },
+                { value: "competition", label: "Competition" },
+              ]}
+              placeholder="Select a type"
+              defaultValue={
+                data?.fieldData?.type ?? initialData?.type
+              }
+              error={data?.typeError}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-5">
+            <FormField
+              label="Credit Hour"
+              name="creditHour"
+              type="number"
+              defaultValue={
+                data?.fieldData?.creditHour !== undefined
+                  ? data.fieldData.creditHour
+                  : initialData?.creditHour ?? ""
+              }
+              error={data?.creditHourError}
+            />
+            <FormField
+                label="Number of People (Service)"
+                name="numberOfPeople"
+                type="number"
+                placeholder="Number of People"
+                defaultValue={
+                  data?.fieldData?.numberOfPeople !== undefined
+                    ? data.fieldData.numberOfPeople
+                    : initialData?.numberOfPeople ?? ""
+                }
+                error={data?.numberOfPeopleError}
+            />
+          </div>
+          <DragAndDropImage 
+            label="Cover Photo"
+            name="eventImage" 
           />
           <UploadFile
             label="Certificate"
-            limitSize={5}
             name="certificate"
+            limitSize={5}
             error={data?.certificateError}
           />
-          {/* Checkbox for Require Service */}
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="requireService"
-              checked={requireService}
-              onCheckedChange={(checked) =>
-                setRequireService(checked as boolean)
-              }
-            />
-            <label
-              htmlFor="requireService"
-              className="text-sm font-medium text-gray-700"
-            >
-              Require Service?
-            </label>
-          </div>
-          {/* Conditional FormField for Number of People */}
-          {requireService && (
-            <FormField
-              label="Number of People"
-              type="number"
-              name="numberOfPeople"
-              error={data?.numberOfPeopleError}
-            />
-          )}
           <Button
             type="submit"
-            className="w-full rounded-lg bg-green-500 px-4 py-2 font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+            className="mx-auto block rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1"
           >
             Submit
           </Button>

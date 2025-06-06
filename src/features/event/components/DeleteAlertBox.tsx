@@ -1,4 +1,7 @@
 "use client";
+
+import { useRouter } from "next/navigation";
+import { deleteEvent } from "../servers/deleteEventAction";
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -10,8 +13,7 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-import { deleteEvent } from "../servers/deleteEventAction";
-import { useRouter } from "next/navigation";
+import { TrashIcon } from '@heroicons/react/24/solid'
 
 export default function DeleteAlertBox({ id }: { id: string }) {
   const router = useRouter();
@@ -31,19 +33,12 @@ export default function DeleteAlertBox({ id }: { id: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <button className="mb-4 rounded bg-red-500 px-4 py-2 text-white transition hover:bg-red-600">
-          Delete Event
-        </button>
+        <TrashIcon className="h-7 w-7 text-red-500 cursor-pointer" />
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Are you sure to delete this event?
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone and will permanently delete your event
-            from our data.
-          </AlertDialogDescription>
+          <AlertDialogTitle>Are you sure to delete this event?</AlertDialogTitle>
+          <AlertDialogDescription>This action cannot be undone and will permanently delete your event from our data.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>

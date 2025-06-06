@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 
 interface UploadFileProps {
@@ -35,12 +36,12 @@ const UploadFile: React.FC<UploadFileProps> = ({
         onChange={handleFileChange}
         id={name}
         name={name}
-        className="file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
+        className="block w-full text-sm border border-gray-200 rounded-lg file:cursor-pointer file:mr-5 file:border-0 file:bg-gray-200 file:px-3 file:py-1 file:h-9 file:text-sm file:font-medium hover:file:bg-gray-200"
       />
       {/* <p className="text-sm text-gray-600">
         For multiple files, please compress them ito zip file.
       </p> */}
-      {error && <span className="text-red-600">{error}</span>}
+      {error && <span className="text-sm font-medium text-red-700">{error}</span>}
     </div>
   );
 };

@@ -1,26 +1,28 @@
 "use server";
+
 import prisma from "@/databases/db";
 import convertFileToBufferService from "@/features/files/services/convertFileToBufferService";
 import { redirect } from "next/navigation";
 
-export const editEvent = async (
-  _previousState: unknown,
-  formData: FormData,
-) => {
-  const eventImage = formData.get("eventImage") as File;
-  const title = formData.get("title") as string;
+export const editEvent = async (_previousState: unknown, formData: FormData) => {
   const slug = (formData.get("title") as string)
-    .replace(/\s+/g, "-")
-    .toLowerCase();
+  .replace(/\s+/g, "-")
+  .toLowerCase();
+  const title = formData.get("title") as string;
   const description = formData.get("description") as string;
+  const venue = formData.get("venue") as string;
+  const dateStr = formData.get("date") as string;
+  const date = dateStr ? new Date(dateStr) : null;
   const courseLevel = formData.get("courseLevel") as string;
+  const type = formData.get("type") as string;
   const creditHour = Number(formData.get("creditHour"));
+  const numberOfPeople = Number(formData.get("numberOfPeople"));
+  const eventImage = formData.get("eventImage") as File;
   const certificate = formData.get("certificate") as File;
   const eventId = formData.get("eventId") as string;
+
   let eventImageId = formData.get("eventImageId") as string;
   const eventCertificateId = formData.get("eventCertificateId") as string;
-  const eventType = formData.get("eventType") as string;
-  const numberOfPeople = Number(formData.get("numberOfPeople"));
 
   if (!title) {
     return {
@@ -28,11 +30,12 @@ export const editEvent = async (
       fieldData: {
         title,
         description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
         courseLevel,
+        type,
         creditHour,
-        certificate,
         numberOfPeople,
-        eventType,
       },
     };
   }
@@ -48,50 +51,119 @@ export const editEvent = async (
 
   if (matchTitle) {
     return {
-      titleError: "Title Event has been used",
+      titleError: "Title has been used",
       fieldData: {
         title,
         description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
         courseLevel,
+        type,
         creditHour,
-        certificate,
         numberOfPeople,
-        eventType,
       },
     };
   }
 
-  if (creditHour && creditHour < 1) {
+  if (!description) {
     return {
-      creditHourError: "Credit Level cannot be lower than 0",
+      descriptionError: "Description is required",
       fieldData: {
         title,
         description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
         courseLevel,
+        type,
         creditHour,
-        certificate,
         numberOfPeople,
-        eventType,
       },
     };
   }
 
-  if (numberOfPeople && numberOfPeople < 0) {
+  if (!venue) {
+    return {
+      venueError: "Venue is required",
+      fieldData: {
+        title,
+        description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
+        courseLevel,
+        type,
+        creditHour,
+        numberOfPeople,
+      },
+    };
+  }
+
+  if (!date) {
+    return {
+      dateError: "Date is required",
+      fieldData: {
+        title,
+        description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
+        courseLevel,
+        type,
+        creditHour,
+        numberOfPeople,
+      },
+    };
+  }
+
+  if (creditHour < 1) {
+    return {
+      creditHourError: "Credit hour cannot be lower than 1",
+      fieldData: {
+        title,
+        description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
+        courseLevel,
+        type,
+        creditHour,
+        numberOfPeople,
+      },
+    };
+  }
+
+  if (numberOfPeople < 0) {
     return {
       numberOfPeopleError: "Number of people cannot be lower than 0",
       fieldData: {
         title,
         description,
+        venue,
+        date: date ? (date as Date).toISOString().split("T")[0] : "",
         courseLevel,
+        type,
         creditHour,
-        certificate,
         numberOfPeople,
-        eventType,
       },
     };
   }
 
-  if (eventImage && certificate.size > 0 && certificate.name !== "undefined") {
+  if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
+    const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB
+
+    if (eventImage.size > MAX_IMAGE_SIZE || !eventImage.type.startsWith("image/")) {
+      return {
+        imageError: "Image must be under 10MB",
+        fieldData: {
+          title,
+          description,
+          venue,
+          date: date ? (date as Date).toISOString().split("T")[0] : "",
+          courseLevel,
+          type,
+          creditHour,
+          numberOfPeople,
+        },
+      };
+    }
+
     try {
       const imageBuffer = await convertFileToBufferService(eventImage);
 
@@ -152,10 +224,12 @@ export const editEvent = async (
 
   // Conditionally add fields to the update object
   if (description) updateData.description = description;
+  if (venue) updateData.venue = venue;
+  if (date) updateData.date = date;
   if (courseLevel) updateData.courseLevel = courseLevel;
-  if (creditHour > 0) updateData.creditHour = creditHour;
-  if (eventType) updateData.type = eventType;
-  if (numberOfPeople > 0) updateData.numberOfPeople = numberOfPeople;
+  if (type) updateData.type = type;
+  if (creditHour >= 0) updateData.creditHour = creditHour;
+  if (numberOfPeople >= 0) updateData.numberOfPeople = numberOfPeople;
 
   try {
     await prisma.event.update({

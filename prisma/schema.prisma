@@ -109,6 +109,8 @@ model Event {
     refId              String              @unique @default(uuid())
     title              String
     description        String
+    venue              String?
+    date               DateTime?
     courseLevel        String
     creditHour         Int
     numberOfPeople     Int?
