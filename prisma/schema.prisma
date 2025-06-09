@@ -29,6 +29,7 @@ model User {
     ReportSubmission   ReportSubmission[]
     userDetail         UserDetail?         @relation
     RiskEvaluation     RiskEvaluation?
+    announcements      Announcement[]
 }
 
 model UserDetail {
@@ -121,6 +122,7 @@ model Event {
     eventCertificateId String?             @unique @db.ObjectId
     eventCertificate   EventCertificate?   @relation(fields: [eventCertificateId], references: [id])
     eventRegistrations EventRegistration[] // Links to registrations
+    announcements       Announcement[]
     createdAt          DateTime            @default(now())
     updatedAt          DateTime            @updatedAt
 }
@@ -216,6 +218,20 @@ model RiskEvaluation {
     userId             String?  @unique @db.ObjectId
 }
 
+model Announcement{
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    slug        String   @unique
+    title       String
+    description String
+    type        AnnouncementType @default(general)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    user        User     @relation(fields: [userId], references: [id]) // User table
+    userId      String   @db.ObjectId
+    event       Event?    @relation(fields: [eventId], references: [id]) // Event table
+    eventId     String?   @db.ObjectId
+}
+
 enum Role {
     admin
     user
@@ -227,4 +243,9 @@ enum Role {
 enum Gender {
     male
     female
+}
+
+enum AnnouncementType {
+    general
+    event
 }
