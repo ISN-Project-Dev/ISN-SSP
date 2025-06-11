@@ -35,13 +35,11 @@ export default async function ViewAnnouncement(props: { params: { slug: string }
     <div className="max-w-3xl h-screen mx-auto py-12 px-4">
 
       <div className="flex justify-end mb-6">
-        <Link href="/announcement">
           <Link href="/announcement">
             <button className="rounded bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1 px-4 py-2 text-white transition">
               Back to All
             </button>
           </Link>
-        </Link>
       </div>
 
 
