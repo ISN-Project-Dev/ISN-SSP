@@ -33,23 +33,27 @@ export default function HandleProfileForm({
   const [data, action, _isPending] = useActionState(handleProfile, undefined);
   const detail = userData?.userDetail;
   return (
-    <form action={action}>
-      <h2 className="text-center text-2xl font-semibold text-gray-800">
+    <div className="w-full bg-white mb-4 px-10">
+      <h2 className="text-[#192f59] mb-10 text-center text-2xl font-semibold">
         Edit Profile
       </h2>
-      <input type="hidden" name="userId" value={userData?.id || ""} />
-      <input
-        type="hidden"
-        name="userDetailId"
-        value={userData?.userDetail?.id || ""}
-      />
-      <input type="hidden" name="slug" value={userData?.slug || ""} />
-
-      <div className="grid w-full items-start gap-2 p-4">
-        <h2 className="mt-2 text-xl font-semibold text-gray-700">
-          Basic Information
-        </h2>
-        <div className="grid grid-cols-2 items-start gap-4">
+      <form className="space-y-5" action={action}>
+        <input type="hidden" name="userId" value={userData?.id || ""} />
+        <input
+          type="hidden"
+          name="userDetailId"
+          value={userData?.userDetail?.id || ""}
+        />
+        <input type="hidden" name="slug" value={userData?.slug || ""} />
+        <h2 className="text-xl font-semibold text-gray-700">Basic Information</h2>
+        <div className="grid grid-cols-3 items-start gap-5">
+          <FormField
+            defaultValue={detail?.age}
+            label="Age"
+            type="number"
+            name="age"
+            error={data?.ageError}
+          />
           <SelectField
             defaultValue={detail?.gender}
             label="Gender"
@@ -68,22 +72,13 @@ export default function HandleProfileForm({
             error={data?.dateOfBirthError}
           />
         </div>
-
-        <FormField
-          defaultValue={detail?.age}
-          label="Age"
-          type="number"
-          name="age"
-          error={data?.ageError}
-        />
         <FormField
           defaultValue={detail?.address}
           label="Address"
           type="text"
           name="address"
         />
-
-        <h2 className="mt-2 text-xl font-semibold text-gray-700">Education</h2>
+        <h2 className="text-xl pt-2 font-semibold text-gray-700">Education</h2>
         <SelectField
           defaultValue={detail?.university}
           label="University"
@@ -255,11 +250,8 @@ export default function HandleProfileForm({
           ]}
           error={data?.universityError}
         />
-
-        <h2 className="mt-2 text-xl font-semibold text-gray-700">
-          Physical Details
-        </h2>
-        <div className="grid grid-cols-2 items-start gap-4">
+        <h2 className="text-xl pt-2 font-semibold text-gray-700">Physical Details</h2>
+        <div className="grid grid-cols-3 gap-5">
           <FormField
             defaultValue={detail?.height}
             label="Height"
@@ -272,28 +264,30 @@ export default function HandleProfileForm({
             type="number"
             name="weight"
           />
+          <SelectField
+            defaultValue={detail?.bloodType}
+            label="Blood Type"
+            name="bloodType"
+            placeholder="Select your Blood Type"
+            options={[
+              { value: "A+", label: "A+" },
+              { value: "B+", label: "B+" },
+              { value: "AB+", label: "AB+" },
+              { value: "O+", label: "O+" },
+              { value: "A-", label: "A-" },
+              { value: "B-", label: "B-" },
+              { value: "AB-", label: "AB-" },
+              { value: "O-", label: "O-" },
+            ]}
+            error={data?.genderError}
+          />
         </div>
-
-        <SelectField
-          defaultValue={detail?.bloodType}
-          label="Blood Type"
-          name="bloodType"
-          placeholder="Select your Blood Type"
-          options={[
-            { value: "A+", label: "A+" },
-            { value: "B+", label: "B+" },
-            { value: "AB+", label: "AB+" },
-            { value: "O+", label: "O+" },
-            { value: "A-", label: "A-" },
-            { value: "B-", label: "B-" },
-            { value: "AB-", label: "AB-" },
-            { value: "O-", label: "O-" },
-          ]}
-          error={data?.genderError}
-        />
-
-        <Button>Submit</Button>
-      </div>
-    </form>
+        <Button 
+          className="mx-auto block rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1"
+        >
+          Submit
+        </Button>
+      </form>
+    </div>
   );
 }

@@ -30,13 +30,13 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ label, name }) => {
   };
 
   const setFile = (file: File) => {
-    const maxSizeInMB = 10;
-    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+    // const maxSizeInMB = 10;
+    // const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 
-    if (file.size > maxSizeInBytes) {
-      alert(`File is too large. Maximum allowed size is ${maxSizeInMB}MB.`);
-      return;
-    }
+    // if (file.size > maxSizeInBytes) {
+    //   alert(`File is too large. Maximum allowed size is ${maxSizeInMB}MB.`);
+    //   return;
+    // }
 
     setPreviewUrl(URL.createObjectURL(file));
     // Keep the file input in the DOM to ensure FormData works

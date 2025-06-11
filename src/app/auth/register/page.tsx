@@ -9,7 +9,7 @@ export default function Register() {
 
       {/* Social Register */}
       <div className="space-y-4">
-        <p className="mb-6 text-center text-sm text-gray-500">
+        <p className="mb-5 text-center text-sm text-gray-700">
           Or Register with
         </p>
         <GoogleButton />
@@ -19,15 +19,15 @@ export default function Register() {
 
       <section className="my-4">
         <div className="my-1 text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-700">
             Already have an account?{" "}
-            <a href="/auth/login" className="text-blue-500 hover:underline">
+            <a href="/auth/login" className="text-[#2f4369] font-semibold hover:underline">
               Login now
             </a>
           </p>
         </div>
 
-        <div className="my-1 text-center">
+        {/* <div className="my-1 text-center">
           <p className="text-sm text-gray-600">
             Forgot your password?{" "}
             <a
@@ -37,7 +37,7 @@ export default function Register() {
               Press here
             </a>
           </p>
-        </div>
+        </div> */}
       </section>
     </AuthForm>
   );

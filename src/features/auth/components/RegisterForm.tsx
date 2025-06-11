@@ -1,4 +1,5 @@
 "use client";
+
 import { useActionState } from "react";
 import { register } from "@/features/auth/servers/registerAction";
 import FormField from "@/components/common/FormField";
@@ -8,19 +9,19 @@ import { Button } from "@/components/ui/button";
 export default function RegisterForm() {
   const [data, action, isPending] = useActionState(register, undefined);
   return (
-    <form action={action} className="space-y-4">
+    <form action={action}>
       {/* Adjusted for vertical spacing */}
-      <h2 className="text-center text-2xl font-semibold text-gray-800">
+      <h2 className="text-center mb-10 text-2xl font-semibold">
         Register Form
       </h2>
       {/* Full Name Input */}
-      <div className="space-y-6">
+      <div className="space-y-5">
         <FormField
           defaultValue={data?.fieldData?.name}
           label="Full Name"
           type="text"
           name="name"
-          placeholder="Enter your Full Name"
+          placeholder="Enter your full name"
           error={data?.nameError}
         />
         {/* Email Input */}
@@ -29,7 +30,7 @@ export default function RegisterForm() {
           label="Email"
           type="email"
           name="email"
-          placeholder="Enter your Email"
+          placeholder="Enter your email"
           error={data?.emailError}
         />
         {/* Password Input */}
@@ -38,7 +39,7 @@ export default function RegisterForm() {
           label="Password"
           type="password"
           name="password"
-          placeholder="Enter your Password"
+          placeholder="Enter your password"
           error={data?.passwordError}
         />
         {/* Role Selection */}
@@ -52,20 +53,22 @@ export default function RegisterForm() {
             { value: "university", label: "University" },
             { value: "industry", label: "Industry" },
           ]}
+          placeholder="Select a role"
           error={data?.roleError}
         />
 
         <span style={{ color: "red" }}>{data?.error}</span>
 
-        {/* Register Button */}
-        <Button
-          disabled={isPending}
-          type="submit"
-          className="my-4 w-full rounded-md bg-blue-500 py-3 text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-        >
-          Register
-        </Button>
+
       </div>
+      {/* Register Button */}
+      <Button
+        disabled={isPending}
+        type="submit"
+        className="flex my-5 w-full rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1"
+      >
+        Register
+      </Button>
     </form>
   );
 }

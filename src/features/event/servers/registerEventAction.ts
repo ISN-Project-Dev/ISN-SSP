@@ -59,6 +59,6 @@ export const registerEvent = async (
   }
 
   return {
-    message: "Successfully registered/apply the event.",
+    message: "You have successfully registered for the event or applied for service.",
   };
 };

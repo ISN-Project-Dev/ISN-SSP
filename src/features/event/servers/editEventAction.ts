@@ -146,23 +146,23 @@ export const editEvent = async (_previousState: unknown, formData: FormData) => 
   }
 
   if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
-    const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB
+    // const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB
 
-    if (eventImage.size > MAX_IMAGE_SIZE || !eventImage.type.startsWith("image/")) {
-      return {
-        imageError: "Image must be under 10MB",
-        fieldData: {
-          title,
-          description,
-          venue,
-          date: date ? (date as Date).toISOString().split("T")[0] : "",
-          courseLevel,
-          type,
-          creditHour,
-          numberOfPeople,
-        },
-      };
-    }
+    // if (eventImage.size > MAX_IMAGE_SIZE || !eventImage.type.startsWith("image/")) {
+    //   return {
+    //     imageError: "Image must be under 10MB",
+    //     fieldData: {
+    //       title,
+    //       description,
+    //       venue,
+    //       date: date ? (date as Date).toISOString().split("T")[0] : "",
+    //       courseLevel,
+    //       type,
+    //       creditHour,
+    //       numberOfPeople,
+    //     },
+    //   };
+    // }
 
     try {
       const imageBuffer = await convertFileToBufferService(eventImage);
@@ -231,6 +231,11 @@ export const editEvent = async (_previousState: unknown, formData: FormData) => 
   if (creditHour >= 0) updateData.creditHour = creditHour;
   if (numberOfPeople >= 0) updateData.numberOfPeople = numberOfPeople;
 
+  // Only set eventImageId if a new image was uploaded
+  if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
+    updateData.eventImageId = eventImageId;
+  }
+
   try {
     await prisma.event.update({
       where: { id: eventId },
@@ -238,7 +243,6 @@ export const editEvent = async (_previousState: unknown, formData: FormData) => 
         title: title,
         slug: slug,
         ...updateData,
-        eventImageId: eventImageId,
         eventCertificateId: eventCertificateId,
       },
     });

@@ -28,7 +28,9 @@ export default function UploadFileForm({ id, slug }: UploadFileFormProps) {
           helper=" Max 3Mb size"
         />
       </div>
-      <Button>Submit</Button>
+      <Button className="mx-auto block rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1">
+        Submit
+      </Button>
     </form>
   );
 }

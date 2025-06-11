@@ -12,6 +12,8 @@ export default async function ProfileId({ params }: ParamProps) {
       slug: slug,
     },
     select: {
+      name: true,
+      email: true,
       userDetail: true,
     },
   });
@@ -34,68 +36,59 @@ export default async function ProfileId({ params }: ParamProps) {
   }
 
   return (
-    <>
-      <h1 className="mb-4 text-center text-2xl font-bold">
-        Profile Information
-      </h1>
-      <div className="space-y-4">
-        {/* Basic Info */}
-        <div>
-          <h2 className="mb-2 text-xl font-semibold text-gray-700">
-            Basic Information
+      <div className="my-2">
+          <h2 className="mb-2 text-xl font-semibold text-[#192f59]">
+            Profile Details
           </h2>
-          <div className="grid grid-cols-2 gap-4 text-gray-600">
-            <div>
-              <span className="font-bold">Gender: </span>
-              {userDetail?.gender || ""}{" "}
-            </div>
-            <div>
-              <span className="font-bold">Date of Birth: </span>{" "}
-              {formatDate(userDetail?.dateOfBirth) || ""}
-            </div>
-            <div>
-              <span className="font-bold">Age: </span> {userDetail?.age || ""}
-              years
-            </div>
-            <div className="col-span-2">
-              <span className="font-bold">Address: </span>{" "}
-              {userDetail?.address || ""}
-            </div>
-          </div>
-        </div>
-
-        {/* Education Info */}
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-y-5 text-base text-gray-700">
         <div>
-          <h2 className="text-xl font-semibold text-gray-700">Education </h2>
-          <div className="mt-2 text-gray-600">
-            <p>
-              <span className="font-bold">University/School: </span>{" "}
-              {userDetail?.university || ""}
-            </p>
-          </div>
+          <p className="font-semibold">Name</p>
+          <p>{data?.name || "—"}</p>
         </div>
-
-        {/* Physical Info */}
         <div>
-          <h2 className="text-xl font-semibold text-gray-700">
-            Physical Details
-          </h2>
-          <div className="mt-2 grid grid-cols-2 gap-4 text-gray-600">
-            <div>
-              <span className="font-bold">Height: </span>{" "}
-              {userDetail?.height || ""}
-            </div>
-            <div>
-              <span className="font-bold">Weight: </span>{" "}
-              {userDetail?.weight || ""}
-            </div>
-            <div>
-              <span className="font-bold">Blood Type: </span>{" "}
-              {userDetail?.bloodType}
-            </div>
-          </div>
+          <p className="font-semibold">Email</p>
+          <p>{data?.email || "—"}</p>
         </div>
+        <div>
+          <p className="font-semibold">Age</p>
+          <p>{userDetail?.age || "—"}</p>
+        </div>
+        <div>
+          <p className="font-semibold">Gender</p>
+          <p>{userDetail?.gender || "—"}</p>
+        </div>
+        {/* <div>
+          <p className="font-semibold">Mobile Phone</p>
+          <p>{userDetail?.phoneNumber || "—"}</p>
+          <p>—</p>
+        </div> */}
+        <div>
+          <p className="font-semibold">Date of Birth</p>
+          <p>{formatDate(userDetail?.dateOfBirth)}</p>
+        </div>
+        {/* <div>
+          <p className="font-semibold">Ethnicity</p>
+          <p>{userDetail?.ethnicity || "—"}</p>
+          <p>—</p>
+        </div> */}
+        <div>
+          <p className="font-semibold">University</p>
+          <p>{userDetail?.university || "—"}</p>
+        </div>
+        <div>
+          <p className="font-semibold">Height</p>
+          <p>{userDetail?.height || "—"}</p>
+        </div>
+        <div>
+          <p className="font-semibold">Weight</p>
+          <p>{userDetail?.weight || "—"}</p>
+        </div>
+        {/* <div>
+          <p className="font-semibold">Highest Degree</p>
+          <p>{userDetail?.highestDegree || "—"}</p>
+          <p>—</p>
+        </div> */}
       </div>
-    </>
+    </div>
   );
 }

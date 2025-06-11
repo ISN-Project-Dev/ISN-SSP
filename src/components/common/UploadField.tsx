@@ -1,6 +1,4 @@
 import React from "react";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 
 type FormType = {
   defaultValue?: any;
@@ -25,9 +23,11 @@ const UploadField = ({
 }: FormType) => {
   return (
     <div className="grid w-full items-center gap-1.5">
-      <Label htmlFor={name}>{label}</Label>
-      <Input
-        className="w-full rounded-lg border border-gray-300 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+        {label}
+      </label>
+      <input
+        className="block w-full text-sm border border-gray-200 rounded-lg file:cursor-pointer file:mr-5 file:border-0 file:bg-gray-200 file:px-3 file:py-1 file:h-9 file:text-sm file:font-medium hover:file:bg-gray-200"
         defaultValue={defaultValue}
         type={type}
         id={name}
@@ -36,12 +36,12 @@ const UploadField = ({
         accept={accept}
       />
       <p
-        className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+        className="text-sm pl-2 text-gray-500 dark:text-gray-300"
         id="file_input_help"
       >
         {helper}
       </p>
-      {error && <span className="text-red-600">{error}</span>}
+      {error && <span className="text-red-700">{error}</span>}
     </div>
   );
 };

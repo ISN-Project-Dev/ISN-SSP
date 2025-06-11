@@ -34,15 +34,17 @@ type ApplyServiceData = {
 export const ApplyServiceColumns: ColumnDef<ApplyServiceData>[] = [
   //Data Accessors
   {
-    accessorKey: "user.name",
+    id: "username",
+    accessorFn: (row) => row.user.name, 
     //Sorting
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Event Title
+          Username
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -54,9 +56,10 @@ export const ApplyServiceColumns: ColumnDef<ApplyServiceData>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Status
+          Event Title
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -68,6 +71,7 @@ export const ApplyServiceColumns: ColumnDef<ApplyServiceData>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Status

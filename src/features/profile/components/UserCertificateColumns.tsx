@@ -30,6 +30,7 @@ export const UserCertificateColumns: ColumnDef<UserCertificateData>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Certificate Name

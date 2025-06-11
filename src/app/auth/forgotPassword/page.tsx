@@ -6,12 +6,11 @@ export default function ForgotPassword() {
       <ForgotPasswordForm />
 
       {/* Login Link */}
-
       <section className="my-4">
         <div className="my-1 text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-700">
             Remembered your password?{" "}
-            <a href="/auth/login" className="text-blue-500 hover:underline">
+            <a href="/auth/login" className="text-[#2f4369] font-semibold hover:underline">
               Login here
             </a>
           </p>
