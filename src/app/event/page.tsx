@@ -28,7 +28,7 @@ const Event = async () => {
   return (
     <EventList
       eventData={eventData}
-      isAdmin={currentUser?.role === "admin"}
+      isAdmin={currentUser?.role === "admin" || currentUser?.role === "industry" || currentUser?.role === "university"}
     />
   );
 };

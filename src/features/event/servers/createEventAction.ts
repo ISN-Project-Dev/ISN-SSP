@@ -143,7 +143,7 @@ export const createEvent = async (_previousState: unknown, formData: FormData) =
 
   if (creditHour < 1) {
     return {
-      creditHourError: "Credit hour cannot be lower than 0",
+      creditHourError: "Credit hour cannot be lower than 1",
       fieldData: {
         title,
         description,

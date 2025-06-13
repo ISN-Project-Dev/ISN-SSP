@@ -1,11 +1,9 @@
 import prisma from "@/databases/db";
-import AnnouncementTabWrapper from "@/features/announcement/components/AnnouncementTabWrapper";
 import { verifySession } from "@/libs/dal";
-
-// import AnnouncementTabWrapper from "./AnnouncementTabWrapper";
+import AnnouncementTabs from "@/features/announcement/components/AnnouncementTabs"; // Direct import
 
 export default async function AnnouncementListPage() {
-  const currentUser = await verifySession()
+  const currentUser = await verifySession();
 
   const announcements = await prisma.announcement.findMany({
     include: { event: true },
@@ -22,11 +20,10 @@ export default async function AnnouncementListPage() {
   const event = mapped.filter((a) => a.type === "event");
 
   return (
-    <AnnouncementTabWrapper
+    <AnnouncementTabs
       general={general}
       event={event}
       currentUser={currentUser ? { role: currentUser.role as string } : null}
     />
   );
-
 }

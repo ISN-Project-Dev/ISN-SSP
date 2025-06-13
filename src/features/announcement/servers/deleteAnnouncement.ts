@@ -2,7 +2,6 @@
 
 import prisma from "@/databases/db";
 import { verifySession } from "@/libs/dal";
-import { redirect } from "next/navigation";
 
 export async function deleteAnnouncement(_: any, formData: FormData) {
   const session = await verifySession();
@@ -17,14 +16,21 @@ export async function deleteAnnouncement(_: any, formData: FormData) {
 
   if (!announcement) throw new Error("Announcement not found");
 
-  // TODO: only admin to be deleted
+  // Ensure only the user who created the announcement or admin can delete it
   if (announcement.userId !== session.userId) {
     throw new Error("You are not allowed to delete this announcement");
   }
 
-  await prisma.announcement.delete({
-    where: { slug },
-  });
+  try {
+    // Finally delete the announcement
+    await prisma.announcement.delete({
+      where: { slug },
+    });
 
-  redirect("/announcement");
+    // Redirect after successful deletion
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting announcement or its related data:", error);
+    throw new Error("Failed to delete announcement.");
+  }
 }

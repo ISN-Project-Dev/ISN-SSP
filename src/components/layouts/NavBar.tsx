@@ -18,6 +18,7 @@ export default async function Header() {
   const navLinks = [
     { title: "Home", url: "/" },
     { title: "Event", url: "/event" },
+    { title: "Announcement", url: "/announcement" },
     ...(currentUser?.role === "admin" ? [{ title: "Admin", url: "/admin" }] : []),
   ];
 

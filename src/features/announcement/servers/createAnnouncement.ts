@@ -31,9 +31,9 @@ export async function createAnnouncement(_: any, formData: FormData) {
 
   if (!title || !description || (type === "event" && !eventId)) {
     return {
-      titleError: !title ? "Required" : undefined,
-      descriptionError: !description ? "Required" : undefined,
-      eventIdError: type === "event" && !eventId ? "Event required" : undefined,
+      titleError: !title ? "Title is required" : undefined,
+      descriptionError: !description ? "Description is required" : undefined,
+      eventIdError: type === "event" && !eventId ? "Event is required" : undefined,
     };
   }
 

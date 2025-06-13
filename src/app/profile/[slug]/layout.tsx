@@ -115,79 +115,65 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = async ({
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <Link href={`/profile/${slug}`} legacyBehavior passHref>
-                      <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
-                      >
+                    <NavigationMenuLink
+                      asChild
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      <Link href={`/profile/${slug}`}>
                         Detail
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <Link
-                      href={`/profile/${slug}/dashboard`}
-                      legacyBehavior
-                      passHref
-                    >
-                      <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
-                      >
-                        Dashboard
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <Link
-                      href={`/profile/${slug}/eventHistory`}
-                      legacyBehavior
-                      passHref
-                    >
-                      <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
-                      >
-                        Event History
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <Link
-                      href={`/profile/${slug}/certificate`}
-                      legacyBehavior
-                      passHref
-                    >
-                      <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
-                      >
-                        Certificate
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <Link
-                      href={`/profile/${slug}/report`}
-                      legacyBehavior
-                      passHref
-                    >
-                      <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
-                      >
-                        Report
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                  {currentUser?.role === "admin" && (
-                    <NavigationMenuItem>
-                      <Link
-                        href={`/profile/${slug}/service`}
-                        legacyBehavior
-                        passHref
-                      >
-                        <NavigationMenuLink
-                          className={navigationMenuTriggerStyle()}
-                        >
-                          Service
-                        </NavigationMenuLink>
                       </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <NavigationMenuLink
+                      asChild
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      <Link href={`/profile/${slug}/dashboard`}>
+                        Dashboard
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <NavigationMenuLink
+                      asChild
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      <Link href={`/profile/${slug}/eventHistory`}>
+                        Event History
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <NavigationMenuLink
+                      asChild
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      <Link href={`/profile/${slug}/certificate`}>
+                        Certificate
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <NavigationMenuLink
+                      asChild
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      <Link href={`/profile/${slug}/report`}>
+                        Report
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                  {(currentUser?.role === "admin" || currentUser?.role === "university" || currentUser?.role === "industry") && (
+                    <NavigationMenuItem>
+                      <NavigationMenuLink
+                        asChild
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        <Link href={`/profile/${slug}/service`}>
+                          Service
+                        </Link>
+                      </NavigationMenuLink>
                     </NavigationMenuItem>
                   )}
                 </NavigationMenuList>

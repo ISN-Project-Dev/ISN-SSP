@@ -30,6 +30,7 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 import { DataTablePagination } from "./DataTablePagination";
+import { ChevronDown } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -92,7 +93,7 @@ export function DataTable<TData, TValue>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="text-gray-500 hover:text-gray-600 ml-auto">
-              Columns
+              Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
