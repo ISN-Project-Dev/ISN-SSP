@@ -10,6 +10,11 @@ export async function GET(_request: Request, { params }: { params: { id: string 
   if (!image) return new NextResponse("Not found", { status: 404 });
 
   return new NextResponse(image.data, {
-    headers: { "Content-Type": image.contentType }
+    headers: {
+       "Content-Type": image.contentType,
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0",      
+    }
   });
 }
