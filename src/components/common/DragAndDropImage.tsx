@@ -7,10 +7,17 @@ import { PhotoIcon } from '@heroicons/react/24/solid'
 interface DragAndDropImageProps {
   label: string;
   name: string; // Name for the file input to identify the data in the backend
+  initialImage?: string | null; // Prop to accept the initial image URL or ID
 }
 
-const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ label, name }) => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ label, name, initialImage }) => {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(initialImage || null);
+
+  // useEffect(() => {
+  //   if (previewUrl) {
+  //     console.log("Current Preview URL:", previewUrl);
+  //   }
+  // }, [previewUrl]); // Logs every time previewUrl changes
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -40,6 +47,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ label, name }) => {
 
     setPreviewUrl(URL.createObjectURL(file));
     // Keep the file input in the DOM to ensure FormData works
+    //  console.log("Preview URL set:", URL.createObjectURL(file)); // Log the URL of the file
   };
 
   const handleDelete = () => {

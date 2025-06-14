@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { editEvent } from "../servers/editEventAction";
 import FormField from "@/components/common/FormField";
 import TextareaField from "@/components/common/TextareaField";
@@ -32,6 +32,22 @@ type EventFormProps = {
 
 const EditEventForm = ({ actionType, initialData }: EventFormProps) => {
   const [data, action, _isPending] = useActionState(editEvent, undefined);
+
+  // Manage the preview URL for the image
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    initialData?.eventImage?.id
+      ? `/api/event-image/${initialData.eventImage.id}`
+      : null
+  );
+
+  useEffect(() => {
+    // Whenever initialData changes (e.g., after editing), update the preview URL
+    if (initialData?.eventImage?.id) {
+      setPreviewUrl(`/api/event-image/${initialData.eventImage.id}?t=${Date.now()}`);
+    }
+  }, [initialData]);
+
+  console.log("EditEventForm data:", previewUrl);
 
   return (
     <>
@@ -168,8 +184,9 @@ const EditEventForm = ({ actionType, initialData }: EventFormProps) => {
               />
             </div>
             <DragAndDropImage 
-              label="Cover Photo"
+              label="Cover Photo test"
               name="eventImage" 
+              initialImage={previewUrl} // Pass the initial image URL
             />
             <UploadFile
               label="Certificate"
