@@ -14,6 +14,7 @@ const EditEvent = async ({ params }: ParamProps) => {
       eventCertificate: {
         select: {
           id: true,
+          filename: true,
         },
       },
       eventImage: {
@@ -33,7 +34,12 @@ const EditEvent = async ({ params }: ParamProps) => {
     );
   }
 
-  return <EditEventForm actionType="Edit" initialData={eventIdData} />;
+  // Safely compute the versioned image URL if an image exists
+  const versionedImageUrl = eventIdData.eventImage
+    ? `/api/event-image/${eventIdData.eventImage.id}?t=${Date.now()}`
+    : null;
+
+  return <EditEventForm actionType="Edit" initialData={eventIdData} initialCover={versionedImageUrl} initialCertificateName={eventIdData.eventCertificate?.filename ?? null} />;
 };
 
 export default EditEvent;

@@ -12,7 +12,7 @@ export async function GET(_request: Request, { params }: { params: { id: string 
   return new NextResponse(image.data, {
     headers: {
        "Content-Type": image.contentType,
-        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Cache-Control": "no-store, no-cache, must-revalidate",
         "Pragma": "no-cache",
         "Expires": "0",      
     }

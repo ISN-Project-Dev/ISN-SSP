@@ -81,7 +81,8 @@ const EventForm = ({ actionType, initialData }: EventFormProps) => {
                 data?.fieldData?.description !== undefined
                   ? data.fieldData.description
                   : initialData?.description ?? ""
-              }            error={data?.descriptionError}
+              }            
+              error={data?.descriptionError}
             />
             <div className="grid grid-cols-3 items-start gap-5">
               <div className="col-span-2">

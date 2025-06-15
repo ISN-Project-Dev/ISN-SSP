@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { PhotoIcon } from '@heroicons/react/24/solid'
 
@@ -18,6 +18,10 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ label, name, initia
   //     console.log("Current Preview URL:", previewUrl);
   //   }
   // }, [previewUrl]); // Logs every time previewUrl changes
+
+  useEffect(() => {
+    setPreviewUrl(initialImage || null);
+  }, [initialImage]);
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();

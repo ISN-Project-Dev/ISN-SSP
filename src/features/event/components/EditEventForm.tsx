@@ -28,26 +28,12 @@ type EventFormProps = {
       id: string;
     } | null;
   };
+  initialCover?: string|null;
+  initialCertificateName?: string | null;  
 };
 
-const EditEventForm = ({ actionType, initialData }: EventFormProps) => {
+const EditEventForm = ({ actionType, initialData, initialCover = null, initialCertificateName = null}: EventFormProps) => {
   const [data, action, _isPending] = useActionState(editEvent, undefined);
-
-  // Manage the preview URL for the image
-  const [previewUrl, setPreviewUrl] = useState<string | null>(
-    initialData?.eventImage?.id
-      ? `/api/event-image/${initialData.eventImage.id}`
-      : null
-  );
-
-  useEffect(() => {
-    // Whenever initialData changes (e.g., after editing), update the preview URL
-    if (initialData?.eventImage?.id) {
-      setPreviewUrl(`/api/event-image/${initialData.eventImage.id}?t=${Date.now()}`);
-    }
-  }, [initialData]);
-
-  console.log("EditEventForm data:", previewUrl);
 
   return (
     <>
@@ -186,11 +172,12 @@ const EditEventForm = ({ actionType, initialData }: EventFormProps) => {
             <DragAndDropImage 
               label="Cover Photo test"
               name="eventImage" 
-              initialImage={previewUrl} // Pass the initial image URL
+              initialImage={initialCover} // Pass the initial image URL
             />
             <UploadFile
               label="Certificate"
               name="certificate"
+              initialFileName={initialCertificateName}
               limitSize={5}
             />
             <Button
