@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { editEvent } from "../servers/editEventAction";
 import FormField from "@/components/common/FormField";
 import TextareaField from "@/components/common/TextareaField";
@@ -28,9 +28,11 @@ type EventFormProps = {
       id: string;
     } | null;
   };
+  initialCover?: string|null;
+  initialCertificateName?: string | null;  
 };
 
-const EditEventForm = ({ actionType, initialData }: EventFormProps) => {
+const EditEventForm = ({ actionType, initialData, initialCover = null, initialCertificateName = null}: EventFormProps) => {
   const [data, action, _isPending] = useActionState(editEvent, undefined);
 
   return (
@@ -168,12 +170,14 @@ const EditEventForm = ({ actionType, initialData }: EventFormProps) => {
               />
             </div>
             <DragAndDropImage 
-              label="Cover Photo"
+              label="Cover Photo test"
               name="eventImage" 
+              initialImage={initialCover} // Pass the initial image URL
             />
             <UploadFile
               label="Certificate"
               name="certificate"
+              initialFileName={initialCertificateName}
               limitSize={5}
             />
             <Button

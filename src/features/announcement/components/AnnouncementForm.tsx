@@ -27,7 +27,7 @@ export default function AnnouncementForm({
   formAction,
   role,
 }: Props) {
-  const [state, dispatchAction] = useActionState(formAction, undefined);
+  const [state, dispatchAction, _isPending] = useActionState(formAction, undefined);
   const [isEventRelated, setIsEventRelated] = useState<boolean>(
     initialData?.type === "event" || role === "industry" || role === "university"
   );
@@ -67,7 +67,11 @@ export default function AnnouncementForm({
             label="Title"
             name="title"
             type="text"
-            defaultValue={initialData?.title ?? ""}
+            defaultValue={
+              state?.fieldData?.title !== undefined
+                ? state.fieldData.title
+                : initialData?.title ?? ""
+            }            
             error={state?.titleError}
           />
 
@@ -75,7 +79,11 @@ export default function AnnouncementForm({
             label="Description"
             name="description"
             rows={4}
-            defaultValue={initialData?.description ?? ""}
+            defaultValue={
+              state?.fieldData?.description !== undefined
+                ? state.fieldData.description
+                : initialData?.description ?? ""
+            }              
             error={state?.descriptionError}
           />
 
