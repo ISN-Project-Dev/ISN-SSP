@@ -1,6 +1,7 @@
 import prisma from "@/databases/db";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { verifySession } from "@/libs/dal";
 import {
   Card,
   CardHeader,
@@ -9,10 +10,11 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { DeleteAnnouncementButton } from "@/features/announcement/components/DeleteAnnouncementButton";
-import DeleteAlertBox from "@/features/event/components/DeleteAlertBox";
 
 export default async function ViewAnnouncement(props: { params: { slug: string } }) {
   const { slug } = props.params;
+  const currentUser = await verifySession();
+  
 
   const announcement = await prisma.announcement.findUnique({
     where: { slug },
@@ -65,8 +67,9 @@ export default async function ViewAnnouncement(props: { params: { slug: string }
                   Edit
                 </Button>
               </Link> */}
-              
-              <DeleteAnnouncementButton slug={announcement.slug} />
+              {(currentUser?.role === "admin" || currentUser?.role === "industry" || currentUser?.role === "university") && (
+                <DeleteAnnouncementButton slug={announcement.slug} />
+          )}
             </div>
           </div>
           {isEventRelated && announcement.event && (

@@ -75,41 +75,41 @@ const EventId = async ({ params }: ParamProps) => {
           </p>
         </div>
         <div className="grid grid-cols-3 gap-10 max-w-4xl w-full">
-          <div className="flex-col justify-center rounded-lg p-5 shadow bg-[#46587a] shadow-blue-950">
-            <h2 className="text-gray-100 font-semibold">Venue</h2>
-            <p className="text-gray-200">
+          <div className="flex-col justify-center rounded-lg p-5 shadow shadow-md bg-white">
+            <h2 className="text-[#2f4369] font-semibold">Venue</h2>
+            <p className="text-[#2f4369]">
               {eventIdData?.venue || "No venue provided"}
             </p>
           </div>
-          <div className="flex-col justify-center rounded-lg p-5 shadow bg-[#46587a] shadow-blue-950">
-            <h2 className="text-gray-100 font-semibold">Date</h2>
-            <p className="text-gray-200">
+          <div className="flex-col justify-center rounded-lg p-5 shadow shadow-md bg-white">
+            <h2 className="text-[#2f4369] font-semibold">Date</h2>
+            <p className="text-[#2f4369]">
               {eventIdData?.date
                 ? new Date(eventIdData.date).toLocaleDateString("en-GB")
                 : "No date provided"}
             </p>
           </div>
-          <div className="flex-col justify-center rounded-lg p-5 shadow bg-[#46587a] shadow-blue-950">
-            <h2 className="text-gray-100 font-semibold">Event Level</h2>
-            <p className="text-gray-200">
+          <div className="flex-col justify-center rounded-lg p-5 shadow shadow-md bg-white">
+            <h2 className="text-[#2f4369] font-semibold">Event Level</h2>
+            <p className="text-[#2f4369]">
               {eventIdData?.courseLevel || "No event level provided"}
             </p>
           </div>
-          <div className="flex-col justify-center rounded-lg p-5 shadow bg-[#46587a] shadow-blue-950">
-            <h2 className="text-gray-100 font-semibold">Number of People (Service)</h2>
-            <p className="text-gray-200">
+          <div className="flex-col justify-center rounded-lg p-5 shadow shadow-md bg-white">
+            <h2 className="text-[#2f4369] font-semibold">Number of People (Service)</h2>
+            <p className="text-[#2f4369]">
               {eventIdData?.numberOfPeople || "No service provided"}
             </p>
           </div>
-          <div className="flex-col justify-center rounded-lg p-5 shadow bg-[#46587a] shadow-blue-950">
-            <h2 className="text-gray-100 font-semibold">Credit Hour</h2>
-            <p className="text-gray-200">
+          <div className="flex-col justify-center rounded-lg p-5 shadow shadow-md bg-white">
+            <h2 className="text-[#2f4369] font-semibold">Credit Hour</h2>
+            <p className="text-[#2f4369]">
               {eventIdData?.creditHour || "No credit hours provided"}
             </p>
           </div>
-          <div className="flex-col justify-center rounded-lg p-5 shadow bg-[#46587a] shadow-blue-950">
-            <h2 className="text-gray-100 font-semibold">Event Type</h2>
-            <p className="text-gray-200">
+          <div className="flex-col justify-center rounded-lg p-5 shadow shadow-md bg-white">
+            <h2 className="text-[#2f4369] font-semibold">Event Type</h2>
+            <p className="text-[#2f4369]">
               {eventIdData?.type || "No event type provided"}
             </p>
           </div>

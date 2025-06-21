@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useState } from "react";
 import { editEvent } from "../servers/editEventAction";
 import FormField from "@/components/common/FormField";
 import TextareaField from "@/components/common/TextareaField";
@@ -21,19 +21,45 @@ type EventFormProps = {
     type: string | null;
     creditHour: number;
     numberOfPeople: number | null;
-    eventCertificate?: {
-      id: string;
-    } | null;
-    eventImage?: {
-      id: string;
-    } | null;
+    eventCertificate?: { id: string } | null;
+    eventImage?: { id: string } | null;
   };
-  initialCover?: string|null;
-  initialCertificateName?: string | null;  
+  initialCover?: string | null;
+  initialCertificateName?: string | null;
 };
 
-const EditEventForm = ({ actionType, initialData, initialCover = null, initialCertificateName = null}: EventFormProps) => {
-  const [data, action, _isPending] = useActionState(editEvent, undefined);
+const EditEventForm = ({
+  actionType,
+  initialData,
+  initialCover = null,
+  initialCertificateName = null,
+}: EventFormProps) => {
+  const [errors, setErrors] = useState<any | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [certificateFile, setCertificateFile] = useState<File | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    if (imageFile) {
+      formData.set("eventImage", imageFile);
+    }
+
+    if (certificateFile) {
+      formData.set("certificate", certificateFile);
+    }
+
+    try {
+      const result = await editEvent(undefined, formData);
+      if (result?.fieldData) {
+        setErrors(result);
+      }
+    } catch (error) {
+      console.error("Error submitting form", error);
+    }
+  };
 
   return (
     <>
@@ -52,7 +78,7 @@ const EditEventForm = ({ actionType, initialData, initialCover = null, initialCe
           <h2 className="event-form-title mb-10 text-center text-2xl text-[#192f59] font-semibold">
             {actionType} Event Form
           </h2>
-          <form className="space-y-5" action={action}>
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <input name="eventId" type="hidden" value={initialData?.id ?? ""} />
             <input
               name="eventImageId"
@@ -68,23 +94,15 @@ const EditEventForm = ({ actionType, initialData, initialCover = null, initialCe
               label="Title"
               type="text"
               name="title"
-              defaultValue={
-                data?.fieldData?.title !== undefined
-                  ? data.fieldData.title
-                  : initialData?.title ?? ""
-              }
-              error={data?.titleError}
+              defaultValue={initialData?.title ?? ""}
+              error={errors?.titleError}
             />
-            <TextareaField 
+            <TextareaField
               label="Description"
               name="description"
-              rows={4} 
-              defaultValue={
-                data?.fieldData?.description !== undefined
-                  ? data.fieldData.description
-                  : initialData?.description ?? ""
-              }
-              error={data?.descriptionError}
+              rows={4}
+              defaultValue={initialData?.description ?? ""}
+              error={errors?.descriptionError}
             />
             <div className="grid grid-cols-3 items-start gap-5">
               <div className="col-span-2">
@@ -92,12 +110,8 @@ const EditEventForm = ({ actionType, initialData, initialCover = null, initialCe
                   label="Venue"
                   name="venue"
                   type="text"
-                  defaultValue={
-                    data?.fieldData?.venue !== undefined
-                      ? data.fieldData.venue
-                      : initialData?.venue ?? ""
-                  }
-                  error={data?.venueError}
+                  defaultValue={initialData?.venue ?? ""}
+                  error={errors?.venueError}
                 />
               </div>
               <div className="col-span-1">
@@ -106,13 +120,11 @@ const EditEventForm = ({ actionType, initialData, initialCover = null, initialCe
                   name="date"
                   type="date"
                   defaultValue={
-                    data?.fieldData?.date !== undefined
-                      ? data.fieldData.date
-                      : initialData?.date
-                        ? new Date(initialData.date).toISOString().split("T")[0]
-                        : ""
+                    initialData?.date
+                      ? new Date(initialData.date).toISOString().split("T")[0]
+                      : ""
                   }
-                  error={data?.dateError}
+                  error={errors?.dateError}
                 />
               </div>
             </div>
@@ -126,9 +138,7 @@ const EditEventForm = ({ actionType, initialData, initialCover = null, initialCe
                   { value: "professional", label: "Professional" },
                 ]}
                 placeholder="Select a level"
-                defaultValue={
-                  data?.fieldData?.courseLevel ?? initialData?.courseLevel
-                }
+                defaultValue={initialData?.courseLevel}
               />
               <SelectField
                 label="Event Type"
@@ -139,9 +149,7 @@ const EditEventForm = ({ actionType, initialData, initialCover = null, initialCe
                   { value: "competition", label: "Competition" },
                 ]}
                 placeholder="Select a type"
-                defaultValue={
-                  data?.fieldData?.type ?? initialData?.type
-                }
+                defaultValue={initialData?.type ?? ""}
               />
             </div>
             <div className="grid grid-cols-2 items-start gap-5">
@@ -149,36 +157,32 @@ const EditEventForm = ({ actionType, initialData, initialCover = null, initialCe
                 label="Credit Hour"
                 name="creditHour"
                 type="number"
-                defaultValue={
-                  data?.fieldData?.creditHour !== undefined
-                    ? data.fieldData.creditHour
-                    : initialData?.creditHour ?? ""
-                }
-                error={data?.creditHourError}
+                defaultValue={initialData?.creditHour ?? ""}
+                error={errors?.creditHourError}
               />
               <FormField
-                  label="Number of People (Service)"
-                  name="numberOfPeople"
-                  type="number"
-                  placeholder="Number of People"
-                  defaultValue={
-                    data?.fieldData?.numberOfPeople !== undefined
-                      ? data.fieldData.numberOfPeople
-                      : initialData?.numberOfPeople ?? ""
-                  }
-                  error={data?.numberOfPeopleError}
+                label="Number of People (Service)"
+                name="numberOfPeople"
+                type="number"
+                placeholder="Number of People"
+                defaultValue={initialData?.numberOfPeople ?? ""}
+                error={errors?.numberOfPeopleError}
               />
             </div>
-            <DragAndDropImage 
-              label="Cover Photo test"
-              name="eventImage" 
-              initialImage={initialCover} // Pass the initial image URL
+            <DragAndDropImage
+              label="Cover Photo"
+              name="eventImage"
+              initialImage={initialCover}
+              file={imageFile}
+              setFile={setImageFile}
             />
             <UploadFile
               label="Certificate"
               name="certificate"
               initialFileName={initialCertificateName}
               limitSize={5}
+              file={certificateFile}
+              setFile={setCertificateFile}
             />
             <Button
               type="submit"

@@ -23,154 +23,40 @@ export const createEvent = async (_previousState: unknown, formData: FormData) =
   let eventImageId: string | null = null;
   let eventCertificateId: string | null;
 
+  const errors: any = {};
+  const fieldData = {
+    title,
+    description,
+    venue,
+    date: dateStr,
+    courseLevel,
+    type,
+    creditHour,
+    numberOfPeople,
+  };
+
   if (!title) {
-    return {
-      titleError: "Title is required",
-      fieldData: {
-        title,
-        description,
-        venue,
-        date: date ? (date as Date).toISOString().split("T")[0] : "",
-        courseLevel,
-        type,
-        creditHour,
-        numberOfPeople,
-      },
-    };
+    errors.titleError = "Title is required";
+  } else {
+    const matchTitle = await prisma.event.findFirst({ where: { title } });
+    if (matchTitle) {
+      errors.titleError = "Title has been used";
+    }
   }
 
-  const matchTitle = await prisma.event.findMany({
-    where: {
-      title: title,
-    },
-  });
-
-  if (matchTitle.length > 0) {
-    return {
-      titleError: "Title has been used",
-      fieldData: {
-        title,
-        description,
-        venue,
-        date: date ? (date as Date).toISOString().split("T")[0] : "",
-        courseLevel,
-        type,
-        creditHour,
-        numberOfPeople,
-      },
-    };
+  if (!description) errors.descriptionError = "Description is required";
+  if (!venue) errors.venueError = "Venue is required";
+  if (!date) errors.dateError = "Date is required";
+  if (!courseLevel) errors.courseLevelError = "Event level is required";
+  if (!type) errors.typeError = "Event type is required";
+  if (creditHour < 1) errors.creditHourError = "Credit hour cannot be lower than 1";
+  if (numberOfPeople < 0) errors.numberOfPeopleError = "Number of people cannot be lower than 0";
+  if (!certificate || certificate.size === 0 || certificate.name === "undefined") {
+    errors.certificateError = "Certificate is required";
   }
 
-  if (!description) {
-    return {
-      descriptionError: "Description is required",
-      fieldData: {
-        title,
-        description,
-        venue,
-        date: date ? (date as Date).toISOString().split("T")[0] : "",
-        courseLevel,
-        type,
-        creditHour,
-        numberOfPeople,
-      },
-    };
-  }
-
-  if (!venue) {
-    return {
-      venueError: "Venue is required",
-      fieldData: {
-        title,
-        description,
-        venue,
-        date: date ? (date as Date).toISOString().split("T")[0] : "",
-        courseLevel,
-        type,
-        creditHour,
-        numberOfPeople,
-      },
-    };
-  }
-
-  if (!date) {
-    return {
-      dateError: "Date is required",
-      fieldData: {
-        title,
-        description,
-        venue,
-        date: date ? (date as Date).toISOString().split("T")[0] : "",
-        courseLevel,
-        type,
-        creditHour,
-        numberOfPeople,
-      },
-    };
-  }
-
-  if (!courseLevel) {
-    return {
-      courseLevelError: "Event level is required",
-      fieldData: {
-        title,
-        description,
-        venue,
-        date: date ? (date as Date).toISOString().split("T")[0] : "",
-        courseLevel,
-        type,
-        creditHour,
-        numberOfPeople,
-      },
-    };
-  }
-
-  if (!type) {
-    return {
-      typeError: "Event type is required",
-      fieldData: {
-        title,
-        description,
-        venue,
-        date: date ? (date as Date).toISOString().split("T")[0] : "",
-        courseLevel,
-        type,
-        creditHour,
-        numberOfPeople,
-      },
-    };
-  }
-
-  if (creditHour < 1) {
-    return {
-      creditHourError: "Credit hour cannot be lower than 1",
-      fieldData: {
-        title,
-        description,
-        venue,
-        date: date ? (date as Date).toISOString().split("T")[0] : "",
-        courseLevel,
-        type,
-        creditHour,
-        numberOfPeople,
-      },
-    };
-  }
-
-  if (numberOfPeople < 0) {
-    return {
-      numberOfPeopleError: "Number of people cannot be lower than 0",
-      fieldData: {
-        title,
-        description,
-        venue,
-        date: date ? (date as Date).toISOString().split("T")[0] : "",
-        courseLevel,
-        type,
-        creditHour,
-        numberOfPeople,
-      },
-    };
+  if (Object.keys(errors).length > 0) {
+    return { ...errors, fieldData };
   }
 
   if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {

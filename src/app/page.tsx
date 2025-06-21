@@ -24,7 +24,7 @@ export default async function Home() {
   const eventData = eventDataRaw.map((event) => ({
     ...event,
     eventImageUrl: event.eventImage
-      ? `/api/event-image/${event.eventImage.id}`
+      ? `/api/event-image/${event.eventImage.id}?t=${new Date(event.updatedAt).getTime()}`
       : null,
   }));
   
@@ -64,7 +64,7 @@ export default async function Home() {
             alt="Hero"
             width={600}
             height={300}
-            className="rounded-tl-3xl rounded-bl-3xl shadow-xl"
+            className="rounded-3xl shadow-xl"
           />
         </div>
       </section>

@@ -37,7 +37,7 @@ export const UserAnnouncementColumns: ColumnDef<Announcement>[] = [
       <div className="space-y-1">
         <Link
           href={`/announcement/view/${row.original.slug}`}
-          className="font-medium hover:underline text-[#192f59]"
+          className="font-medium hover:underline text-blue-500"
         >
           {row.original.title}
         </Link>

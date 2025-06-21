@@ -1,7 +1,6 @@
 import { verifySession } from "@/libs/dal";
 import prisma from "@/databases/db";
 import EventList from "@/features/event/components/EventList";
-// import EventListWrapper from "@/features/event/components/EventListWrapper";
 
 const Event = async () => {
   const currentUser = await verifySession();

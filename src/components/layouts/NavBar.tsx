@@ -12,7 +12,7 @@ import {
 import { ChevronDownIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { LogoutButton } from "@/features/auth/components/LogoutButton";
 
-export default async function Header() {
+export default async function NavBar() {
   const currentUser = await verifySession();
 
   const navLinks = [

@@ -2,66 +2,63 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { PhotoIcon } from '@heroicons/react/24/solid'
+import { PhotoIcon } from "@heroicons/react/24/solid";
 
 interface DragAndDropImageProps {
   label: string;
-  name: string; // Name for the file input to identify the data in the backend
-  initialImage?: string | null; // Prop to accept the initial image URL or ID
+  name: string;
+  initialImage?: string | null;
+  file: File | null;
+  setFile: (file: File | null) => void;
 }
 
-const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ label, name, initialImage }) => {
-  const [previewUrl, setPreviewUrl] = useState<string | null>(initialImage || null);
-
-  // useEffect(() => {
-  //   if (previewUrl) {
-  //     console.log("Current Preview URL:", previewUrl);
-  //   }
-  // }, [previewUrl]); // Logs every time previewUrl changes
+const DragAndDropImage: React.FC<DragAndDropImageProps> = ({
+  label,
+  name,
+  initialImage,
+  file,
+  setFile,
+}) => {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    initialImage || null
+  );
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
-    setPreviewUrl(initialImage || null);
-  }, [initialImage]);
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      setIsDeleted(false); // reset deletion state if a new file is selected
+      return () => URL.revokeObjectURL(url);
+    }
+
+    if (!file && !isDeleted) {
+      setPreviewUrl(initialImage || null);
+    }
+
+    if (isDeleted) {
+      setPreviewUrl(null);
+    }
+  }, [file, initialImage, isDeleted]);
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const file = event.dataTransfer.files[0];
-    if (file && file.type.startsWith("image/")) {
-      setFile(file);
+    const droppedFile = event.dataTransfer.files[0];
+    if (droppedFile && droppedFile.type.startsWith("image/")) {
+      setFile(droppedFile);
     }
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file && file.type.startsWith("image/")) {
-      setFile(file);
-    } else {
-      handleDelete();
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile && selectedFile.type.startsWith("image/")) {
+      setFile(selectedFile);
     }
-  };
-
-  const setFile = (file: File) => {
-    // const maxSizeInMB = 10;
-    // const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
-
-    // if (file.size > maxSizeInBytes) {
-    //   alert(`File is too large. Maximum allowed size is ${maxSizeInMB}MB.`);
-    //   return;
-    // }
-
-    setPreviewUrl(URL.createObjectURL(file));
-    // Keep the file input in the DOM to ensure FormData works
-    //  console.log("Preview URL set:", URL.createObjectURL(file)); // Log the URL of the file
   };
 
   const handleDelete = () => {
-    setPreviewUrl(null);
-    const input = document.querySelector(
-      `input[name="${name}"]`,
-    ) as HTMLInputElement;
-    if (input) {
-      input.value = ""; // Clear the file input
-    }
+    setFile(null);
+    setIsDeleted(true);
   };
 
   return (
@@ -92,11 +89,10 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ label, name, initia
           </div>
         ) : (
           <label className="flex h-full w-full cursor-pointer flex-col items-center justify-center text-gray-500">
-            <PhotoIcon aria-hidden="true" className="mx-auto size-12 text-gray-300" />
+            <PhotoIcon className="mx-auto size-12 text-gray-300" />
             Upload a file or drag and drop
           </label>
         )}
-        {/* Keep the file input hidden but in the DOM */}
         <input
           type="file"
           name={name}
