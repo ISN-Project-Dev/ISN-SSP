@@ -6,10 +6,9 @@ export default function Login() {
   return (
     <AuthForm>
       <LoginForm />
-
       {/* Social Login */}
       <div className="space-y-4">
-        <p className="mb-6 text-center text-sm text-gray-500">Or Login with</p>
+        <p className="mb-5 text-center text-sm text-gray-700">Or Login with</p>
         <GoogleButton />
       </div>
 
@@ -17,24 +16,21 @@ export default function Login() {
 
       <section className="my-4">
         <div className="my-1 text-center">
-          <p className="text-sm text-gray-600">
-            Create new account here{" "}
-            <a href="/auth/register" className="text-blue-500 hover:underline">
-              Register now
+          <p className="text-sm text-gray-700">
+            Don't have an account?{" "}
+            <a href="/auth/register" className="text-[#2f4369] font-semibold hover:underline">
+              Register Now
             </a>
           </p>
         </div>
 
         <div className="my-1 text-center">
-          <p className="text-sm text-gray-600">
-            Forgot your password?{" "}
             <a
               href="/auth/forgotPassword"
-              className="text-blue-500 hover:underline"
+              className="text-red-500 font-semibold text-sm hover:underline"
             >
-              Press here
+              Forgot your password?
             </a>
-          </p>
         </div>
       </section>
     </AuthForm>

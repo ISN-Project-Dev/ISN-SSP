@@ -77,10 +77,14 @@ const UserCertificate = async ({ params }: ParamProps) => {
 
   return (
     <div className="certificate-data-table-container my-2 w-full max-w-7xl overflow-auto">
+      <h2 className="mb-5 text-xl font-semibold text-[#192f59]">
+        Certificate
+      </h2>
       {/* Certificate User Data Table */}
-      <div className="inner-data-table rounded-lg border border-gray-200 bg-white p-4 shadow-md">
+      <div className="inner-data-table p-px">
         <DataTable
-          filter={"none"}
+          filter={"filename"}
+          filterPlaceholder="Filter certificate name..."
           columns={UserCertificateColumns}
           data={certificateThatSubmittedReportData}
         />

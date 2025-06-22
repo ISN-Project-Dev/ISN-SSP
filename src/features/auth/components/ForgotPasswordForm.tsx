@@ -9,11 +9,11 @@ export default function ForgotPasswordForm() {
 
   return (
     <form action={action}>
-      <h2 className="text-center text-2xl font-semibold text-gray-800">
-        Forgot Password?
+      <h2 className="text-center mb-10 text-2xl font-semibold">
+        Forgot Password
       </h2>
 
-      <div className="space-y-6">
+      <div className="space-y-5">
         {/* Email Input */}
         <FormField
           label="Email"
@@ -29,7 +29,7 @@ export default function ForgotPasswordForm() {
       <Button
         disabled={isPending}
         type="submit"
-        className="my-4 w-full rounded-md bg-blue-500 py-3 text-white shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+        className="flex w-full my-5 rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1"
       >
         Send
       </Button>

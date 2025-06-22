@@ -1,9 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +11,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
 
 type UserRegisterEventData = {
   id: string;
@@ -26,21 +25,22 @@ type UserRegisterEventData = {
     title: string;
     description: string;
     courseLevel: string;
+    type: string | null;
     creditHour: number;
   };
 };
 
-export const UserRegisterEventColumns: ColumnDef<UserRegisterEventData>[] = [
+export const UserRegisterEventColumns = (isStudent: boolean): ColumnDef<UserRegisterEventData>[] => [
   // Row Selection
-
   //Data Accessors
   {
-    accessorKey: "event.title",
-    //Sorting
+    id: "eventTitle",
+    accessorFn: (row) => row.event.title, 
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Event Title
@@ -55,6 +55,7 @@ export const UserRegisterEventColumns: ColumnDef<UserRegisterEventData>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Course Level
@@ -64,18 +65,68 @@ export const UserRegisterEventColumns: ColumnDef<UserRegisterEventData>[] = [
     },
   },
   {
-    accessorKey: "status",
+    accessorKey: "event.type",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Status
+          Event Type
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
+  },
+  {
+    accessorKey: "event.creditHour",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Credit Hour
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  // {
+  //   accessorKey: "status",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         className="hover:bg-transparent hover:text-gray-600"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Status
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  // },
+  {
+    id: "creditGained",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Credit Gained
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },    accessorFn: (row) => {
+      const baseCredit = row.event.creditHour ?? 0;
+      return isStudent ? baseCredit * 2 : baseCredit;
+    },
+cell: (info) => <span>{info.getValue() as number}</span>,
   },
   {
     id: "actions",
@@ -106,4 +157,3 @@ function UserRegisterEventActionsCell({ row }: { row: any }) {
     </DropdownMenu>
   );
 }
-

@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import { Label } from "../ui/label";
 import {
   Select,
   SelectContent,
@@ -10,19 +10,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Label } from "../ui/label";
-
 type Option = {
   value: string;
   label: string;
 };
 
 type FormType = {
-  defaultValue?: any;
   label: string;
   name: string;
   options: Option[];
   placeholder?: string;
+  defaultValue?: any;
   error?: string;
 };
 
@@ -31,18 +29,20 @@ export function SelectField({
   name,
   options,
   placeholder,
+  defaultValue,
   error,
 }: FormType) {
   return (
     <div className="grid w-full items-center gap-1.5">
-      <Label htmlFor={name}>{label}</Label>
-      <Select name={name}>
+      <Label htmlFor={name}>
+        {label}
+      </Label>
+      <Select name={name} defaultValue={defaultValue}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder={placeholder || label} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>{label}</SelectLabel>
             {options.map((option) => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
@@ -51,8 +51,7 @@ export function SelectField({
           </SelectGroup>
         </SelectContent>
       </Select>
-
-      {error && <span className="text-red-600">{error}</span>}
+      {error && <span className="text-sm font-medium text-red-700">{error}</span>}
     </div>
   );
 }

@@ -35,6 +35,7 @@ export const UserReportSubmissionColumns: ColumnDef<UserReportSubmissionData>[] 
         return (
           <Button
             variant="ghost"
+            className="hover:bg-transparent hover:text-gray-600"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Event Title
@@ -49,6 +50,7 @@ export const UserReportSubmissionColumns: ColumnDef<UserReportSubmissionData>[] 
         return (
           <Button
             variant="ghost"
+            className="hover:bg-transparent hover:text-gray-600"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Status

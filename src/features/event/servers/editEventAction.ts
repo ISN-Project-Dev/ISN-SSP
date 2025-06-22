@@ -1,97 +1,103 @@
 "use server";
+
 import prisma from "@/databases/db";
 import convertFileToBufferService from "@/features/files/services/convertFileToBufferService";
 import { redirect } from "next/navigation";
 
-export const editEvent = async (
-  _previousState: unknown,
-  formData: FormData,
-) => {
-  const eventImage = formData.get("eventImage") as File;
-  const title = formData.get("title") as string;
+export const editEvent = async (_previousState: unknown, formData: FormData) => {
   const slug = (formData.get("title") as string)
-    .replace(/\s+/g, "-")
-    .toLowerCase();
+  .replace(/\s+/g, "-")
+  .toLowerCase();
+  const title = formData.get("title") as string;
   const description = formData.get("description") as string;
+  const venue = formData.get("venue") as string;
+  const dateStr = formData.get("date") as string;
+  const date = dateStr ? new Date(dateStr) : null;
   const courseLevel = formData.get("courseLevel") as string;
+  const type = formData.get("type") as string;
   const creditHour = Number(formData.get("creditHour"));
+  const numberOfPeople = Number(formData.get("numberOfPeople"));
+  const eventImage = formData.get("eventImage") as File;
   const certificate = formData.get("certificate") as File;
   const eventId = formData.get("eventId") as string;
+
   let eventImageId = formData.get("eventImageId") as string;
   const eventCertificateId = formData.get("eventCertificateId") as string;
-  const eventType = formData.get("eventType") as string;
-  const numberOfPeople = Number(formData.get("numberOfPeople"));
 
-  if (!title) {
-    return {
-      titleError: "Title is required",
-      fieldData: {
-        title,
-        description,
-        courseLevel,
-        creditHour,
-        certificate,
-        numberOfPeople,
-        eventType,
-      },
-    };
-  }
+  const errors: any = {};
+const fieldData = {
+  title,
+  description,
+  venue,
+  date: date ? date.toISOString().split("T")[0] : "",
+  courseLevel,
+  type,
+  creditHour,
+  numberOfPeople,
+};
 
+if (!title) {
+  errors.titleError = "Title is required";
+}
+if (!description) {
+  errors.descriptionError = "Description is required";
+}
+if (!venue) {
+  errors.venueError = "Venue is required";
+}
+if (!date) {
+  errors.dateError = "Date is required";
+}
+if (!courseLevel) {
+  errors.courseLevelError = "Event level is required";
+}
+if (!type) {
+  errors.typeError = "Event type is required";
+}
+if (creditHour < 1) {
+  errors.creditHourError = "Credit hour cannot be lower than 1";
+}
+if (numberOfPeople < 0) {
+  errors.numberOfPeopleError = "Number of people cannot be lower than 0";
+}
+
+// Title uniqueness check (optional: only if title provided)
+if (title) {
   const matchTitle = await prisma.event.findFirst({
     where: {
       title: title,
-      NOT: {
-        id: eventId, // Exclude the current event by its ID
-      },
+      NOT: { id: eventId },
     },
   });
 
   if (matchTitle) {
-    return {
-      titleError: "Title Event has been used",
-      fieldData: {
-        title,
-        description,
-        courseLevel,
-        creditHour,
-        certificate,
-        numberOfPeople,
-        eventType,
-      },
-    };
+    errors.titleError = "Title has been used";
   }
+}
 
-  if (creditHour && creditHour < 1) {
-    return {
-      creditHourError: "Credit Level cannot be lower than 0",
-      fieldData: {
-        title,
-        description,
-        courseLevel,
-        creditHour,
-        certificate,
-        numberOfPeople,
-        eventType,
-      },
-    };
-  }
+if (Object.keys(errors).length > 0) {
+  return { ...errors, fieldData };
+}
 
-  if (numberOfPeople && numberOfPeople < 0) {
-    return {
-      numberOfPeopleError: "Number of people cannot be lower than 0",
-      fieldData: {
-        title,
-        description,
-        courseLevel,
-        creditHour,
-        certificate,
-        numberOfPeople,
-        eventType,
-      },
-    };
-  }
+  if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
+    // const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB
 
-  if (eventImage && certificate.size > 0 && certificate.name !== "undefined") {
+    // if (eventImage.size > MAX_IMAGE_SIZE || !eventImage.type.startsWith("image/")) {
+    //   return {
+    //     imageError: "Image must be under 10MB",
+    //     fieldData: {
+    //       title,
+    //       description,
+    //       venue,
+    //       date: date ? (date as Date).toISOString().split("T")[0] : "",
+    //       courseLevel,
+    //       type,
+    //       creditHour,
+    //       numberOfPeople,
+    //     },
+    //   };
+    // }
+
     try {
       const imageBuffer = await convertFileToBufferService(eventImage);
 
@@ -152,10 +158,17 @@ export const editEvent = async (
 
   // Conditionally add fields to the update object
   if (description) updateData.description = description;
+  if (venue) updateData.venue = venue;
+  if (date) updateData.date = date;
   if (courseLevel) updateData.courseLevel = courseLevel;
-  if (creditHour > 0) updateData.creditHour = creditHour;
-  if (eventType) updateData.type = eventType;
-  if (numberOfPeople > 0) updateData.numberOfPeople = numberOfPeople;
+  if (type) updateData.type = type;
+  if (creditHour >= 0) updateData.creditHour = creditHour;
+  if (numberOfPeople >= 0) updateData.numberOfPeople = numberOfPeople;
+
+  // Only set eventImageId if a new image was uploaded
+  if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
+    updateData.eventImageId = eventImageId;
+  }
 
   try {
     await prisma.event.update({
@@ -164,7 +177,6 @@ export const editEvent = async (
         title: title,
         slug: slug,
         ...updateData,
-        eventImageId: eventImageId,
         eventCertificateId: eventCertificateId,
       },
     });

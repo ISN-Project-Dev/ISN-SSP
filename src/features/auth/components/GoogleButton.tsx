@@ -16,7 +16,7 @@ export default function GoogleButton() {
 
   return (
     <Link href={authorizationUrl}>
-      <Button className="flex w-full items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white px-4 py-3 text-black shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-slate-200">
+      <Button className="flex w-40 mx-auto h-10 items-center justify-center space-x-2 rounded-md border border-gray-300 bg-white px-4 py-3 text-black shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-slate-200">
         <Image
           src="/icons8-google.svg"
           alt="Google"
