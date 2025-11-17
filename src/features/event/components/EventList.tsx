@@ -5,6 +5,8 @@ import EventCard from "./EventCard";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { SelectFilter } from "@/components/common/SelectFilter";
 import { Plus } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 type Props = {
   eventData: any[];
@@ -26,10 +28,12 @@ export default function EventList({ eventData, isAdmin }: Props) {
   return (
     <>
       <div className="relative w-full">
-        <img
+        <Image
           src="/bluebg.jpg"
           alt="Header Background"
           className="w-full h-40 opacity-50"
+          width={1920}
+          height={200}
         />
         <h2 className="absolute inset-0 flex items-center justify-center text-[#192f59] text-3xl font-bold bg-blue-50/30">
           Events
@@ -66,12 +70,12 @@ export default function EventList({ eventData, isAdmin }: Props) {
             </div>
           </div>
           {isAdmin && (
-            <a href="/event/createEvent">
+            <Link href="/event/createEvent">
               <button className="flex items-center gap-2 h-10 text-sm px-5 py-2 rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1">
                 <Plus className="h-4 w-4" strokeWidth={2.5} />
                 New Event
               </button>
-            </a>
+            </Link>
           )}
         </div>
         <div className="grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">

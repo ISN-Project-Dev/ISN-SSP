@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
+import Image from "next/image";
 
 interface BarChartHorizontalProps {
     data: any[]
@@ -97,11 +98,13 @@ export function BarChartHorizontal({
                         </div>
                     ) : (
                         <div className="flex flex-col items-center justify-center text-center text-gray-500 mt-4">
-                            <img
+                            <Image
                                 src="/nodata.png"
                                 alt="No feedback"
                                 className="h-14 w-14 mb-2 opacity-60"
                                 draggable="false"
+                                width={56}
+                                height={56}
                             />
                             <p className="font-medium text-sm">No feedback submitted yet</p>
                         </div>

@@ -4,6 +4,7 @@ import * as React from "react"
 import { Label, Pie, PieChart, ResponsiveContainer } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartConfig, ChartContainer, ChartTooltip } from "@/components/ui/chart"
+import Image from "next/image";
 
 export const description = "A donut chart with text (blue theme)"
 
@@ -59,11 +60,13 @@ export function ChartPieDonutText({
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col items-center justify-center text-gray-500">
-                        <img
+                        <Image
                             src="/nodata.png"
                             alt="No data available"
                             className="h-20 w-20 mb-3 opacity-60"
                             draggable="false"
+                            width={56}
+                            height={56}
                         />
                         <p className="font-medium">No gender data available yet</p>
                         <p className="text-xs text-gray-400 mt-1">

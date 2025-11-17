@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, LabelList, Cell } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from "@/components/ui/chart";
+import Image from "next/image";
 
 interface BodyHeatmapProps {
     data: {
@@ -44,10 +45,13 @@ export default function BodyHeatmap({ data }: BodyHeatmapProps) {
     return (
         <div className="w-full max-w-[480px] mx-auto bg-white rounded-lg border border-blue p-3">
             <div className="relative w-full mt-5 h-[330px] flex justify-center">
-                <img
+                <Image
                     src="/bodymap.png"
                     alt="Body Map"
-                    className="absolute inset-0 w-full h-full object-contain opacity-90"
+                    fill
+                    className="object-contain opacity-90"
+                    priority
+                    sizes="(max-width: 768px) 100vw, 480px"
                 />
                 {[
                     { region: "Neck", top: "11%", left: "47.5%" },
