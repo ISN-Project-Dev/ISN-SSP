@@ -6,6 +6,7 @@ import FormField from "@/components/common/FormField";
 import { SelectField } from "@/components/common/SelectField";
 import { Button } from "@/components/ui/button";
 import DeleteUserAlertBox from "@/features/auth/components/DeleteUserAlertBox"; // ✅ Import it
+import Image from "next/image";
 
 type UserFormProps = {
   initialData: {
@@ -23,10 +24,12 @@ const EditUserForm = ({ initialData }: UserFormProps) => {
   return (
     <>
       <div className="relative w-full">
-        <img
+        <Image
           src="/bluebg.jpg"
           alt="Header Background"
           className="w-full h-40 opacity-50"
+          width={1920}
+          height={200}
         />
         <h2 className="absolute inset-0 flex items-center justify-center text-[#192f59] text-3xl font-bold bg-blue-50/30">
           Edit User

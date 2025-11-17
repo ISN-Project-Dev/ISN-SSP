@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export type AdminEventData = {
   id: string;
@@ -151,15 +152,15 @@ export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => router.push(`/event/${event.slug}`)}
-            >
-              View Event
+            <DropdownMenuItem asChild>
+              <Link href={`/event/${event.slug}`} className="w-full">
+                View Event
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => router.push(`/admin/events/${event.slug}/statistics`)}
-            >
-              View Statistics
+            <DropdownMenuItem asChild>
+              <Link href={`/admin/events/${event.slug}/statistics`} className="w-full">
+                View Statistics
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

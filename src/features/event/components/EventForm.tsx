@@ -8,6 +8,7 @@ import { SelectField } from "@/components/common/SelectField";
 import DragAndDropImage from "@/components/common/DragAndDropImage";
 import UploadFile from "@/components/common/UploadFile";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 type EventFormProps = {
   actionType: "Create" | "Edit";
@@ -61,10 +62,12 @@ const EventForm = ({
   return (
     <>
       <div className="relative w-full">
-        <img
+        <Image
           src="/bluebg.jpg"
           alt="Header Background"
           className="w-full h-40 opacity-50"
+          width={1920}
+          height={200}
         />
         <h2 className="absolute inset-0 flex items-center justify-center text-[#192f59] text-3xl font-bold bg-blue-50/30">
           Create Event

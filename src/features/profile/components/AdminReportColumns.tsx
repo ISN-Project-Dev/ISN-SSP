@@ -98,7 +98,6 @@ export const AdminReportColumns: ColumnDef<AdminReportData>[] = [
     {
         id: "actions",
         cell: ({ row }) => {
-            const [_data, action, _isPending] = useActionState(updateReportAction, undefined);
 
             return (
                 <DropdownMenu>
@@ -125,7 +124,7 @@ export const AdminReportColumns: ColumnDef<AdminReportData>[] = [
                         >
                             Download
                         </DropdownMenuItem>
-                        <form action={action}>
+                        <form action={updateReportAction}>
                             <input type="hidden" name="id" value={row.original.id} />
                             <input type="hidden" name="status" value="Approved" />
                             <DropdownMenuItem asChild>
@@ -134,7 +133,7 @@ export const AdminReportColumns: ColumnDef<AdminReportData>[] = [
                                 </button>
                             </DropdownMenuItem>
                         </form>
-                        <form action={action}>
+                        <form action={updateReportAction}>
                             <input type="hidden" name="id" value={row.original.id} />
                             <input type="hidden" name="status" value="Rejected" />
                             <DropdownMenuItem asChild>

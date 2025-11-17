@@ -98,33 +98,44 @@ export default async function Home() {
             </div>
             <div className="flex flex-wrap items-start justify-end gap-6 sm:gap-8 lg:contents">
               <div className="w-0 flex-auto lg:ml-auto lg:w-auto lg:flex-none lg:self-end">
-                <img
-                  alt=""
+                <Image
                   src="/eventphoto1.jpg"
+                  alt=""
+                  width={740}
+                  height={530}
                   className="aspect-[7/5] w-[37rem] max-w-none rounded-2xl bg-gray-50 object-cover"
                 />
               </div>
               <div className="contents lg:col-span-2 lg:col-end-2 lg:ml-auto lg:flex lg:w-[37rem] lg:items-start lg:justify-end lg:gap-x-8">
                 <div className="order-first flex w-64 flex-none justify-end self-end lg:w-auto">
-                  <img
-                    alt=""
+                  <Image
                     src="/eventphoto.jpg"
+                    alt=""
+                    width={480}
+                    height={360}
                     className="aspect-[4/3] w-[24rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover"
                   />
+
                 </div>
                 <div className="flex w-96 flex-auto justify-end lg:w-auto lg:flex-none">
-                  <img
+                  <Image
+                    src="/eventphoto.jpg"
                     alt=""
-                    src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1152&h=842&q=80"
+                    width={1152}
+                    height={842}
                     className="aspect-[7/5] w-[37rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover"
                   />
+
                 </div>
                 <div className="hidden sm:block sm:w-0 sm:flex-auto lg:w-auto lg:flex-none">
-                  <img
+                  <Image
+                    src="/eventphoto.jpg"
                     alt=""
-                    src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&h=604&q=80"
+                    width={768}
+                    height={604}
                     className="aspect-[4/3] w-[24rem] max-w-none rounded-2xl bg-gray-50 object-cover"
                   />
+
                 </div>
               </div>
             </div>
@@ -136,11 +147,14 @@ export default async function Home() {
         <div className="relative isolate">
           <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="mx-auto bg-[#192f59] flex max-w-2xl flex-col gap-16 px-6 py-16 sm:rounded-3xl sm:p-8 lg:mx-0 lg:max-w-none lg:flex-row lg:items-center lg:py-20 xl:gap-x-20 xl:px-20">
-              <img
-                alt=""
+              <Image
                 src="/eventphoto2.jpg"
+                alt=""
+                width={600}
+                height={600}
                 className="h-96 w-full flex-none rounded-2xl object-cover shadow-xl lg:aspect-square lg:h-auto lg:max-w-sm"
               />
+
               <div className="w-full flex-auto">
                 <h2 className="text-pretty text-4xl font-semibold tracking-tight text-white sm:text-5xl">
                   Ready to join your next event?
@@ -157,9 +171,9 @@ export default async function Home() {
                   ))}
                 </ul>
                 <div className="mt-10 flex">
-                  <a href="/event" className="text-sm/6 font-semibold text-blue-100">
+                  <Link href="/event" className="text-sm/6 font-semibold text-blue-100">
                     See our events <span aria-hidden="true">&rarr;</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
