@@ -1,9 +1,13 @@
 import prisma from "@/databases/db"
-import EventStatistics from "./EventStatistics"
+import EventStatistics from "@features/admin/components/EventStatistics"
 
-export default async function EventStatisticsPage({ params }: { params: { slug: string } }) {
+type ParamProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export default async function EventStatisticsPage({ params }: ParamProps) {
     const event = await prisma.event.findUnique({
-        where: { slug: params.slug },
+        where: { slug: (await params).slug },
         include: {
             eventRegistrations: {
                 include: {
