@@ -18,6 +18,8 @@ const EventHistory = async ({ params }: ParamProps) => {
     },
     include: {
       event: true,
+      user: { select: { slug: true } },
+      feedback: true,
     },
   });
 

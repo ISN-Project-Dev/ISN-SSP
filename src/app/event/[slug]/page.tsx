@@ -23,7 +23,7 @@ const EventId = async ({ params }: ParamProps) => {
       eventCertificate: true,
     },
   });
-  
+
   return (
     <>
       <div className="relative w-full">
@@ -64,7 +64,7 @@ const EventId = async ({ params }: ParamProps) => {
             {(currentUser?.role === "admin" || currentUser?.role === "industry" || currentUser?.role === "university") && (
               <div className="flex items-center space-x-3">
                 <Link href={`/event/editEvent/${eventIdData?.id}`}>
-                  <PencilSquareIcon className="h-7 w-7 text-[#192f59]" />
+                  <PencilSquareIcon className="h-7 w-7 text-[#192f59] hover:text-[#2f4369]" />
                 </Link>
                 <DeleteAlertBox id={eventIdData?.id as string} />
               </div>
@@ -113,27 +113,6 @@ const EventId = async ({ params }: ParamProps) => {
               {eventIdData?.type || "No event type provided"}
             </p>
           </div>
-          {/* <div className="rounded-lg bg-white p-4 shadow">
-            <h2 className="flex justify-center text-lg font-semibold text-gray-700">
-              Certificate You Receive
-            </h2>
-            <p className="flex justify-center text-gray-600">
-              {eventIdData?.eventCertificate?.filename ||
-                "No certificate provided"}
-            </p>
-          </div>
-          {eventIdData?.numberOfPeople && eventIdData?.numberOfPeople > 0 ? (
-            <div className="rounded-lg bg-white p-4 shadow">
-              <h2 className="flex justify-center text-lg font-semibold text-gray-700">
-                Service Required
-              </h2>
-              <p className="flex justify-center text-gray-600">
-                {`Number of People: ${eventIdData.numberOfPeople}`}
-              </p>
-            </div>
-          ) : (
-            ""
-          )} */}
         </div>
         <RegisterServiceButton
           userId={String(currentUser?.userId ?? "")}

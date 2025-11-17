@@ -1,8 +1,7 @@
 "use client";
+
 import { useActionState } from "react";
-
 import { Button } from "@/components/ui/button";
-
 import { handleProfile } from "../servers/handleProfileAction";
 import FormField from "@/components/common/FormField";
 import { SelectField } from "@/components/common/SelectField";
@@ -32,6 +31,7 @@ export default function HandleProfileForm({
 }) {
   const [data, action, _isPending] = useActionState(handleProfile, undefined);
   const detail = userData?.userDetail;
+
   return (
     <div className="w-full bg-white mb-4 px-10">
       <h2 className="text-[#192f59] mb-10 text-center text-2xl font-semibold">
@@ -69,6 +69,11 @@ export default function HandleProfileForm({
             label="Date Of Birth"
             type="date"
             name="dateOfBirth"
+            defaultValue={
+              detail?.dateOfBirth
+                ? new Date(detail.dateOfBirth).toISOString().split("T")[0]
+                : ""
+            }
             error={data?.dateOfBirthError}
           />
         </div>
@@ -282,7 +287,7 @@ export default function HandleProfileForm({
             error={data?.genderError}
           />
         </div>
-        <Button 
+        <Button
           className="mx-auto block rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1"
         >
           Submit

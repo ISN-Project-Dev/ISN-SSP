@@ -3,16 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import React from "react";
-
 import { Button } from "@/components/ui/button";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 
 type UserReportSubmissionData = {
@@ -27,10 +19,8 @@ type UserReportSubmissionData = {
 
 export const UserReportSubmissionColumns: ColumnDef<UserReportSubmissionData>[] =
   [
-    //Data Accessors
     {
       accessorKey: "eventTitle",
-      //Sorting
       header: ({ column }) => {
         return (
           <Button
@@ -56,6 +46,41 @@ export const UserReportSubmissionColumns: ColumnDef<UserReportSubmissionData>[] 
             Status
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+
+        return (
+          <div className="flex items-center gap-3">
+            {status === "Approved" && (
+              <>
+                <span>Submitted</span>
+                <span className="rounded-lg bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
+                  Approved
+                </span>
+              </>
+            )}
+            {status === "Rejected" && (
+              <>
+                <span>Submitted</span>
+                <span className="rounded-lg bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700">
+                  Rejected
+                </span>
+              </>
+            )}
+            {status === "Submitted" && (
+              <>
+                <span>Submitted</span>
+                <span className="rounded-lg bg-yellow-100 px-2 py-0.5 text-xs font-semibold text-yellow-700">
+                  Pending
+                </span>
+              </>
+            )}
+            {status === "Not Submitted" && (
+              <span>Not Submitted</span>
+            )}
+          </div>
         );
       },
     },

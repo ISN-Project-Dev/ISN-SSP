@@ -1,25 +1,12 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  // MoreHorizontal,
-  ArrowUpDown,
-} from "lucide-react";
-
+import { MoreHorizontal, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
-// import { DataTableColumnHeader } from "@/components/ui/DataTableColumnHeader ";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type AdminEventData = {
   id: string;
   slug: string;
@@ -27,16 +14,13 @@ export type AdminEventData = {
   description: string;
   courseLevel: string;
   creditHour: number;
+  date: Date | null;
   eventCertificate: {
     filename: string;
   } | null;
-  //   amount: number;
-  //   status: "pending" | "processing" | "success" | "failed";
-  //   email: string;
 };
 
 export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
-  // Row Selection
   {
     id: "select",
     header: ({ table }) => (
@@ -59,8 +43,6 @@ export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
-  //Data Accessors
   {
     accessorKey: "title",
     //Sorting
@@ -68,9 +50,10 @@ export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title
+          Event Title
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -82,6 +65,7 @@ export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Course Level
@@ -96,6 +80,7 @@ export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Credit Hour
@@ -105,11 +90,13 @@ export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
     },
   },
   {
+    id: "certificate",
     accessorKey: "eventCertificate.filename",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Certificate
@@ -118,7 +105,67 @@ export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
       );
     },
   },
+  {
+    id: "Status",
+    accessorKey: "date",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="hover:bg-transparent hover:text-gray-600"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Status
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const date = row.original.date ? new Date(row.original.date) : null;
+      const now = new Date();
+      const isUpcoming = date && date >= now;
 
+      return (
+        <div className="flex items-center w-full">
+          <span
+            className={`px-3 py-1 rounded-lg text-xs font-semibold text-center w-20 ${isUpcoming ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
+              }`}
+          >
+            {isUpcoming ? "Upcoming" : "Ended"}
+          </span>
+        </div>
+      );
+    },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const router = useRouter();
+      const event = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => router.push(`/event/${event.slug}`)}
+            >
+              View Event
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push(`/admin/events/${event.slug}/statistics`)}
+            >
+              View Statistics
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
   // Data Action
   // {
   //   id: "actions",

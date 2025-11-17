@@ -1,0 +1,25 @@
+"use client";
+
+import * as React from "react";
+import { cn } from "@/libs/shadcn";
+
+interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
+    value: number;
+}
+
+export function Progress({ value, className, ...props }: ProgressProps) {
+    return (
+        <div
+            className={cn(
+                "relative h-2 w-full overflow-hidden rounded-full bg-gray-200",
+                className
+            )}
+            {...props}
+        >
+            <div
+                className="h-full bg-[#192f59] transition-all duration-500"
+                style={{ width: `${value}%` }}
+            />
+        </div>
+    );
+}

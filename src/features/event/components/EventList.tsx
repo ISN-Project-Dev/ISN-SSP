@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useMemo } from "react";
 import EventCard from "./EventCard";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
@@ -34,9 +35,8 @@ export default function EventList({ eventData, isAdmin }: Props) {
           Events
         </h2>
       </div>
-      <main className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center mt-16 mb-20 px-10 gap-5">
+      <main className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center py-10 mb-20 px-10 gap-5">
         <div className="mb-6 w-full flex items-center justify-between">
-          {/* Left: Search + Filter */}
           <div className="flex sm:flex-row gap-5 w-auto">
             <div className="relative w-full sm:w-64">
               <input
@@ -65,17 +65,15 @@ export default function EventList({ eventData, isAdmin }: Props) {
               />
             </div>
           </div>
-          {/* Right: Create Button */}
           {isAdmin && (
             <a href="/event/createEvent">
               <button className="flex items-center gap-2 h-10 text-sm px-5 py-2 rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1">
-                <Plus className="h-4 w-4" strokeWidth={2.5}/>
+                <Plus className="h-4 w-4" strokeWidth={2.5} />
                 New Event
               </button>
             </a>
           )}
         </div>
-        {/* Event Cards */}
         <div className="grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {filteredEvents.map((event) => (
             <EventCard key={event.id} event={event} />
