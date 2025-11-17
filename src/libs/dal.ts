@@ -1,5 +1,4 @@
 import "server-only";
-
 import { cookies } from "next/headers";
 import { decrypt } from "@/libs/session";
 import { cache } from "react";
@@ -16,7 +15,7 @@ export const verifySession = cache(async () => {
   return {
     isAuth: true,
     sessionId: session.id,
-    userId: session.userId,
+    userId: session.userId as string,
     role: session.userRole,
     slug: session.userSlug,
   };
@@ -24,6 +23,7 @@ export const verifySession = cache(async () => {
 
 export const getUser = cache(async () => {
   const session = await verifySession();
+
   if (!session) return null;
 
   try {

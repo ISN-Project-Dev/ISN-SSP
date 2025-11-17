@@ -9,13 +9,15 @@ type UploadFileFormProps = {
   id: string;
   slug: string;
 };
+
 export default function UploadFileForm({ id, slug }: UploadFileFormProps) {
   const [data, action, _isPending] = useActionState(
     submitReportSubmission,
     undefined,
   );
+
   return (
-    <form action={action}>
+    <form action={action} className="space-y-5">
       <div className="file-input-container">
         <input type="hidden" name="reportSubmissionId" value={id} />
         <input type="hidden" name="slug" value={slug} />

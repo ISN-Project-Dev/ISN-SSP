@@ -9,12 +9,10 @@ export default function LoginForm() {
   const [data, action, isPending] = useActionState(login, undefined);
   return (
     <form action={action}>
-      <h2 className="text-center mb-10 text-2xl font-semibold">
+      <h2 className="text-[#192f59] text-center mb-10 text-2xl font-semibold">
         Login Form
       </h2>
-
       <div className="space-y-5">
-        {/* Email Input */}
         <FormField
           label="Email"
           type="email"
@@ -31,7 +29,6 @@ export default function LoginForm() {
           error={data?.passwordError}
           defaultValue={data?.fieldData?.password}
         />
-
         <span style={{ color: "red" }}>{data?.error}</span>
       </div>
       <Button

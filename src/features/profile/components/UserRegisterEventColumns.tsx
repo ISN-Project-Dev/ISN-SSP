@@ -4,13 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuLabel,DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
 type UserRegisterEventData = {
   id: string;
@@ -28,11 +22,15 @@ type UserRegisterEventData = {
     type: string | null;
     creditHour: number;
   };
+  user: {
+    slug: string;
+  };
+  feedback?: {
+    id: string;
+  } | null;
 };
 
 export const UserRegisterEventColumns = (isStudent: boolean): ColumnDef<UserRegisterEventData>[] => [
-  // Row Selection
-  //Data Accessors
   {
     id: "eventTitle",
     accessorFn: (row) => row.event.title, 
@@ -50,6 +48,7 @@ export const UserRegisterEventColumns = (isStudent: boolean): ColumnDef<UserRegi
     },
   },
   {
+        id: "courseLevel",
     accessorKey: "event.courseLevel",
     header: ({ column }) => {
       return (
@@ -65,6 +64,7 @@ export const UserRegisterEventColumns = (isStudent: boolean): ColumnDef<UserRegi
     },
   },
   {
+        id: "eventType",
     accessorKey: "event.type",
     header: ({ column }) => {
       return (
@@ -80,6 +80,7 @@ export const UserRegisterEventColumns = (isStudent: boolean): ColumnDef<UserRegi
     },
   },
   {
+        id: "creditHour",
     accessorKey: "event.creditHour",
     header: ({ column }) => {
       return (
@@ -109,25 +110,25 @@ export const UserRegisterEventColumns = (isStudent: boolean): ColumnDef<UserRegi
   //     );
   //   },
   // },
-  {
-    id: "creditGained",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="hover:bg-transparent hover:text-gray-600"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Credit Gained
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },    accessorFn: (row) => {
-      const baseCredit = row.event.creditHour ?? 0;
-      return isStudent ? baseCredit * 2 : baseCredit;
-    },
-cell: (info) => <span>{info.getValue() as number}</span>,
-  },
+//   {
+//     id: "creditGained",
+//     header: ({ column }) => {
+//       return (
+//         <Button
+//           variant="ghost"
+//           className="hover:bg-transparent hover:text-gray-600"
+//           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+//         >
+//           Credit Gained
+//           <ArrowUpDown className="ml-2 h-4 w-4" />
+//         </Button>
+//       );
+//     },    accessorFn: (row) => {
+//       const baseCredit = row.event.creditHour ?? 0;
+//       return isStudent ? baseCredit * 2 : baseCredit;
+//     },
+// cell: (info) => <span>{info.getValue() as number}</span>,
+//   },
   {
     id: "actions",
     cell: ({ row }) => <UserRegisterEventActionsCell row={row} />,
@@ -153,6 +154,15 @@ function UserRegisterEventActionsCell({ row }: { row: any }) {
         >
           View Event
         </DropdownMenuItem>
+  {!eventRegistered.feedback && (
+    <DropdownMenuItem
+      onClick={() =>
+        router.push(`/profile/${eventRegistered.user.slug}/feedback/${eventRegistered.id}`)
+      }
+    >
+      Submit Feedback
+    </DropdownMenuItem>
+  )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

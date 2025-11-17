@@ -1,23 +1,15 @@
 "use server";
 import prisma from "@/databases/db";
-import { redirect } from "next/navigation";
 
-export const deleteUser = async (
-  _previousState: unknown,
-  formData: FormData,
-) => {
-  const id = formData.get("id") as string;
-
-  console.log("id", id);
+export const deleteUser = async (id: string) => {
   try {
-    await prisma.user.delete({
-      where: { id },
-    });
-    console.log("Done");
+    await prisma.$transaction([
+      prisma.session.deleteMany({ where: { userId: id } }),
+      prisma.user.delete({ where: { id } }),
+    ]);
+    return { success: true };
   } catch (error) {
-    if (error instanceof Error) {
-      console.log("Error: ", error.stack);
-    }
+    console.error("Error deleting user:", error);
+    return { success: false };
   }
-  redirect(`/admin`);
 };

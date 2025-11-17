@@ -75,9 +75,6 @@ const EditEventForm = ({
       </div>
       <div className="event-page mt-16 mb-20 px-10 flex min-h-screen items-center justify-center">
         <div className="event-form w-full max-w-3xl rounded-lg bg-white px-20 py-10 shadow-md">
-          <h2 className="event-form-title mb-10 text-center text-2xl text-[#192f59] font-semibold">
-            {actionType} Event Form
-          </h2>
           <form className="space-y-5" onSubmit={handleSubmit}>
             <input name="eventId" type="hidden" value={initialData?.id ?? ""} />
             <input

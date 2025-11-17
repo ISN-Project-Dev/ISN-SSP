@@ -2,21 +2,11 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  // DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 type AdminUserData = {
   id: string;
   slug: string;
@@ -32,7 +22,6 @@ type AdminUserData = {
 };
 
 export const AdminUserDataColumns: ColumnDef<AdminUserData>[] = [
-  // Row Selection
   {
     id: "select",
     header: ({ table }) => (
@@ -55,15 +44,14 @@ export const AdminUserDataColumns: ColumnDef<AdminUserData>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
-  //Data Accessors
   {
     accessorKey: "name",
-    //Sorting
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
+
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name
@@ -78,6 +66,8 @@ export const AdminUserDataColumns: ColumnDef<AdminUserData>[] = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
+
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Email
@@ -87,10 +77,29 @@ export const AdminUserDataColumns: ColumnDef<AdminUserData>[] = [
     },
   },
   {
+    accessorKey: "role",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="hover:bg-transparent hover:text-gray-600"
+
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Role
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    id: "status",
     accessorKey: "isActive",
     header: ({ column }) => (
       <Button
         variant="ghost"
+        className="hover:bg-transparent hover:text-gray-600"
+
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Status
@@ -103,25 +112,9 @@ export const AdminUserDataColumns: ColumnDef<AdminUserData>[] = [
     },
   },
   {
-    accessorKey: "role",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Career
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-
-  {
     id: "actions",
     cell: ({ row }) => <AdminUserActionsCell row={row} />,
   }
-  
 ];
 
 function AdminUserActionsCell({ row }: { row: any }) {

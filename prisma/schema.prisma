@@ -30,6 +30,7 @@ model User {
     userDetail         UserDetail?         @relation
     RiskEvaluation     RiskEvaluation?
     announcements      Announcement[]
+    feedbacks          Feedback[]
 }
 
 model UserDetail {
@@ -123,6 +124,7 @@ model Event {
     eventCertificate   EventCertificate?   @relation(fields: [eventCertificateId], references: [id])
     eventRegistrations EventRegistration[] // Links to registrations
     announcements       Announcement[]
+    feedbacks          Feedback[]
     createdAt          DateTime            @default(now())
     updatedAt          DateTime            @updatedAt
 }
@@ -157,7 +159,7 @@ model EventRegistration {
     updatedAt         DateTime @updatedAt
     user              User     @relation(fields: [userId], references: [id])
     event             Event    @relation(fields: [eventId], references: [id])
-
+feedback Feedback? @relation("EventRegistrationFeedback")
     @@unique([userId, eventId]) // Ensures a user can register for an event only once
 }
 
@@ -248,4 +250,21 @@ enum Gender {
 enum AnnouncementType {
     general
     event
+}
+
+model Feedback {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  eventId     String   @db.ObjectId
+  rating      Int      // 1-5 stars
+  comment     String
+eventRegistrationId  String             @unique @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id])
+  event       Event    @relation(fields: [eventId], references: [id])
+  eventRegistration    EventRegistration  @relation("EventRegistrationFeedback", fields: [eventRegistrationId], references: [id])
+
+  @@unique([userId, eventId]) // One feedback per user per event
 }

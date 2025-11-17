@@ -46,18 +46,17 @@ const EventForm = ({
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  const form = e.currentTarget;
-  const formData = new FormData(form);
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-  if (imageFile) formData.set("eventImage", imageFile);
-  if (certificateFile) formData.set("certificate", certificateFile);
+    if (imageFile) formData.set("eventImage", imageFile);
+    if (certificateFile) formData.set("certificate", certificateFile);
 
-  // ✅ Wrap in startTransition
-  startTransition(() => {
-    formAction(formData);
-  });
-};
+    startTransition(() => {
+      formAction(formData);
+    });
+  };
 
   return (
     <>
@@ -74,10 +73,6 @@ const EventForm = ({
 
       <div className="event-page mt-16 mb-20 px-10 flex min-h-screen items-center justify-center">
         <div className="event-form w-full max-w-3xl rounded-lg bg-white px-20 py-10 shadow-md">
-          <h2 className="event-form-title text-[#192f59] mb-10 text-center text-2xl font-semibold">
-            {actionType} Event Form
-          </h2>
-
           <form className="space-y-5" onSubmit={handleSubmit}>
             <input name="eventId" type="hidden" value={initialData?.id ?? ""} />
             <input
@@ -90,7 +85,6 @@ const EventForm = ({
               type="hidden"
               value={initialData?.eventCertificate?.id ?? ""}
             />
-
             <FormField
               label="Title"
               name="title"
@@ -100,7 +94,6 @@ const EventForm = ({
               }
               error={state?.titleError}
             />
-
             <TextareaField
               label="Description"
               name="description"
@@ -110,7 +103,6 @@ const EventForm = ({
               }
               error={state?.descriptionError}
             />
-
             <div className="grid grid-cols-3 items-start gap-5">
               <div className="col-span-2">
                 <FormField
@@ -138,7 +130,6 @@ const EventForm = ({
                 />
               </div>
             </div>
-
             <div className="grid grid-cols-2 items-start gap-5">
               <SelectField
                 label="Event Level"
@@ -154,7 +145,6 @@ const EventForm = ({
                 }
                 error={state?.courseLevelError}
               />
-
               <SelectField
                 label="Event Type"
                 name="type"
@@ -168,7 +158,6 @@ const EventForm = ({
                 error={state?.typeError}
               />
             </div>
-
             <div className="grid grid-cols-2 items-start gap-5">
               <FormField
                 label="Credit Hour"
@@ -191,7 +180,6 @@ const EventForm = ({
                 error={state?.numberOfPeopleError}
               />
             </div>
-
             <DragAndDropImage
               label="Cover Photo"
               name="eventImage"
@@ -199,7 +187,6 @@ const EventForm = ({
               file={imageFile}
               setFile={setImageFile}
             />
-
             <UploadFile
               label="Certificate"
               name="certificate"
@@ -209,7 +196,6 @@ const EventForm = ({
               setFile={setCertificateFile}
               error={state?.certificateError}
             />
-
             <Button
               type="submit"
               className="mx-auto block rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1"

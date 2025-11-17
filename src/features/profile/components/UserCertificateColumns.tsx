@@ -2,30 +2,21 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 type UserCertificateData = {
   id: string;
   filename: string;
   contentType: string;
   downloadUrl: string;
+  generatedDate: Date | null;
+  cecEarned: number;
 };
 
 export const UserCertificateColumns: ColumnDef<UserCertificateData>[] = [
-  //Data Accessors
   {
     accessorKey: "filename",
-    //Sorting
     header: ({ column }) => {
       return (
         <Button
@@ -39,8 +30,46 @@ export const UserCertificateColumns: ColumnDef<UserCertificateData>[] = [
       );
     },
   },
-
-  // Data Action
+  {
+    accessorKey: "generatedDate",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="hover:bg-transparent hover:text-gray-600"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Generated Date
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const date = row.original.generatedDate;
+      if (!date) return <span className="text-gray-400 italic">Pending</span>;
+      const formatted = new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+      return <span>{formatted}</span>;
+    },
+  },
+  {
+    accessorKey: "cecEarned",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="hover:bg-transparent hover:text-gray-600"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        CEC Earned
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const cec = row.original.cecEarned ?? 0;
+      return <span className="font-medium text-[#192f59]">{cec}</span>;
+    },
+  },
   {
     id: "actions",
     cell: ({ row }) => {

@@ -5,9 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 
-
 export default async function Home() {
   const eventDataRaw = await prisma.event.findMany({
+    where: {
+      date: {
+        gte: new Date(),
+      },
+    },
     include: {
       eventImage: {
         select: {
@@ -18,7 +22,7 @@ export default async function Home() {
       // eventCertificate: true,
     },
     orderBy: { date: "asc" },
-    take: 6, // adjust as needed
+    take: 6,
   });
 
   const eventData = eventDataRaw.map((event) => ({
@@ -27,7 +31,7 @@ export default async function Home() {
       ? `/api/event-image/${event.eventImage.id}?t=${new Date(event.updatedAt).getTime()}`
       : null,
   }));
-  
+
   const benefits = [
     "Participate in exclusive events",
     "Earn official certificates",
@@ -36,7 +40,7 @@ export default async function Home() {
     "Celebrate your achievements",
     "Be part of a vibrant community",
   ]
-  
+
   return (
     <div className="bg-blue-50">
       {/* Hero Section */}
@@ -142,7 +146,7 @@ export default async function Home() {
                   Ready to join your next event?
                 </h2>
                 <p className="mt-6 text-pretty text-lg/8 text-gray-300">
-                    Don’t miss your chance to take part in exciting events, develop your skills, and earn recognition — all while connecting with a community of passionate students.
+                  Don’t miss your chance to take part in exciting events, develop your skills, and earn recognition — all while connecting with a community of passionate students.
                 </p>
                 <ul role="list" className="mt-10 grid grid-cols-1 gap-x-8 gap-y-3 text-base/7 text-white sm:grid-cols-2">
                   {benefits.map((benefit) => (
@@ -167,29 +171,6 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      {/* <section className="bg-white py-10 px-6">
-        <h2 className="text-center text-2xl font-bold text-[#192f59] mb-8">
-          A Look into Our Journey
-        </h2>
-        <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 max-w-[1440px] mx-auto">
-          {[...Array(10)].map((_, i) => (
-            <div key={i} className="aspect-square bg-gray-200 rounded-lg" />
-          ))}
-        </div>
-      </section>
-      <section className="text-center py-10 bg-[#f2f7ff] px-6">
-        <h2 className="text-2xl font-bold text-[#192f59] mb-2">
-          Ready to join your next event?
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Don’t miss out on your chance to participate and earn certificates!
-        </p>
-        <Link href="/event">
-          <button className="px-6 py-2 rounded-full bg-[#192f59] text-white text-sm hover:bg-[#2f4369]">
-            Browse Events
-          </button>
-        </Link>
-      </section> */}
     </div>
   );
 }

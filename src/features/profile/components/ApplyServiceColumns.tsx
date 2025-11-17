@@ -3,16 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import React, { useActionState } from "react";
-
 import { Button } from "@/components/ui/button";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { updateServiceAction } from "@/features/event/servers/updateServiceAction";
 
 type ApplyServiceData = {
@@ -32,11 +24,9 @@ type ApplyServiceData = {
 };
 
 export const ApplyServiceColumns: ColumnDef<ApplyServiceData>[] = [
-  //Data Accessors
   {
     id: "username",
-    accessorFn: (row) => row.user.name, 
-    //Sorting
+    accessorFn: (row) => row.user.name,
     header: ({ column }) => {
       return (
         <Button
@@ -51,6 +41,7 @@ export const ApplyServiceColumns: ColumnDef<ApplyServiceData>[] = [
     },
   },
   {
+    id: "eventTitle",
     accessorKey: "event.title",
     header: ({ column }) => {
       return (
@@ -79,6 +70,26 @@ export const ApplyServiceColumns: ColumnDef<ApplyServiceData>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const status = row.original.status;
+      const color =
+        status === "approved"
+          ? "text-green-700 bg-green-100"
+          : status === "rejected"
+            ? "text-red-700 bg-red-100"
+            : "text-yellow-700 bg-yellow-100";
+
+      return (
+        <div className="flex items-center w-full">
+
+          <span
+            className={`px-3 py-1 rounded-lg text-xs font-semibold text-center w-20 ${color}`}
+          >
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </span>
+        </div>
+      );
+    },
   },
   {
     id: "actions",
@@ -98,24 +109,27 @@ function ApplyServiceActionsCell({ row }: { row: any }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <form action={action}>
           <input type="hidden" name="id" value={row.original.id} />
           <input type="hidden" name="userId" value={row.original.userId} />
           <input type="hidden" name="eventId" value={row.original.eventId} />
-          <input type="hidden" name="status" value="approve" />
-          <Button variant="ghost" type="submit">
-            Approve
-          </Button>
+          <input type="hidden" name="status" value="approved" />
+          <DropdownMenuItem asChild>
+            <button type="submit" className="w-full text-left cursor-pointer">
+              Approve
+            </button>
+          </DropdownMenuItem>
         </form>
         <form action={action}>
           <input type="hidden" name="id" value={row.original.id} />
           <input type="hidden" name="userId" value={row.original.userId} />
           <input type="hidden" name="eventId" value={row.original.eventId} />
-          <input type="hidden" name="status" value="reject" />
-          <Button variant="ghost" type="submit">
-            Reject
-          </Button>
+          <input type="hidden" name="status" value="rejected" />
+          <DropdownMenuItem asChild>
+            <button type="submit" className="w-full text-left cursor-pointer">
+              Reject
+            </button>
+          </DropdownMenuItem>
         </form>
       </DropdownMenuContent>
     </DropdownMenu>

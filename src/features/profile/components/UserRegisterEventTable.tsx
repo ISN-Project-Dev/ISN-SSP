@@ -19,6 +19,12 @@ type UserRegisterEventData = {
     type: string | null;
     creditHour: number;
   };
+    user: {
+    slug: string;
+  };
+  feedback?: {
+    id: string;
+  } | null;
 };
 
 type Props = {
