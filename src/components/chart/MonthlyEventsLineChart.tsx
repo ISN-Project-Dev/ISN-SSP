@@ -3,10 +3,46 @@
 import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import Image from "next/image";
 
 export const description = "A line chart showing total events held per month"
 
-export function LineChartLabel({ data }: { data: { month: string; count: number }[] }) {
+export function MonthlyEventsLineChart({ data }: { data: { month: string; count: number }[] }) {
+    const hasData =
+        Array.isArray(data) &&
+        data.length > 0 &&
+        data.some((d) => d.count > 0)    
+      // Empty state
+      if (!hasData) {
+                return (
+                    <Card className="flex flex-col">
+                        <CardHeader className="text-lg font-semibold text-[#192f59]">
+                            <CardTitle>
+                                Monthly Events Held
+                            </CardTitle>
+                                      <CardDescription className="pt-2 text-gray-500 font-medium">
+                Showing total events per month
+              </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="flex flex-col items-center justify-center text-gray-500">
+                                <Image
+                                    src="/nodata.png"
+                                    alt="No data available"
+                                    className="h-20 w-20 mb-3 opacity-60"
+                                    draggable="false"
+                                    width={56}
+                                    height={56}
+                                />
+                                <p className="font-medium">No monthly event data available yet</p>
+                                <p className="text-xs text-gray-400 mt-1">
+                                    Once events are created, this chart will appear.
+                                </p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )
+            }
     return (
         <Card>
             <CardHeader className="text-lg font-semibold text-[#192f59]">

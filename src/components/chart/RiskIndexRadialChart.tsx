@@ -9,7 +9,7 @@ interface RiskScoreGaugeProps {
     label?: string;
 }
 
-const RiskScoreGauge: React.FC<RiskScoreGaugeProps> = ({
+const RiskIndexRadialChart: React.FC<RiskScoreGaugeProps> = ({
     value,
     max = 100,
     label = "Health Score",
@@ -100,4 +100,4 @@ const RiskScoreGauge: React.FC<RiskScoreGaugeProps> = ({
     );
 };
 
-export default RiskScoreGauge;
+export default RiskIndexRadialChart;

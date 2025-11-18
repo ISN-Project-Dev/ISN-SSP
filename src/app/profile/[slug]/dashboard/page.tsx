@@ -1,7 +1,7 @@
 import prisma from "@/databases/db";
 import UserDashboardButton from "@/features/profile/components/UserDashboardButton";
-import ScoreGauge from "@/components/chart/ScoreGauge";
-import RiskScoreGauge from "@/components/chart/RiskScoreGauge";
+import HealthScoreRadialChart from "@/components/chart/HealthScoreRadialChart";
+import RiskIndexRadialChart from "@/components/chart/RiskIndexRadialChart";
 import BodyHeatmap from "@/components/chart/BodyHeatmap";
 import RiskInjuryRadarChart from "@/components/chart/RiskInjuryRadarChart";
 
@@ -59,13 +59,13 @@ const UserDashboard = async ({ params }: ParamProps) => {
             <div className="flex flex-col items-center gap-4 lg:w-[55%]">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                 <div className="border-none">
-                  <ScoreGauge
+                  <HealthScoreRadialChart
                     value={riskData.overallScore || 0}
                     label="Overall Score"
                   />
                 </div>
                 <div className="border-none">
-                  <RiskScoreGauge
+                  <RiskIndexRadialChart
                     value={riskData.riskIndex || 0}
                     label="Risk Index"
                   />

@@ -3,9 +3,9 @@ import { DataTable } from "@/components/ui/DataTable";
 import { AdminEventDataColumns } from "@/features/admin/components/AdminEventTableColumns";
 import { AdminUserDataColumns } from "@/features/admin/components/AdminUserTableColumns";
 import { BarChartMixed } from "@/components/chart/BarChartMixed"
-import { PieChartDonut } from "@/components/chart/PieChartDonut"
-import { PieChartLabel } from "@/components/chart/PieChartLabel";
-import { LineChartLabel } from "@/components/chart/LineChartLabel"
+import { MedallionsPieChart } from "@/components/chart/MedallionsPieChart"
+import { EventTypesPieChart } from "@/components/chart/EventTypesPieChart";
+import { MonthlyEventsLineChart } from "@/components/chart/MonthlyEventsLineChart"
 
 export default async function Admin() {
   const activeUsers = await prisma.user.count({
@@ -186,9 +186,9 @@ export default async function Admin() {
       </div>
       <div className="my-6 grid w-full max-w-7xl grid-cols-1 gap-6 md:grid-cols-2">
         {/* CEC Medallions Chart */}
-        <PieChartDonut data={medalData} total={totalMedallions} />
+        <MedallionsPieChart data={medalData} total={totalMedallions} />
         {/* Event Types Chart */}
-        <PieChartLabel
+        <EventTypesPieChart
           data={(
             await prisma.event.groupBy({
               by: ["type"],
@@ -214,7 +214,7 @@ export default async function Admin() {
             .slice(0, 5)}
         />
         {/* Monthly Events Chart */}
-        <LineChartLabel data={monthlyEventData} />
+        <MonthlyEventsLineChart data={monthlyEventData} />
       </div>
       {/* Upcoming Events */}
       <div className="event-data-table-container my-8 w-full max-w-7xl overflow-auto">

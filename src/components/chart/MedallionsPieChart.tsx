@@ -1,25 +1,17 @@
 "use client"
 
-import * as React from "react"
-import { Label, Pie, PieChart, ResponsiveContainer } from "recharts"
+import { Pie, PieChart, ResponsiveContainer, Label } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChartConfig, ChartContainer, ChartTooltip } from "@/components/ui/chart"
+import { ChartContainer, ChartTooltip } from "@/components/ui/chart"
 import Image from "next/image";
 
-export const description = "A donut chart with text (blue theme)"
+const medalColors = {
+    Bronze: "#9fcae6",
+    Silver: "#73a4ca",
+    Gold: "#497aa7",
+}
 
-const chartConfig = {
-    count: {
-        label: "Participants",
-    },
-} satisfies ChartConfig
-
-const genderBluePalette = [
-    "#9fcae6",
-    "#73a4ca",
-]
-
-function GenderTooltip({ active, payload }: any) {
+function MedallionsTooltip({ active, payload }: any) {
     if (active && payload && payload.length) {
         const item = payload[0]
         return (
@@ -38,57 +30,54 @@ function GenderTooltip({ active, payload }: any) {
     return null
 }
 
-export function ChartPieDonutText({
-    data,
-    total,
-}: {
-    data: any[]
-    total: number
-}) {
-    const coloredData = data.map((d, i) => ({
+export function MedallionsPieChart({ data, total }: { data: any[]; total: number }) {
+    const coloredData = data.map((d) => ({
         ...d,
-        fill: genderBluePalette[i % genderBluePalette.length],
+        fill: medalColors[d.label as keyof typeof medalColors],
     }))
 
-    if (!data?.length || total === 0) {
-        return (
-            <Card className="flex flex-col">
-                <CardHeader>
-                    <CardTitle className="text-lg font-semibold text-[#192f59]">
-                        University
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col items-center justify-center text-gray-500">
-                        <Image
-                            src="/nodata.png"
-                            alt="No data available"
-                            className="h-20 w-20 mb-3 opacity-60"
-                            draggable="false"
-                            width={56}
-                            height={56}
-                        />
-                        <p className="font-medium">No gender data available yet</p>
-                        <p className="text-xs text-gray-400 mt-1">
-                            Once participants register, this chart will appear.
-                        </p>
-                    </div>
-                </CardContent>
-            </Card>
-        )
-    }
+        if (!data?.length || total === 0) {
+            return (
+                <Card className="flex flex-col">
+                    <CardHeader className="text-lg font-semibold text-[#192f59]">
+                        <CardTitle>
+                            CEC Medallions
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex flex-col items-center justify-center text-gray-500">
+                            <Image
+                                src="/nodata.png"
+                                alt="No data available"
+                                className="h-20 w-20 mb-3 opacity-60"
+                                draggable="false"
+                                width={56}
+                                height={56}
+                            />
+                            <p className="font-medium">No medallion data available yet</p>
+                            <p className="text-xs text-gray-400 mt-1">
+                                Once participants earn medallions, this chart will appear.
+                            </p>
+                        </div>
+                    </CardContent>
+                </Card>
+            )
+        }
 
     return (
         <Card className="flex flex-col">
             <CardHeader className="text-lg font-semibold text-[#192f59]">
-                <CardTitle>Gender</CardTitle>
+                <CardTitle>CEC Medallions</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-row items-center justify-between pb-4">
                 <div className="flex-[2] flex justify-center">
-                    <ChartContainer config={chartConfig} className="w-[90%] max-w-[320px] h-[250px] aspect-square">
+                    <ChartContainer
+                        config={{ count: { label: "Medallions" } }}
+                        className="w-[90%] max-w-[320px] h-[250px] aspect-square"
+                    >
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
-                                <ChartTooltip content={<GenderTooltip />} />
+                                <ChartTooltip content={<MedallionsTooltip />} />
                                 <Pie
                                     data={coloredData}
                                     dataKey="count"
@@ -113,14 +102,14 @@ export function ChartPieDonutText({
                                                             y={viewBox.cy}
                                                             className="fill-[#192f59] text-3xl font-bold"
                                                         >
-                                                            {total.toLocaleString()}
+                                                            {total}
                                                         </tspan>
                                                         <tspan
                                                             x={viewBox.cx}
                                                             y={(viewBox.cy || 0) + 24}
                                                             className="fill-gray-500 text-sm"
                                                         >
-                                                            Participants
+                                                            Medallions
                                                         </tspan>
                                                     </text>
                                                 )
@@ -132,7 +121,6 @@ export function ChartPieDonutText({
                         </ResponsiveContainer>
                     </ChartContainer>
                 </div>
-
                 <div className="flex-[1] flex flex-col gap-3 text-sm items-start">
                     {coloredData.map((item, idx) => (
                         <div key={idx} className="flex items-center gap-3">

@@ -1,8 +1,8 @@
 "use client"
 
-import { ChartPieLegend } from "@/components/chart/PieChartLegend"
-import { ChartPieDonutText } from "@/components/chart/PieChartDonutWithText"
-import { BarChartHorizontal } from "@/components/chart/BarChartHorizontal"
+import { UniversityPieChart } from "@/components/chart/UniversityPieChart"
+import { GenderPieChart } from "@/components/chart/GenderPieChart"
+import { FeedbackRatingBarChart } from "@/components/chart/FeedbackRatingBarChart"
 import { Button } from "@/components/ui/button"
 
 export default function EventStatistics({ event }: { event: any }) {
@@ -61,10 +61,10 @@ export default function EventStatistics({ event }: { event: any }) {
         </Button>
       </div>
       <div className="grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-2">
-        <ChartPieLegend data={universityData} />
-        <ChartPieDonutText data={genderData} total={totalParticipants} />
+        <UniversityPieChart data={universityData} />
+        <GenderPieChart data={genderData} total={totalParticipants} />
         <div className="md:col-span-2">
-          <BarChartHorizontal
+          <FeedbackRatingBarChart
             data={ratingData}
             averageRating={averageRating}
             totalResponses={totalResponses}

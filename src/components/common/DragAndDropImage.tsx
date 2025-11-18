@@ -75,7 +75,9 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({
           <div className="relative h-full w-full">
             <Image
               src={previewUrl}
-              layout="fill"
+                fill
+  sizes="100%"
+
               alt="Preview"
               className="rounded-lg object-cover"
             />

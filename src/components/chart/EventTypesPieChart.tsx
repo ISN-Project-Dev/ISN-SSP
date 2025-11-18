@@ -3,6 +3,7 @@
 import { Pie, PieChart, ResponsiveContainer } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart"
+import Image from "next/image";
 
 const bluePalette = [
     "#9fcae6",
@@ -32,7 +33,7 @@ function EventTypesTooltip({ active, payload }: any) {
     return null
 }
 
-export function PieChartLabel({ data }: { data: any[] }) {
+export function EventTypesPieChart({ data }: { data: any[] }) {
     const sortedData = [...data].sort((a, b) => b.count - a.count)
 
     const coloredData = sortedData.map((d, i) => ({
@@ -41,6 +42,35 @@ export function PieChartLabel({ data }: { data: any[] }) {
     }))
 
     const total = coloredData.reduce((sum, d) => sum + d.count, 0)
+
+
+    if (!data?.length || total === 0) {
+        return (
+            <Card className="flex flex-col">
+                <CardHeader className="text-lg font-semibold text-[#192f59]">
+                    <CardTitle>
+                        Event Types
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex flex-col items-center justify-center text-gray-500">
+                        <Image
+                            src="/nodata.png"
+                            alt="No data available"
+                            className="h-20 w-20 mb-3 opacity-60"
+                            draggable="false"
+                            width={56}
+                            height={56}
+                        />
+                        <p className="font-medium">No event type data available yet</p>
+                        <p className="text-xs text-gray-400 mt-1">
+                            Once events are created, this chart will appear.
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+        )
+    }
 
     return (
         <Card className="flex flex-col">
