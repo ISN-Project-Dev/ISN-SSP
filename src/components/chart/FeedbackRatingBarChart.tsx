@@ -11,7 +11,7 @@ interface BarChartHorizontalProps {
     feedbacks?: { user?: { name?: string }; comment?: string }[]
 }
 
-export function BarChartHorizontal({
+export function FeedbackRatingBarChart({
     data,
     averageRating = "0.0",
     totalResponses = 0,

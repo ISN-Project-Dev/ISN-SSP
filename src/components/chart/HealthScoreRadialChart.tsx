@@ -8,7 +8,7 @@ interface ScoreGaugeProps {
     label?: string;
 }
 
-const ScoreGauge: React.FC<ScoreGaugeProps> = ({
+const HealthScoreRadialChart: React.FC<ScoreGaugeProps> = ({
     value,
     label = "Overall Score",
 }) => {
@@ -94,4 +94,4 @@ const ScoreGauge: React.FC<ScoreGaugeProps> = ({
     );
 };
 
-export default ScoreGauge;
+export default HealthScoreRadialChart;

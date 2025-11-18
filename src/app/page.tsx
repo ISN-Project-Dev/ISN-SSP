@@ -67,7 +67,8 @@ export default async function Home() {
             src="/isnphoto.jpg"
             alt="Hero"
             width={600}
-            height={300}
+            height={400}
+
             className="rounded-3xl shadow-xl"
           />
         </div>

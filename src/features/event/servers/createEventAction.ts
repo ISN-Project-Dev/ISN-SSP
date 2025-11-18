@@ -3,6 +3,8 @@
 import prisma from "@/databases/db";
 import convertFileToBufferService from "@/features/files/services/convertFileToBufferService";
 import { redirect } from "next/navigation";
+import { readFileSync } from "fs";
+import path from "path";
 
 export const createEvent = async (_previousState: unknown, formData: FormData) => {
   const slug = (formData.get("title") as string)
@@ -59,23 +61,40 @@ export const createEvent = async (_previousState: unknown, formData: FormData) =
     return { ...errors, fieldData };
   }
 
-  if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
-    try {
-      const imageBuffer = await convertFileToBufferService(eventImage);
-      const imageRecord = await prisma.eventImage.create({
-        data: {
-          filename: eventImage.name,
-          contentType: eventImage.type,
-          data: imageBuffer,
-        },
-      });
+if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
+  const imageBuffer = await convertFileToBufferService(eventImage);
 
-      eventImageId = imageRecord.id;
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      throw new Error("Failed to upload image");
-    }
+  const imageRecord = await prisma.eventImage.create({
+    data: {
+      filename: eventImage.name,
+      contentType: eventImage.type,
+      data: imageBuffer,
+    },
+  });
+
+  eventImageId = imageRecord.id;
+}
+
+// CASE 2: No uploaded image → use default isn.png
+else {
+  try {
+    const filePath = path.join(process.cwd(), "public/ISN.png");
+    const defaultImageBuffer = readFileSync(filePath);
+
+    const defaultRecord = await prisma.eventImage.create({
+      data: {
+        filename: "default-isn.png",
+        contentType: "image/png",
+        data: defaultImageBuffer,
+      },
+    });
+
+    eventImageId = defaultRecord.id;
+  } catch (err) {
+    console.error("Error loading default image:", err);
+    throw new Error("Default image could not be set.");
   }
+}
 
   if (!certificate || certificate.size === 0 || certificate.name === "undefined") {
     return {

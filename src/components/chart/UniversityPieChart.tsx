@@ -41,7 +41,7 @@ function UniversityTooltip({ active, payload }: any) {
     return null
 }
 
-export function ChartPieLegend({ data }: { data: any[] }) {
+export function UniversityPieChart({ data }: { data: any[] }) {
     const sortedData = [...data].sort((a, b) => b.count - a.count)
 
     const coloredData = sortedData.map((d, i) => ({
