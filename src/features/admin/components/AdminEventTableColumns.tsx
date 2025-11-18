@@ -5,7 +5,6 @@ import { MoreHorizontal, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export type AdminEventData = {
@@ -139,7 +138,6 @@ export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const router = useRouter();
       const event = row.original;
 
       return (

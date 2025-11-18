@@ -2,13 +2,13 @@ import FeedbackForm from "@/features/profile/components/FeedbackForm";
 import prisma from "@/databases/db";
 
 type ParamProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export default async function FeedbackPage({ params }: ParamProps) {
   // Fetch eventRegistration to get eventId and userId
   const eventRegistration = await prisma.eventRegistration.findUnique({
-    where: { id: params.id },
+    where: { id: (await params).id },
     include: { event: true, user: true },
   });
 

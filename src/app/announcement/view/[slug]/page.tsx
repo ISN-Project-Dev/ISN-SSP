@@ -12,13 +12,15 @@ import {
 import { DeleteAnnouncementButton } from "@/features/announcement/components/DeleteAnnouncementButton";
 import Image from "next/image";
 
-export default async function ViewAnnouncement(props: { params: { slug: string } }) {
-  const { slug } = props.params;
+type ParamProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export default async function ViewAnnouncement({ params }: ParamProps) {
   const currentUser = await verifySession();
 
-
   const announcement = await prisma.announcement.findUnique({
-    where: { slug },
+    where: { slug: (await params).slug },
     include: {
       user: true,
       event: true,
