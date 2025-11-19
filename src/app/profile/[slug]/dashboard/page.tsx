@@ -51,12 +51,12 @@ const UserDashboard = async ({ params }: ParamProps) => {
             Exercise Risk Evaluation Summary
           </h2> */}
           <div className="flex flex-col lg:flex-row justify-center items-start gap-4">
-            <div className="flex flex-col items-center lg:w-[45%]">
+            <div className="flex flex-col items-center w-full lg:w-[45%]">
               <div className="w-full">
                 <BodyHeatmap data={bodyData} />
               </div>
             </div>
-            <div className="flex flex-col items-center gap-4 lg:w-[55%]">
+            <div className="flex flex-col items-center gap-4 w-full lg:w-[55%]">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                 <div className="border-none">
                   <HealthScoreRadialChart

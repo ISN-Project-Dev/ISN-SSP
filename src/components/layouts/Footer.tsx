@@ -14,7 +14,9 @@ export default function Footer() {
             alt="ISN Logo"
             width={100}
             height={100}
-            className="object-contain"
+                  priority
+
+            className="w-24 h-auto object-contain"
           />
           <p className="max-w-sm text-sm leading-relaxed">
             The SKS Student Portal is a dedicated platform established to promote student involvement in sports and co-curricular activities, fostering holistic development through organized events and official recognition.
