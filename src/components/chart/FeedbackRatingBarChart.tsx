@@ -99,7 +99,7 @@ export function FeedbackRatingBarChart({
                     ) : (
                         <div className="flex flex-col items-center justify-center text-center text-gray-500 mt-4">
                             <Image
-                                src="/nodata.png"
+                                src="/noData.png"
                                 alt="No feedback"
                                 className="h-14 w-14 mb-2 opacity-60"
                                 draggable="false"

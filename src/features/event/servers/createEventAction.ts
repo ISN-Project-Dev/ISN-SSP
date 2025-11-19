@@ -78,7 +78,7 @@ if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
 // CASE 2: No uploaded image → use default isn.png
 else {
   try {
-    const filePath = path.join(process.cwd(), "public/ISN.png");
+    const filePath = path.join(process.cwd(), "public/isn.png");
     const defaultImageBuffer = readFileSync(filePath);
 
     const defaultRecord = await prisma.eventImage.create({

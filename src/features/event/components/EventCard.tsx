@@ -51,7 +51,7 @@ export default function EventCard({ event }: EventCardProps) {
               />
             ) : (
               <Image
-                src="/ISN.png"
+                src="/isn.png"
                 width={800}
                 height={200}
                 alt="Picture of the event image"

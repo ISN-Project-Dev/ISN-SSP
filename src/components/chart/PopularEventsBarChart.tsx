@@ -31,7 +31,7 @@ export function PopularEventsBarChart({ data }: { data: any[] }) {
                     <CardContent>
                         <div className="flex flex-col items-center justify-center text-gray-500">
                             <Image
-                                src="/nodata.png"
+                                src="/noData.png"
                                 alt="No data available"
                                 className="h-20 w-20 mb-3 opacity-60"
                                 draggable="false"
