@@ -13,10 +13,10 @@ export default function Loading() {
         </div>
       </div>
 
-      <div className="max-w-7xl w-full mx-auto px-4 py-10 space-y-6">
+      <div className="max-w-7xl w-full mx-auto px-10 py-10 space-y-6">
         {/* Tabs + Button */}
         <div className="flex items-center justify-between">
-          <Skeleton className="h-10 w-64 rounded-md" />
+          <Skeleton className="h-10 w-128 rounded-md" />
         </div>
 
         {/* Section Title */}

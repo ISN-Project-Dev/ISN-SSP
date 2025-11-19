@@ -37,7 +37,7 @@ export default function AnnouncementTabs({ general, event, currentUser }: Props)
         </h2>
       </div>
 
-      <div className="max-w-7xl w-full mx-auto px-4 py-10">
+      <div className="max-w-7xl px-10  w-full mx-auto py-10">
 
 
         {/* Tabs */}

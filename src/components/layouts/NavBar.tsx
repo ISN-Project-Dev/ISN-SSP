@@ -6,10 +6,10 @@ import {
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-    MenubarSeparator,
+  MenubarSeparator,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { ChevronDownIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, ChevronDownIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { LogoutButton } from "@/features/auth/components/LogoutButton";
 
 export default async function NavBar() {
@@ -25,20 +25,23 @@ export default async function NavBar() {
   return (
     <nav className="w-full bg-[#192f59]">
       <div className="flex max-w-[1440px] mx-auto items-center justify-between px-5 py-3 text-white">
+        <div className="flex items-center gap-4">
         {/* Left: Logo & Title */}
-        <div className="flex items-center gap-5">
-          <Image
-            src="/ISN_Primary_Logo.png"
-            alt="Logo"
-            width={40}
-            height={40}
-            className="h-10 w-10 object-contain"
-            priority
-          />
-          <h1 className="text-base font-semibold">SKS Student Portal</h1>
+          <div className="flex items-center gap-5">
+            <Image
+              src="/ISN_Primary_Logo.png"
+              alt="Logo"
+              width={40}
+              height={40}
+              className="h-10 w-10 object-contain"
+            />
+            <h1 className="text-base font-semibold hidden sm:block">
+              SKS Student Portal
+            </h1>
+          </div>
         </div>
         {/* Center: Navigation */}
-        <div className="flex gap-6 text-sm font-semibold">
+        <div className="hidden md:flex gap-6 text-sm font-semibold">
           {navLinks.map(({ title, url }, i) => (
             <Link key={i} href={url} className="px-3 hover:text-gray-300 transition">
               {title}
@@ -59,15 +62,15 @@ export default async function NavBar() {
                     <MenubarItem>Profile</MenubarItem>
                   </Link>
                   <MenubarSeparator />
-                <MenubarItem asChild>
-                  <LogoutButton />
-                </MenubarItem>
+                  <MenubarItem asChild>
+                    <LogoutButton />
+                  </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
             </Menubar>
           ) : (
             <Link href="/auth/login">
-              <button className="items-centerh-10 text-sm px-5 py-2 rounded-lg bg-white text-[#192f59] hover:bg-gray-300 focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1">
+              <button className="items-center text-sm px-5 py-2 rounded-lg bg-white text-[#192f59] hover:bg-gray-300 focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1">
                 Login
               </button>
             </Link>
