@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import React, { useActionState } from "react";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { updateServiceAction } from "@/features/event/servers/updateServiceAction";
 
 type ApplyServiceData = {
@@ -109,6 +109,7 @@ function ApplyServiceActionsCell({ row }: { row: any }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                  <DropdownMenuSeparator />
         <form action={action}>
           <input type="hidden" name="id" value={row.original.id} />
           <input type="hidden" name="userId" value={row.original.userId} />

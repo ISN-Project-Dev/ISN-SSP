@@ -52,7 +52,7 @@ export default function EventStatistics({ event }: { event: any }) {
 
   return (
     <main className="mt-10 flex flex-col items-center px-6 py-8">
-      <div className="mb-8 flex w-full max-w-6xl items-center justify-between">
+      <div className="mb-8 flex w-full px-10 max-w-7xl items-center justify-between">
         <h1 className="text-2xl font-bold text-[#192f59]">
           Statistics for {event.title}
         </h1>
@@ -60,10 +60,11 @@ export default function EventStatistics({ event }: { event: any }) {
           ← Back to Admin
         </Button>
       </div>
-      <div className="grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid w-full px-10 max-w-7xl grid-cols-1 gap-6 lg:grid-cols-2">
         <UniversityPieChart data={universityData} />
         <GenderPieChart data={genderData} total={totalParticipants} />
-        <div className="md:col-span-2">
+        </div>
+        <div className="max-w-7xl px-10 w-full mt-6">
           <FeedbackRatingBarChart
             data={ratingData}
             averageRating={averageRating}
@@ -71,7 +72,6 @@ export default function EventStatistics({ event }: { event: any }) {
             feedbacks={event.feedbacks}
           />
         </div>
-      </div>
     </main>
   )
 }

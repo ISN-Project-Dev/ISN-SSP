@@ -16,34 +16,41 @@ export const deleteEvent = async (eventId: string) => {
   }
 
   try {
-    // Delete report submissions associated with the event
-    await prisma.reportSubmission.deleteMany({
-      where: { eventId },
-    });
+    await prisma.$transaction([
+      // 1. Delete feedbacks (must be first!)
+      prisma.feedback.deleteMany({
+        where: { eventId },
+      }),
 
-    if (event.eventRegistrations.length > 0) {
-      await prisma.eventRegistration.deleteMany({
-        where: { eventId: eventId },
-      });
-    }
+      // 2. Delete report submissions associated with the event
+      prisma.reportSubmission.deleteMany({
+        where: { eventId },
+      }),
 
-    // Delete associated event image
-    if (event.eventImageId) {
-      await prisma.eventImage.delete({
-        where: { id: event.eventImageId },
-      });
-    }
+      // 3. Delete event registrations
+      prisma.eventRegistration.deleteMany({
+        where: { eventId },
+      }),
 
-    // Delete associated event certificate
-    if (event.eventCertificateId) {
-      await prisma.eventCertificate.delete({
-        where: { id: event.eventCertificateId },
-      });
-    }
+      // 4. Delete associated event image
+      ...(event.eventImageId
+        ? [prisma.eventImage.delete({ where: { id: event.eventImageId } })]
+        : []),
 
-    await prisma.event.delete({
-      where: { id: eventId },
-    });
+      // 5. Delete associated event certificate
+      ...(event.eventCertificateId
+        ? [
+            prisma.eventCertificate.delete({
+              where: { id: event.eventCertificateId },
+            }),
+          ]
+        : []),
+
+      // 6. Finally, delete the event itself
+      prisma.event.delete({
+        where: { id: eventId },
+      }),
+    ]);
 
     return { success: true };
   } catch (error) {

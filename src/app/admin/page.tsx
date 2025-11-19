@@ -2,7 +2,7 @@ import prisma from "@/databases/db";
 import { DataTable } from "@/components/ui/DataTable";
 import { AdminEventDataColumns } from "@/features/admin/components/AdminEventTableColumns";
 import { AdminUserDataColumns } from "@/features/admin/components/AdminUserTableColumns";
-import { BarChartMixed } from "@/components/chart/BarChartMixed"
+import { PopularEventsBarChart } from "@/components/chart/PopularEventsBarChart"
 import { MedallionsPieChart } from "@/components/chart/MedallionsPieChart"
 import { EventTypesPieChart } from "@/components/chart/EventTypesPieChart";
 import { MonthlyEventsLineChart } from "@/components/chart/MonthlyEventsLineChart"
@@ -140,7 +140,7 @@ export default async function Admin() {
 
   return (
     <main className="admin-main flex flex-col items-center justify-center px-4 py-6">
-      <div className="mt-10 grid w-full max-w-7xl grid-cols-1 gap-6 sm:grid-cols-4">
+      <div className="mt-10 grid w-full max-w-7xl px-10 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {/* Active Users */}
         <div className="flex flex-col items-center justify-center rounded-2xl bg-white p-6 shadow-md">
           <h3 className="text-lg font-semibold text-[#192f59]">
@@ -184,7 +184,7 @@ export default async function Admin() {
           </p>
         </div>
       </div>
-      <div className="my-6 grid w-full max-w-7xl grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="my-6 grid w-full px-10 max-w-7xl grid-cols-1 gap-6 lg:grid-cols-2">
         {/* CEC Medallions Chart */}
         <MedallionsPieChart data={medalData} total={totalMedallions} />
         {/* Event Types Chart */}
@@ -200,7 +200,7 @@ export default async function Admin() {
           }))}
         />
         {/* Popular Events Chart */}
-        <BarChartMixed
+        <PopularEventsBarChart
           data={(
             await prisma.event.findMany({
               include: { eventRegistrations: true },
@@ -217,7 +217,7 @@ export default async function Admin() {
         <MonthlyEventsLineChart data={monthlyEventData} />
       </div>
       {/* Upcoming Events */}
-      <div className="event-data-table-container my-8 w-full max-w-7xl overflow-auto">
+      <div className="event-data-table-container my-8 w-full max-w-7xl px-10 overflow-auto">
         <h2 className="mb-5 text-xl font-semibold text-[#192f59]">Upcoming Events</h2>
         <p className="text-sm text-gray-500 mb-2">
           Showing {upcomingEvents.length} upcoming events
@@ -232,7 +232,7 @@ export default async function Admin() {
         </div>
       </div>
       {/* Ended Events */}
-      <div className="event-data-table-container my-8 w-full max-w-7xl overflow-auto">
+      <div className="event-data-table-container my-8 w-full max-w-7xl px-10 overflow-auto">
         <h2 className="mb-5 text-xl font-semibold text-[#192f59]">Ended Events</h2>
         <p className="text-sm text-gray-500 mb-2">
           Showing {endedEvents.length} ended events
@@ -246,7 +246,7 @@ export default async function Admin() {
           />
         </div>
       </div>
-      <div className="user-data-table-container my-8 w-full max-w-7xl overflow-auto">
+      <div className="user-data-table-container my-8 w-full max-w-7xl px-10 overflow-auto">
         <h2 className="mb-5 text-xl font-semibold text-[#192f59]">
           User Management
         </h2>

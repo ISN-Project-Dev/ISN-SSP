@@ -31,7 +31,6 @@ export default function RiskInjuryRadarChart({
           config={chartConfig}
           className="h-[250px] w-full"
         >
-          <ResponsiveContainer width="100%" height="100%">
             <RadarChart data={data}>
               <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
               <PolarAngleAxis
@@ -58,7 +57,6 @@ export default function RiskInjuryRadarChart({
                 }}
               />
             </RadarChart>
-          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
     </Card>

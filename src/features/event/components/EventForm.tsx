@@ -106,8 +106,7 @@ const EventForm = ({
               }
               error={state?.descriptionError}
             />
-            <div className="grid grid-cols-3 items-start gap-5">
-              <div className="col-span-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-5">
                 <FormField
                   label="Venue"
                   name="venue"
@@ -117,8 +116,6 @@ const EventForm = ({
                   }
                   error={state?.venueError}
                 />
-              </div>
-              <div className="col-span-1">
                 <FormField
                   label="Date"
                   name="date"
@@ -131,9 +128,8 @@ const EventForm = ({
                   }
                   error={state?.dateError}
                 />
-              </div>
             </div>
-            <div className="grid grid-cols-2 items-start gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-5">
               <SelectField
                 label="Event Level"
                 name="courseLevel"
@@ -161,7 +157,7 @@ const EventForm = ({
                 error={state?.typeError}
               />
             </div>
-            <div className="grid grid-cols-2 items-start gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-5">
               <FormField
                 label="Credit Hour"
                 name="creditHour"

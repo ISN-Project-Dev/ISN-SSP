@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { updateReportAction } from "@/features/profile/servers/updateReportAction";
 
 type AdminReportData = {
@@ -108,6 +108,7 @@ export const AdminReportColumns: ColumnDef<AdminReportData>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                  <DropdownMenuSeparator />
                         <DropdownMenuItem
                             onClick={() => {
                                 if (!row.original.downloadUrl) {

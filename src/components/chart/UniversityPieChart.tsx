@@ -83,10 +83,9 @@ export function UniversityPieChart({ data }: { data: any[] }) {
             <CardHeader className="text-lg font-semibold text-[#192f59]">
                 <CardTitle>University</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-row items-center justify-between pb-4">
+            <CardContent className="flex flex-col sm:flex-row items-center justify-between pb-4">
                 <div className="flex-[2] flex justify-center">
                     <ChartContainer config={chartConfig} className="w-[90%] max-w-[320px] h-[250px] aspect-square">
-                        <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <ChartTooltip content={<UniversityTooltip />} />
                                 <Pie
@@ -102,7 +101,7 @@ export function UniversityPieChart({ data }: { data: any[] }) {
                                         const radius = outerRadius + 20
                                         const x = cx + radius * Math.cos(-midAngle * RADIAN)
                                         const y = cy + radius * Math.sin(-midAngle * RADIAN)
-                                        const percentage = ((value / total) * 100).toFixed(1)
+                                        const percentage = ((value / total) * 100).toFixed(0)
 
                                         return (
                                             <text
@@ -119,7 +118,6 @@ export function UniversityPieChart({ data }: { data: any[] }) {
                                     }}
                                 />
                             </PieChart>
-                        </ResponsiveContainer>
                     </ChartContainer>
                 </div>
                 <div className="flex-[1] flex flex-col gap-3 text-sm items-start">

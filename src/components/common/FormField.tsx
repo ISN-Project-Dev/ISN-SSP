@@ -30,6 +30,8 @@ const FormField = ({
         id={name}
         name={name}
         placeholder={placeholder || label}
+      className={`${type === "date" ? "w-full min-w-0" : ""}`}
+
       />
       {error && <span className="text-sm font-medium text-red-700">{error}</span>}
     </div>

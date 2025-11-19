@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import Image from "next/image";
 
-export function BarChartMixed({ data }: { data: any[] }) {
+export function PopularEventsBarChart({ data }: { data: any[] }) {
     const mainColor = "#497aa7"
 
     const coloredData = data.map((d) => ({
@@ -61,7 +61,6 @@ export function BarChartMixed({ data }: { data: any[] }) {
                     config={{ participants: { label: "Participants" } }}
                     className="w-full h-[250px]"
                 >
-                    <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             data={coloredData}
                             layout="vertical"
@@ -91,7 +90,6 @@ export function BarChartMixed({ data }: { data: any[] }) {
                                 />
                             </Bar>
                         </BarChart>
-                    </ResponsiveContainer>
                 </ChartContainer>
             </CardContent>
         </Card>
