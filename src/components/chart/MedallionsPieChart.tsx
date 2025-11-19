@@ -69,13 +69,12 @@ export function MedallionsPieChart({ data, total }: { data: any[]; total: number
             <CardHeader className="text-lg font-semibold text-[#192f59]">
                 <CardTitle>CEC Medallions</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-row items-center justify-between pb-4">
+            <CardContent className="flex flex-col sm:flex-row items-center justify-between pb-4">
                 <div className="flex-[2] flex justify-center">
                     <ChartContainer
                         config={{ count: { label: "Medallions" } }}
                         className="w-[90%] max-w-[320px] h-[250px] aspect-square"
                     >
-                        <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <ChartTooltip content={<MedallionsTooltip />} />
                                 <Pie
@@ -118,7 +117,6 @@ export function MedallionsPieChart({ data, total }: { data: any[]; total: number
                                     />
                                 </Pie>
                             </PieChart>
-                        </ResponsiveContainer>
                     </ChartContainer>
                 </div>
                 <div className="flex-[1] flex flex-col gap-3 text-sm items-start">

@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 
 type UserReportSubmissionData = {
@@ -97,11 +97,13 @@ export const UserReportSubmissionColumns: ColumnDef<UserReportSubmissionData>[] 
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
+                          <DropdownMenuItem asChild>
               <Link
                 href={`/profile/${row.original.userSlug}/report/${row.original.id}`}
               >
-                <Button variant="ghost">Submit Report</Button>
+                Submit Report
               </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );

@@ -46,7 +46,7 @@ export default function HandleProfileForm({
         />
         <input type="hidden" name="slug" value={userData?.slug || ""} />
         <h2 className="text-xl font-semibold text-gray-700">Basic Information</h2>
-        <div className="grid grid-cols-3 items-start gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-5">
           <FormField
             defaultValue={detail?.age}
             label="Age"
@@ -64,7 +64,7 @@ export default function HandleProfileForm({
               { value: "female", label: "Female" },
             ]}
             error={data?.genderError}
-          />
+          /> 
           <FormField
             label="Date Of Birth"
             type="date"
@@ -256,7 +256,7 @@ export default function HandleProfileForm({
           error={data?.universityError}
         />
         <h2 className="text-xl pt-2 font-semibold text-gray-700">Physical Details</h2>
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           <FormField
             defaultValue={detail?.height}
             label="Height"

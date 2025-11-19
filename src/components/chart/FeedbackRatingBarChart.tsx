@@ -34,9 +34,9 @@ export function FeedbackRatingBarChart({
                     {totalResponses === 1 ? "response" : "responses"}
                 </CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col lg:flex-row justify-between items-start gap-8 h-[250px]">
+            <CardContent className="flex flex-col lg:flex-row justify-between items-start gap-8">
                 <div className="flex-1 w-full flex flex-col justify-center">
-                    <div className="flex flex-col lg:flex-row items-center lg:items-center justify-center gap-6 w-full">
+                    <div className="flex flex-col sm:flex-row items-center lg:items-center justify-center gap-6 w-full">
                         {/* Average Rating */}
                         <div className="flex flex-col items-center text-center lg:text-left">
                             <div className="flex items-center gap-2">
