@@ -11,16 +11,23 @@ type UploadFileFormProps = {
 };
 
 export default function UploadFileForm({ id, slug }: UploadFileFormProps) {
-  const [data, action, _isPending] = useActionState(
-    submitReportSubmission,
-    undefined,
-  );
+  const [data, action, _isPending] = useActionState(submitReportSubmission, undefined);
 
   return (
-    <form action={action} className="space-y-5">
+    <form action={action}
+      className="space-y-5"
+    >
       <div className="file-input-container">
-        <input type="hidden" name="reportSubmissionId" value={id} />
-        <input type="hidden" name="slug" value={slug} />
+        <input
+          type="hidden"
+          name="reportSubmissionId"
+          value={id}
+        />
+        <input
+          type="hidden"
+          name="slug"
+          value={slug}
+        />
         <UploadFile
           label="Report File"
           type="file"
@@ -30,9 +37,7 @@ export default function UploadFileForm({ id, slug }: UploadFileFormProps) {
           helper=" Max 3Mb size"
         />
       </div>
-      <Button className="mx-auto block rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1">
-        Submit
-      </Button>
+      <Button className="mx-auto block rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369] focus:ring-offset-1">Submit</Button>
     </form>
   );
 }

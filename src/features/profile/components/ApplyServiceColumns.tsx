@@ -81,12 +81,7 @@ export const ApplyServiceColumns: ColumnDef<ApplyServiceData>[] = [
 
       return (
         <div className="flex items-center w-full">
-
-          <span
-            className={`px-3 py-1 rounded-lg text-xs font-semibold text-center w-20 ${color}`}
-          >
-            {status.charAt(0).toUpperCase() + status.slice(1)}
-          </span>
+          <span className={`px-3 py-1 rounded-lg text-xs font-semibold text-center w-20 ${color}`}>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
         </div>
       );
     },
@@ -103,31 +98,72 @@ function ApplyServiceActionsCell({ row }: { row: any }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
+        <Button
+          variant="ghost"
+          className="h-8 w-8 p-0"
+        >
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                  <DropdownMenuSeparator />
+        <DropdownMenuSeparator />
         <form action={action}>
-          <input type="hidden" name="id" value={row.original.id} />
-          <input type="hidden" name="userId" value={row.original.userId} />
-          <input type="hidden" name="eventId" value={row.original.eventId} />
-          <input type="hidden" name="status" value="approved" />
+          <input
+            type="hidden"
+            name="id"
+            value={row.original.id}
+          />
+          <input
+            type="hidden"
+            name="userId"
+            value={row.original.userId}
+          />
+          <input
+            type="hidden"
+            name="eventId"
+            value={row.original.eventId}
+          />
+          <input
+            type="hidden"
+            name="status"
+            value="approved"
+          />
           <DropdownMenuItem asChild>
-            <button type="submit" className="w-full text-left cursor-pointer">
+            <button
+              type="submit"
+              className="w-full text-left cursor-pointer"
+            >
               Approve
             </button>
           </DropdownMenuItem>
         </form>
         <form action={action}>
-          <input type="hidden" name="id" value={row.original.id} />
-          <input type="hidden" name="userId" value={row.original.userId} />
-          <input type="hidden" name="eventId" value={row.original.eventId} />
-          <input type="hidden" name="status" value="rejected" />
+          <input
+            type="hidden"
+            name="id"
+            value={row.original.id}
+          />
+          <input
+            type="hidden"
+            name="userId"
+            value={row.original.userId}
+          />
+          <input
+            type="hidden"
+            name="eventId"
+            value={row.original.eventId}
+          />
+          <input
+            type="hidden"
+            name="status"
+            value="rejected"
+          />
           <DropdownMenuItem asChild>
-            <button type="submit" className="w-full text-left cursor-pointer">
+            <button
+              type="submit"
+              className="w-full text-left cursor-pointer"
+            >
               Reject
             </button>
           </DropdownMenuItem>

@@ -1,4 +1,5 @@
 "use server";
+
 import prisma from "@/databases/db";
 import { redirect } from "next/navigation";
 
@@ -10,7 +11,10 @@ enum Role {
   Industry = "industry",
 }
 
-export const editUser = async (_previousState: unknown, formData: FormData) => {
+export const editUser = async (
+  _previousState: unknown,
+  formData: FormData
+) => {
   const name = formData.get("name") as string;
   const slug = name.replace(/\s+/g, "-").toLowerCase();
   const id = formData.get("id") as string;
@@ -27,8 +31,8 @@ export const editUser = async (_previousState: unknown, formData: FormData) => {
   }
 
   const currentUser = await prisma.user.findUnique({
-    where: { 
-      id 
+    where: {
+      id
     },
   });
 
@@ -37,8 +41,8 @@ export const editUser = async (_previousState: unknown, formData: FormData) => {
       where: {
         name: name,
 
-        NOT: { 
-          id 
+        NOT: {
+          id
         },
       },
     });
@@ -63,8 +67,8 @@ export const editUser = async (_previousState: unknown, formData: FormData) => {
 
   try {
     await prisma.user.update({
-      where: { 
-        id 
+      where: {
+        id
       },
 
       data: {

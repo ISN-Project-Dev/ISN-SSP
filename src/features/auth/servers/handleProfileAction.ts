@@ -1,4 +1,5 @@
 "use server";
+
 import prisma from "@/databases/db";
 import { redirect } from "next/navigation";
 
@@ -17,7 +18,6 @@ export const handleProfile = async (
   const height = formData.get("height") as string;
   const weight = formData.get("weight") as string;
   const bloodType = formData.get("bloodType") as string;
-
   const dateOfBirth = dateOfBirthStr ? new Date(dateOfBirthStr) : null;
 
   if (!gender) {
@@ -86,8 +86,8 @@ export const handleProfile = async (
 
   if (userDetailId) {
     await prisma.userDetail.update({
-      where: { 
-        id: userDetailId 
+      where: {
+        id: userDetailId
       },
 
       data: {
@@ -116,5 +116,6 @@ export const handleProfile = async (
       },
     });
   }
+
   redirect(`/profile/${userSlug}`);
 };

@@ -51,7 +51,6 @@ export const AdminUserDataColumns: ColumnDef<AdminUserData>[] = [
         <Button
           variant="ghost"
           className="hover:bg-transparent hover:text-gray-600"
-
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name
@@ -67,7 +66,6 @@ export const AdminUserDataColumns: ColumnDef<AdminUserData>[] = [
         <Button
           variant="ghost"
           className="hover:bg-transparent hover:text-gray-600"
-
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Email
@@ -83,7 +81,6 @@ export const AdminUserDataColumns: ColumnDef<AdminUserData>[] = [
         <Button
           variant="ghost"
           className="hover:bg-transparent hover:text-gray-600"
-
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Role
@@ -99,7 +96,6 @@ export const AdminUserDataColumns: ColumnDef<AdminUserData>[] = [
       <Button
         variant="ghost"
         className="hover:bg-transparent hover:text-gray-600"
-
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Status
@@ -124,25 +120,19 @@ function AdminUserActionsCell({ row }: { row: any }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-4 p-0">
+        <Button
+          variant="ghost"
+          className="h-8 w-4 p-0"
+        >
           <span className="sr-only">Open menu</span>
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem
-          onClick={() => router.push(`/admin/editProfile/${adminUser.id}`)}
-        >
-          Edit
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => router.push(`/profile/${adminUser.slug}`)}
-        >
-          View
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push(`/admin/editProfile/${adminUser.id}`)}>Edit</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push(`/profile/${adminUser.slug}`)}>View</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
-

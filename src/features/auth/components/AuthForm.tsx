@@ -4,6 +4,7 @@ import React, { ReactNode } from "react";
 interface AuthFormProps {
   children: ReactNode;
 }
+
 export default function AuthForm({ children }: AuthFormProps) {
   return (
     <div className="screen-size my-20 flex justify-center">

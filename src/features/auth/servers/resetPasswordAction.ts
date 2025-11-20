@@ -26,8 +26,8 @@ export const resetPassword = async (
     };
 
     const user = await prisma.user.findUnique({
-      where: { 
-        id: decoded.userId 
+      where: {
+        id: decoded.userId
       },
     });
 
@@ -39,29 +39,32 @@ export const resetPassword = async (
 
     // Update the password in the database
     await prisma.user.update({
-      where: { 
-        id: decoded.userId 
+      where: {
+        id: decoded.userId
       },
 
-      data: { 
-        password: hashedPassword 
+      data: {
+        password: hashedPassword
       },
     });
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
       console.error("Token has expired");
+
       return {
         error: `Token has expired, please request again`,
         fieldData: { password, repeatPassword },
       };
     } else if (error instanceof jwt.JsonWebTokenError) {
       console.error("Token is invalid");
+
       return {
         error: `Token is invalid, please request again`,
         fieldData: { password, repeatPassword },
       };
     } else {
       console.error("Token Verification error");
+
       return {
         error: `Token Verification error occur, please request again`,
         fieldData: { password, repeatPassword },

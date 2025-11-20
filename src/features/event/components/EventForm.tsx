@@ -42,8 +42,10 @@ const EventForm = ({
     async (_prev: any, formData: FormData) => {
       return await createEvent(_prev, formData);
     },
+
     undefined
   );
+
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,15 +71,19 @@ const EventForm = ({
           width={1920}
           height={200}
         />
-        <h2 className="absolute inset-0 flex items-center justify-center text-[#192f59] text-3xl font-bold bg-blue-50/30">
-          Create Event
-        </h2>
+        <h2 className="absolute inset-0 flex items-center justify-center text-[#192f59] text-3xl font-bold bg-blue-50/30">Create Event</h2>
       </div>
-
       <div className="event-page mt-16 mb-20 px-10 flex min-h-screen items-center justify-center">
         <div className="event-form w-full max-w-3xl rounded-lg bg-white px-20 py-10 shadow-md">
-          <form className="space-y-5" onSubmit={handleSubmit}>
-            <input name="eventId" type="hidden" value={initialData?.id ?? ""} />
+          <form
+            className="space-y-5"
+            onSubmit={handleSubmit}
+          >
+            <input
+              name="eventId"
+              type="hidden"
+              value={initialData?.id ?? ""}
+            />
             <input
               name="eventImageId"
               type="hidden"
@@ -92,42 +98,36 @@ const EventForm = ({
               label="Title"
               name="title"
               type="text"
-              defaultValue={
-                state?.fieldData?.title ?? initialData?.title ?? ""
-              }
+              defaultValue={state?.fieldData?.title ?? initialData?.title ?? ""}
               error={state?.titleError}
             />
             <TextareaField
               label="Description"
               name="description"
               rows={4}
-              defaultValue={
-                state?.fieldData?.description ?? initialData?.description ?? ""
-              }
+              defaultValue={state?.fieldData?.description ?? initialData?.description ?? ""}
               error={state?.descriptionError}
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-5">
-                <FormField
-                  label="Venue"
-                  name="venue"
-                  type="text"
-                  defaultValue={
-                    state?.fieldData?.venue ?? initialData?.venue ?? ""
-                  }
-                  error={state?.venueError}
-                />
-                <FormField
-                  label="Date"
-                  name="date"
-                  type="date"
-                  defaultValue={
-                    state?.fieldData?.date ??
-                    (initialData?.date
+              <FormField
+                label="Venue"
+                name="venue"
+                type="text"
+                defaultValue={state?.fieldData?.venue ?? initialData?.venue ?? ""}
+                error={state?.venueError}
+              />
+              <FormField
+                label="Date"
+                name="date"
+                type="date"
+                defaultValue={
+                  state?.fieldData?.date ?? (
+                    initialData?.date
                       ? new Date(initialData.date).toISOString().split("T")[0]
                       : "")
-                  }
-                  error={state?.dateError}
-                />
+                }
+                error={state?.dateError}
+              />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-5">
               <SelectField
@@ -139,9 +139,7 @@ const EventForm = ({
                   { value: "professional", label: "Professional" },
                 ]}
                 placeholder="Select a level"
-                defaultValue={
-                  state?.fieldData?.courseLevel ?? initialData?.courseLevel
-                }
+                defaultValue={state?.fieldData?.courseLevel ?? initialData?.courseLevel}
                 error={state?.courseLevelError}
               />
               <SelectField
@@ -162,20 +160,14 @@ const EventForm = ({
                 label="Credit Hour"
                 name="creditHour"
                 type="number"
-                defaultValue={
-                  state?.fieldData?.creditHour ?? initialData?.creditHour ?? ""
-                }
+                defaultValue={state?.fieldData?.creditHour ?? initialData?.creditHour ?? ""}
                 error={state?.creditHourError}
               />
               <FormField
                 label="Number of People (Service)"
                 name="numberOfPeople"
                 type="number"
-                defaultValue={
-                  state?.fieldData?.numberOfPeople ??
-                  initialData?.numberOfPeople ??
-                  ""
-                }
+                defaultValue={state?.fieldData?.numberOfPeople ?? initialData?.numberOfPeople ?? ""}
                 error={state?.numberOfPeopleError}
               />
             </div>

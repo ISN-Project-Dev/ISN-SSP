@@ -54,6 +54,7 @@ const EditEventForm = ({
 
     try {
       const result = await editEvent(undefined, formData);
+
       if (result?.fieldData) {
         setErrors(result);
       }
@@ -72,14 +73,19 @@ const EditEventForm = ({
           width={1920}
           height={200}
         />
-        <h2 className="absolute inset-0 flex items-center justify-center text-[#192f59] text-3xl font-bold bg-blue-50/30">
-          Edit Event
-        </h2>
+        <h2 className="absolute inset-0 flex items-center justify-center text-[#192f59] text-3xl font-bold bg-blue-50/30">Edit Event</h2>
       </div>
       <div className="event-page mt-16 mb-20 px-10 flex min-h-screen items-center justify-center">
         <div className="event-form w-full max-w-3xl rounded-lg bg-white px-20 py-10 shadow-md">
-          <form className="space-y-5" onSubmit={handleSubmit}>
-            <input name="eventId" type="hidden" value={initialData?.id ?? ""} />
+          <form
+            className="space-y-5"
+            onSubmit={handleSubmit}
+          >
+            <input
+              name="eventId"
+              type="hidden"
+              value={initialData?.id ?? ""}
+            />
             <input
               name="eventImageId"
               type="hidden"

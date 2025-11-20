@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 
 export async function updateAnnouncement(_: any, formData: FormData) {
   const session = await verifySession();
+
   if (!session?.userId) throw new Error("Unauthorized");
 
   const title = formData.get("title") as string;
@@ -24,8 +25,8 @@ export async function updateAnnouncement(_: any, formData: FormData) {
   }
 
   const announcement = await prisma.announcement.findUnique({
-    where: { 
-      slug 
+    where: {
+      slug
     }
   });
 
@@ -38,8 +39,8 @@ export async function updateAnnouncement(_: any, formData: FormData) {
   const newSlug = title.toLowerCase().replace(/\s+/g, "-");
 
   await prisma.announcement.update({
-    where: { 
-      slug 
+    where: {
+      slug
     },
 
     data: {

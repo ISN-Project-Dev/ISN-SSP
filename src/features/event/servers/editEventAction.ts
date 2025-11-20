@@ -4,10 +4,13 @@ import prisma from "@/databases/db";
 import convertFileToBufferService from "@/features/files/services/convertFileToBufferService";
 import { redirect } from "next/navigation";
 
-export const editEvent = async (_previousState: unknown, formData: FormData) => {
+export const editEvent = async (
+  _previousState: unknown,
+  formData: FormData
+) => {
   const slug = (formData.get("title") as string)
-  .replace(/\s+/g, "-")
-  .toLowerCase();
+    .replace(/\s+/g, "-")
+    .toLowerCase();
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const venue = formData.get("venue") as string;
@@ -20,67 +23,65 @@ export const editEvent = async (_previousState: unknown, formData: FormData) => 
   const eventImage = formData.get("eventImage") as File;
   const certificate = formData.get("certificate") as File;
   const eventId = formData.get("eventId") as string;
-
   let eventImageId = formData.get("eventImageId") as string;
   const eventCertificateId = formData.get("eventCertificateId") as string;
-
   const errors: any = {};
-const fieldData = {
-  title,
-  description,
-  venue,
-  date: date ? date.toISOString().split("T")[0] : "",
-  courseLevel,
-  type,
-  creditHour,
-  numberOfPeople,
-};
+  const fieldData = {
+    title,
+    description,
+    venue,
+    date: date ? date.toISOString().split("T")[0] : "",
+    courseLevel,
+    type,
+    creditHour,
+    numberOfPeople,
+  };
 
-if (!title) {
-  errors.titleError = "Title is required";
-}
-if (!description) {
-  errors.descriptionError = "Description is required";
-}
-if (!venue) {
-  errors.venueError = "Venue is required";
-}
-if (!date) {
-  errors.dateError = "Date is required";
-}
-if (!courseLevel) {
-  errors.courseLevelError = "Event level is required";
-}
-if (!type) {
-  errors.typeError = "Event type is required";
-}
-if (creditHour < 1) {
-  errors.creditHourError = "Credit hour cannot be lower than 1";
-}
-if (numberOfPeople < 0) {
-  errors.numberOfPeopleError = "Number of people cannot be lower than 0";
-}
-
-// Title uniqueness check (optional: only if title provided)
-if (title) {
-  const matchTitle = await prisma.event.findFirst({
-    where: {
-      title: title,
-      
-      NOT: { 
-        id: eventId 
-      },
-    },
-  });
-
-  if (matchTitle) {
-    errors.titleError = "Title has been used";
+  if (!title) {
+    errors.titleError = "Title is required";
   }
-}
+  if (!description) {
+    errors.descriptionError = "Description is required";
+  }
+  if (!venue) {
+    errors.venueError = "Venue is required";
+  }
+  if (!date) {
+    errors.dateError = "Date is required";
+  }
+  if (!courseLevel) {
+    errors.courseLevelError = "Event level is required";
+  }
+  if (!type) {
+    errors.typeError = "Event type is required";
+  }
+  if (creditHour < 1) {
+    errors.creditHourError = "Credit hour cannot be lower than 1";
+  }
+  if (numberOfPeople < 0) {
+    errors.numberOfPeopleError = "Number of people cannot be lower than 0";
+  }
 
-if (Object.keys(errors).length > 0) {
-  return { ...errors, fieldData };
-}
+  // Title uniqueness check (optional: only if title provided)
+  if (title) {
+    const matchTitle = await prisma.event.findFirst({
+      where: {
+        title: title,
+
+        NOT: {
+          id: eventId
+        },
+      },
+    });
+
+    if (matchTitle) {
+      errors.titleError = "Title has been used";
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { ...errors, fieldData };
+  }
 
   if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
     // const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10 MB
@@ -107,6 +108,7 @@ if (Object.keys(errors).length > 0) {
       if (!imageBuffer) {
         throw new Error("imageBuffer are missing.");
       }
+
       if (eventImageId) {
         const imageRecord = await prisma.eventImage.update({
           where: {
@@ -119,6 +121,7 @@ if (Object.keys(errors).length > 0) {
             data: imageBuffer,
           },
         });
+
         eventImageId = imageRecord.id;
       } else {
         const imageRecord = await prisma.eventImage.create({
@@ -128,6 +131,7 @@ if (Object.keys(errors).length > 0) {
             data: imageBuffer,
           },
         });
+
         eventImageId = imageRecord.id;
       }
     } catch (error) {
@@ -145,8 +149,8 @@ if (Object.keys(errors).length > 0) {
       }
 
       await prisma.eventCertificate.update({
-        where: { 
-          id: eventCertificateId 
+        where: {
+          id: eventCertificateId
         },
 
         data: {
@@ -179,8 +183,8 @@ if (Object.keys(errors).length > 0) {
 
   try {
     await prisma.event.update({
-      where: { 
-        id: eventId 
+      where: {
+        id: eventId
       },
 
       data: {

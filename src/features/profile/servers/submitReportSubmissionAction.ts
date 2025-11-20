@@ -2,7 +2,6 @@
 
 import prisma from "@/databases/db";
 import { redirect } from "next/navigation";
-
 import convertFileToBufferService from "@/features/files/services/convertFileToBufferService";
 
 export const submitReportSubmission = async (
@@ -21,6 +20,7 @@ export const submitReportSubmission = async (
 
   try {
     const reportFileBuffer = await convertFileToBufferService(reportFile);
+
     await prisma.reportFile.create({
       data: {
         filename: reportFile.name,
@@ -39,7 +39,7 @@ export const submitReportSubmission = async (
       where: {
         id: reportSubmissionId,
       },
-      
+
       data: {
         submittedAt: new Date(),
         status: "Submitted",
@@ -48,5 +48,6 @@ export const submitReportSubmission = async (
   } catch (error) {
     console.error(error);
   }
+
   return redirect(`/profile/${slug}/report`);
 };

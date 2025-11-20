@@ -6,16 +6,15 @@ import { redirect } from "next/navigation";
 
 export async function createAnnouncement(_: any, formData: FormData) {
   const session = await verifySession();
+
   if (!session?.userId) throw new Error("Unauthorized");
 
   const currentUserId = session.userId as string;
   const role = session.role;
-
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const eventId = formData.get("eventId") as string | null;
   const slug = title.toLowerCase().replace(/\s+/g, "-");
-
   let type = formData.get("type") as "general" | "event" | null;
 
   // Fallback for admins (checkbox)

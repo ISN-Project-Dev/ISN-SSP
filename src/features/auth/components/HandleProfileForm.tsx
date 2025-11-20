@@ -7,7 +7,6 @@ import FormField from "@/components/common/FormField";
 import { SelectField } from "@/components/common/SelectField";
 
 type Gender = "male" | "female" | null;
-
 type userDetailDataType = {
   id: string;
   slug: string;
@@ -34,17 +33,23 @@ export default function HandleProfileForm({
 
   return (
     <div className="w-full bg-white mb-4 px-10">
-      <h2 className="text-[#192f59] mb-10 text-center text-2xl font-semibold">
-        Edit Profile
-      </h2>
+      <h2 className="text-[#192f59] mb-10 text-center text-2xl font-semibold">Edit Profile</h2>
       <form className="space-y-5" action={action}>
-        <input type="hidden" name="userId" value={userData?.id || ""} />
+        <input
+          type="hidden"
+          name="userId"
+          value={userData?.id || ""}
+        />
         <input
           type="hidden"
           name="userDetailId"
           value={userData?.userDetail?.id || ""}
         />
-        <input type="hidden" name="slug" value={userData?.slug || ""} />
+        <input
+          type="hidden"
+          name="slug"
+          value={userData?.slug || ""}
+        />
         <h2 className="text-xl font-semibold text-gray-700">Basic Information</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-5">
           <FormField
@@ -64,7 +69,7 @@ export default function HandleProfileForm({
               { value: "female", label: "Female" },
             ]}
             error={data?.genderError}
-          /> 
+          />
           <FormField
             label="Date Of Birth"
             type="date"
@@ -89,12 +94,18 @@ export default function HandleProfileForm({
           label="University"
           name="university"
           options={[
-            { value: "Other University", label: "Other University" },
+            {
+              value: "Other University",
+              label: "Other University"
+            },
             {
               value: "Al-Madinah International University",
               label: "Al-Madinah International University",
             },
-            { value: "Asia e University", label: "Asia e University" },
+            {
+              value: "Asia e University",
+              label: "Asia e University"
+            },
             {
               value: "Binary University of Management and Entrepreneurship",
               label: "Binary University of Management and Entrepreneurship",
@@ -107,7 +118,10 @@ export default function HandleProfileForm({
               value: "DRB-HICOM University of Automotive Malaysia",
               label: "DRB-HICOM University of Automotive Malaysia",
             },
-            { value: "HELP University", label: "HELP University" },
+            {
+              value: "HELP University",
+              label: "HELP University"
+            },
             {
               value: "INTI International University",
               label: "INTI International University",
@@ -124,20 +138,38 @@ export default function HandleProfileForm({
               value: "Manipal International University",
               label: "Manipal International University",
             },
-            { value: "Multimedia University", label: "Multimedia University" },
-            { value: "Perdana University", label: "Perdana University" },
+            {
+              value: "Multimedia University",
+              label: "Multimedia University"
+            },
+            {
+              value: "Perdana University",
+              label: "Perdana University"
+            },
             {
               value: "Quest International University",
               label: "Quest International University",
             },
-            { value: "Sunway University", label: "Sunway University" },
-            { value: "Taylor's University", label: "Taylor's University" },
-            { value: "UCSI University", label: "UCSI University" },
+            {
+              value: "Sunway University",
+              label: "Sunway University"
+            },
+            {
+              value: "Taylor's University",
+              label: "Taylor's University"
+            },
+            {
+              value: "UCSI University",
+              label: "UCSI University"
+            },
             {
               value: "UNITAR International University",
               label: "UNITAR International University",
             },
-            { value: "Universiti AIMST", label: "Universiti AIMST" },
+            {
+              value: "Universiti AIMST",
+              label: "Universiti AIMST"
+            },
             {
               value: "Universiti Antarabangsa AlBukhary",
               label: "Universiti Antarabangsa AlBukhary",
@@ -154,7 +186,10 @@ export default function HandleProfileForm({
               value: "Universiti Kuala Lumpur",
               label: "Universiti Kuala Lumpur",
             },
-            { value: "Universiti Malaya", label: "Universiti Malaya" },
+            {
+              value: "Universiti Malaya",
+              label: "Universiti Malaya"
+            },
             {
               value: "Universiti Malaya-Wales",
               label: "Universiti Malaya-Wales",
@@ -207,7 +242,10 @@ export default function HandleProfileForm({
               value: "Universiti Sains Malaysia",
               label: "Universiti Sains Malaysia",
             },
-            { value: "Universiti Selangor", label: "Universiti Selangor" },
+            {
+              value: "Universiti Selangor",
+              label: "Universiti Selangor"
+            },
             {
               value: "Universiti Sultan Zainal Abidin",
               label: "Universiti Sultan Zainal Abidin",
