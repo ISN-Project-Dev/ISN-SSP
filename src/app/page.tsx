@@ -53,7 +53,7 @@ export default async function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-10">
           <div className="flex justify-center">
             <Image
-              src="/isnPhoto.jpg"
+              src="/isnBuilding.jpg"
               alt="Hero"
               width={600}
               height={400}
@@ -90,7 +90,7 @@ export default async function Home() {
             </div>
             <div className="flex justify-center">
               <Image
-                src="/eventPhoto.jpg"
+                src="/homepageEvent.jpg"
                 alt="Event Highlight"
                 width={740}
                 height={530}
@@ -105,7 +105,7 @@ export default async function Home() {
           <div className="mx-auto max-w-7xl px-10">
             <div className="bg-[#192f59] flex flex-col lg:flex-row items-center gap-16 px-6 py-16 rounded-3xl lg:py-20 xl:gap-x-20 xl:px-20 w-full shadow-xl">
               <Image
-                src="/eventPhoto2.jpg"
+                src="/homepageEvent2.jpg"
                 alt=""
                 width={600}
                 height={600}

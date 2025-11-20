@@ -28,7 +28,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/Table";
+} from "@/components/ui/TableName";
 import { DataTablePagination } from "./DataTablePagination";
 import { ChevronDown } from "lucide-react";
 

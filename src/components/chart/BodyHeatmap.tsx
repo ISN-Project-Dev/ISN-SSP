@@ -46,7 +46,7 @@ export default function BodyHeatmap({ data }: BodyHeatmapProps) {
         <div className="w-full max-w-[480px] mx-auto bg-white rounded-lg border border-blue p-3">
             <div className="relative w-full mt-5 h-[330px] flex justify-center">
                 <Image
-                    src="/bodyMap.png"
+                    src="/humanBodyMap.png"
                     alt="Body Map"
                     fill
                     className="object-contain opacity-90"

@@ -49,7 +49,7 @@ const EventId = async ({ params }: ParamProps) => {
               />
             ) : (
               <Image
-                src="/isn.png"
+                src="/isnEventImage.png"
                 alt="Event Default Image"
                 fill
                 className="object-cover"

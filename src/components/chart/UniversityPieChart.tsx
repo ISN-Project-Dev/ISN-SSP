@@ -57,7 +57,7 @@ export function UniversityPieChart({ data }: { data: any[] }) {
                 <CardContent>
                     <div className="flex flex-col items-center justify-center text-gray-500">
                         <Image
-                            src="/noData.png"
+                            src="/dataNotAvailable.png"
                             alt="No data available"
                             className="h-20 w-20 mb-3 opacity-60"
                             draggable="false"
