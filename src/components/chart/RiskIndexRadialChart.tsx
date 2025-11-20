@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { ResponsiveContainer, RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,7 +13,7 @@ interface RiskScoreGaugeProps {
 const RiskIndexRadialChart: React.FC<RiskScoreGaugeProps> = ({
     value,
     max = 100,
-    label = "Health Score",
+    label = "Risk Index",
 }) => {
     const [animatedValue, setAnimatedValue] = useState(0);
 
@@ -24,21 +25,23 @@ const RiskIndexRadialChart: React.FC<RiskScoreGaugeProps> = ({
         const increment = value / total;
         const timer = setInterval(() => {
             start += increment;
+
             if (start >= value) {
                 start = value;
                 clearInterval(timer);
             }
+
             setAnimatedValue(start);
         }, step);
+
         return () => clearInterval(timer);
     }, [value]);
 
     const getStatus = (v: number) => {
         const percent = (v / max) * 100;
-        if (percent < 15)
-            return { text: "LOW RISK", color: "#4caf50", light: "#c8e6c9" };
-        if (percent < 20)
-            return { text: "MODERATE RISK", color: "#2e7d32", light: "#a5d6a7" };
+
+        if (percent < 15) return { text: "LOW RISK", color: "#4caf50", light: "#c8e6c9" };
+        if (percent < 20) return { text: "MODERATE RISK", color: "#2e7d32", light: "#a5d6a7" };
         return { text: "HIGH RISK", color: "#f44336", light: "#ef9a9a" };
     };
 
@@ -49,16 +52,14 @@ const RiskIndexRadialChart: React.FC<RiskScoreGaugeProps> = ({
     return (
         <Card className="bg-white shadow-none border border-blue">
             <CardHeader className="text-lg text-center font-semibold text-[#192f59]">
-                <CardTitle>
-                    {label}
-                </CardTitle>
+                <CardTitle>{label}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center">
-
-                {/* Gauge */}
-
                 <div className="relative w-full h-[180px]">
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ResponsiveContainer
+                        width="100%"
+                        height="100%"
+                    >
                         <RadialBarChart
                             cx="50%"
                             cy="50%"
@@ -69,9 +70,21 @@ const RiskIndexRadialChart: React.FC<RiskScoreGaugeProps> = ({
                             data={data}
                         >
                             <defs>
-                                <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor={light} />
-                                    <stop offset="100%" stopColor={color} />
+                                <linearGradient
+                                    id="gaugeGradient"
+                                    x1="0%"
+                                    y1="0%"
+                                    x2="100%"
+                                    y2="0%"
+                                >
+                                    <stop
+                                        offset="0%"
+                                        stopColor={light}
+                                    />
+                                    <stop
+                                        offset="100%"
+                                        stopColor={color}
+                                    />
                                 </linearGradient>
                             </defs>
                             <RadialBar
@@ -80,13 +93,15 @@ const RiskIndexRadialChart: React.FC<RiskScoreGaugeProps> = ({
                                 background={{ fill: "#e6e6e6" }}
                                 fill="url(#gaugeGradient)"
                             />
-                            <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
+                            <PolarAngleAxis
+                                type="number"
+                                domain={[0, 100]}
+                                tick={false}
+                            />
                         </RadialBarChart>
                     </ResponsiveContainer>
                     <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                        <p className="text-3xl font-semibold text-gray-500">
-                            {animatedValue.toFixed(0)}
-                        </p>
+                        <p className="text-3xl font-semibold text-gray-500">{animatedValue.toFixed(0)}</p>
                     </div>
                 </div>
                 <div

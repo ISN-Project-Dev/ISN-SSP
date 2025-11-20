@@ -22,13 +22,14 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     initialImage || null
   );
+
   const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     if (file) {
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
-      setIsDeleted(false); // reset deletion state if a new file is selected
+      setIsDeleted(false);
       return () => URL.revokeObjectURL(url);
     }
 
@@ -44,6 +45,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files[0];
+
     if (droppedFile && droppedFile.type.startsWith("image/")) {
       setFile(droppedFile);
     }
@@ -51,6 +53,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
+
     if (selectedFile && selectedFile.type.startsWith("image/")) {
       setFile(selectedFile);
     }
@@ -63,7 +66,10 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({
 
   return (
     <div className="grid w-full items-center gap-1.5">
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+      <label
+        htmlFor={name}
+        className="block text-sm font-medium text-gray-700"
+      >
         {label}
       </label>
       <div
@@ -75,9 +81,8 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({
           <div className="relative h-full w-full">
             <Image
               src={previewUrl}
-                fill
-  sizes="100%"
-
+              fill
+              sizes="100%"
               alt="Preview"
               className="rounded-lg object-cover"
             />

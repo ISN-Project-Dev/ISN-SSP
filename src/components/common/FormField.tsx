@@ -21,17 +21,14 @@ const FormField = ({
 }: FormType) => {
   return (
     <div className="grid w-full items-center gap-1.5">
-      <Label htmlFor={name}>
-        {label}
-      </Label>
+      <Label htmlFor={name}>{label}</Label>
       <Input
         defaultValue={defaultValue}
         type={type}
         id={name}
         name={name}
         placeholder={placeholder || label}
-      className={`${type === "date" ? "w-full min-w-0" : ""}`}
-
+        className={`${type === "date" ? "w-full min-w-0" : ""}`}
       />
       {error && <span className="text-sm font-medium text-red-700">{error}</span>}
     </div>

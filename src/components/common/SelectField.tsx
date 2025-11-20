@@ -1,14 +1,6 @@
 import * as React from "react";
 import { Label } from "../ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type Option = {
   value: string;
@@ -34,17 +26,21 @@ export function SelectField({
 }: FormType) {
   return (
     <div className="grid w-full items-center gap-1.5">
-      <Label htmlFor={name}>
-        {label}
-      </Label>
-      <Select name={name} defaultValue={defaultValue}>
+      <Label htmlFor={name}>{label}</Label>
+      <Select
+        name={name}
+        defaultValue={defaultValue}
+      >
         <SelectTrigger className="w-full">
           <SelectValue placeholder={placeholder || label} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             {options.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
+              <SelectItem
+                key={option.value}
+                value={option.value}
+              >
                 {option.label}
               </SelectItem>
             ))}

@@ -6,7 +6,7 @@ import FormField from "@/components/common/FormField";
 import TextareaField from "@/components/common/TextareaField";
 import { SelectField } from "@/components/common/SelectField";
 import DragAndDropImage from "@/components/common/DragAndDropImage";
-import UploadFile from "@/components/common/UploadFile";
+import UploadField from "@/components/common/UploadField";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
@@ -176,7 +176,7 @@ const EditEventForm = ({
               file={imageFile}
               setFile={setImageFile}
             />
-            <UploadFile
+            <UploadField
               label="Certificate"
               name="certificate"
               initialFileName={initialCertificateName}

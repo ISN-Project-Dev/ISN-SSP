@@ -1,11 +1,10 @@
 "use client"
 
 import * as React from "react"
-import { Label, Pie, PieChart, ResponsiveContainer } from "recharts"
+import { Label, Pie, PieChart } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartConfig, ChartContainer, ChartTooltip } from "@/components/ui/chart"
 import Image from "next/image";
-
 
 const chartConfig = {
     count: {
@@ -21,6 +20,7 @@ const genderBluePalette = [
 function GenderTooltip({ active, payload }: any) {
     if (active && payload && payload.length) {
         const item = payload[0]
+
         return (
             <div className="rounded-md bg-white p-2 shadow-md border text-xs">
                 <div className="flex items-center gap-2">
@@ -34,6 +34,7 @@ function GenderTooltip({ active, payload }: any) {
             </div>
         )
     }
+
     return null
 }
 
@@ -53,9 +54,7 @@ export function GenderPieChart({
         return (
             <Card className="flex flex-col">
                 <CardHeader className="text-lg font-semibold text-[#192f59]">
-                    <CardTitle>
-                        Gender
-                    </CardTitle>
+                    <CardTitle>Gender</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col items-center justify-center text-gray-500">
@@ -68,9 +67,7 @@ export function GenderPieChart({
                             height={56}
                         />
                         <p className="font-medium">No gender data available yet</p>
-                        <p className="text-xs text-gray-400 mt-1">
-                            Once participants register, this chart will appear.
-                        </p>
+                        <p className="text-xs text-gray-400 mt-1">Once participants register, this chart will appear.</p>
                     </div>
                 </CardContent>
             </Card>
@@ -84,63 +81,67 @@ export function GenderPieChart({
             </CardHeader>
             <CardContent className="flex flex-col sm:flex-row items-center justify-between pb-4">
                 <div className="flex-[2] flex justify-center">
-                    <ChartContainer config={chartConfig} className="w-[90%] max-w-[320px] h-[250px] aspect-square">
-                            <PieChart>
-                                <ChartTooltip content={<GenderTooltip />} />
-                                <Pie
-                                    data={coloredData}
-                                    dataKey="count"
-                                    nameKey="label"
-                                    innerRadius={60}
-                                    outerRadius={95}
-                                    stroke="#fff"
-                                    strokeWidth={2}
-                                >
-                                    <Label
-                                        content={({ viewBox }) => {
-                                            if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                                                return (
-                                                    <text
+                    <ChartContainer
+                        config={chartConfig}
+                        className="w-[90%] max-w-[320px] h-[250px] aspect-square"
+                    >
+                        <PieChart>
+                            <ChartTooltip content={<GenderTooltip />} />
+                            <Pie
+                                data={coloredData}
+                                dataKey="count"
+                                nameKey="label"
+                                innerRadius={60}
+                                outerRadius={95}
+                                stroke="#fff"
+                                strokeWidth={2}
+                            >
+                                <Label
+                                    content={({ viewBox }) => {
+                                        if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                                            return (
+                                                <text
+                                                    x={viewBox.cx}
+                                                    y={viewBox.cy}
+                                                    textAnchor="middle"
+                                                    dominantBaseline="middle"
+                                                >
+                                                    <tspan
                                                         x={viewBox.cx}
                                                         y={viewBox.cy}
-                                                        textAnchor="middle"
-                                                        dominantBaseline="middle"
+                                                        className="fill-[#192f59] text-3xl font-bold"
                                                     >
-                                                        <tspan
-                                                            x={viewBox.cx}
-                                                            y={viewBox.cy}
-                                                            className="fill-[#192f59] text-3xl font-bold"
-                                                        >
-                                                            {total.toLocaleString()}
-                                                        </tspan>
-                                                        <tspan
-                                                            x={viewBox.cx}
-                                                            y={(viewBox.cy || 0) + 24}
-                                                            className="fill-gray-500 text-sm"
-                                                        >
-                                                            Participants
-                                                        </tspan>
-                                                    </text>
-                                                )
-                                            }
-                                        }}
-                                    />
-                                </Pie>
-                            </PieChart>
+                                                        {total.toLocaleString()}
+                                                    </tspan>
+                                                    <tspan
+                                                        x={viewBox.cx}
+                                                        y={(viewBox.cy || 0) + 24}
+                                                        className="fill-gray-500 text-sm"
+                                                    >
+                                                        Participants
+                                                    </tspan>
+                                                </text>
+                                            )
+                                        }
+                                    }}
+                                />
+                            </Pie>
+                        </PieChart>
                     </ChartContainer>
                 </div>
 
                 <div className="flex-[1] flex flex-col gap-3 text-sm items-start">
                     {coloredData.map((item, idx) => (
-                        <div key={idx} className="flex items-center gap-3">
+                        <div
+                            key={idx}
+                            className="flex items-center gap-3"
+                        >
                             <div
                                 className="w-3 h-3 rounded-sm"
                                 style={{ backgroundColor: item.fill }}
                             />
                             <span className="text-[#192f59] font-medium w-16">{item.label}</span>
-                            <span className="text-gray-500 w-10">
-                                {((item.count / total) * 100).toFixed(1)}%
-                            </span>
+                            <span className="text-gray-500 w-10">{((item.count / total) * 100).toFixed(1)}%</span>
                         </div>
                     ))}
                 </div>
