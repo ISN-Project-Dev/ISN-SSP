@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import { ResponsiveContainer, RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface ScoreGaugeProps {
+interface HealthScoreRadialChartProps {
     value: number;
     label?: string;
 }
 
-const HealthScoreRadialChart: React.FC<ScoreGaugeProps> = ({
+const HealthScoreRadialChart: React.FC<HealthScoreRadialChartProps> = ({
     value,
     label = "Overall Score",
 }) => {

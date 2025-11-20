@@ -1,13 +1,18 @@
 import prisma from "@/databases/db";
 import { verifySession } from "@/libs/dal";
-import AnnouncementTabs from "@/features/announcement/components/AnnouncementTabs"; // Direct import
+import AnnouncementTabs from "@/features/announcement/components/AnnouncementTabs";
 
 export default async function AnnouncementListPage() {
   const currentUser = await verifySession();
 
   const announcements = await prisma.announcement.findMany({
-    include: { event: true },
-    orderBy: { createdAt: "desc" },
+    include: {
+      event: true
+    },
+
+    orderBy: {
+      createdAt: "desc"
+    },
   });
 
   const mapped = announcements.map((a) => ({

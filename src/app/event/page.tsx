@@ -13,9 +13,13 @@ const Event = async () => {
           contentType: true,
         },
       },
+
       // eventCertificate: true,
     },
-    orderBy: { createdAt: "desc" },
+
+    orderBy: {
+      createdAt: "desc"
+    },
   });
 
   const eventData = eventDataRaw.map((event) => ({
@@ -28,11 +32,7 @@ const Event = async () => {
   return (
     <EventList
       eventData={eventData}
-      isAdmin={
-        currentUser?.role === "admin" ||
-        currentUser?.role === "industry" ||
-        currentUser?.role === "university"
-      }
+      isAdmin={currentUser?.role === "admin" || currentUser?.role === "industry" || currentUser?.role === "university"}
     />
   );
 };

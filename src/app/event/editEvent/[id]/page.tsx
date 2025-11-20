@@ -10,6 +10,7 @@ const EditEvent = async ({ params }: ParamProps) => {
     where: {
       id: (await params).id,
     },
+
     include: {
       eventCertificate: {
         select: {
@@ -17,6 +18,7 @@ const EditEvent = async ({ params }: ParamProps) => {
           filename: true,
         },
       },
+      
       eventImage: {
         select: {
           id: true,

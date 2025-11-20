@@ -20,6 +20,7 @@ const UserCertificate = async ({ params }: ParamProps) => {
     where: {
       userId: userData?.id as string,
     },
+
     include: {
       event: {
         include: {
@@ -46,14 +47,16 @@ const UserCertificate = async ({ params }: ParamProps) => {
       const credit = reg.event?.creditHour ?? 0;
       return sum + credit;
     }
+
     return sum;
   }, 0);
 
-  // Progress & Level Detection
+  // Progress & level detection
   const goal = 1000;
   const percentComplete = Math.min((totalCredits / goal) * 100, 100);
 
   let level = "None";
+
   if (totalCredits >= 1000) level = "Gold";
   else if (totalCredits >= 500) level = "Silver";
   else if (totalCredits >= 100) level = "Bronze";
@@ -81,21 +84,22 @@ const UserCertificate = async ({ params }: ParamProps) => {
           filename: eventCertificate.filename,
           contentType: eventCertificate.contentType,
           downloadUrl,
-          generatedDate:
-            approvedReport?.updatedAt || approvedReport?.submittedAt || null,
+          generatedDate: approvedReport?.updatedAt || approvedReport?.submittedAt || null,
           cecEarned: event.creditHour ?? 0,
         };
       }
+
       return null;
     })
     .filter((certificate) => certificate !== null);
 
-  // Add Level Certificate (Bronze / Silver / Gold)
+  // Add level certificate (bronze / silver / gold)
   const levelCertificates: any[] = [];
 
-  // Helper: find the first time user reached a level threshold
+  // Find the first time user reached a level threshold
   const findLevelAchievedDate = (threshold: number) => {
     let cumulativeCredits = 0;
+
     const reportsSorted = reportSubmissionData
       .map((r) => ({
         ...r,
@@ -107,14 +111,16 @@ const UserCertificate = async ({ params }: ParamProps) => {
 
     for (const report of reportsSorted) {
       cumulativeCredits += report.creditHour;
+
       if (cumulativeCredits >= threshold) {
         return report.updatedAt || report.submittedAt;
       }
     }
+
     return null;
   };
 
-  // Add Level Certificates
+  // Add level certificates
   const addLevelCertificate = (level: string, fileName: string, achievedDate: Date | null) => {
     const filePath = path.join(process.cwd(), "public/certificates", fileName);
     if (fs.existsSync(filePath)) {
@@ -132,12 +138,9 @@ const UserCertificate = async ({ params }: ParamProps) => {
   };
 
   // Use real achievement dates
-  if (totalCredits >= 100)
-    addLevelCertificate("Bronze", "bronzeCertificate.pdf", findLevelAchievedDate(100));
-  if (totalCredits >= 500)
-    addLevelCertificate("Silver", "silverCertificate.pdf", findLevelAchievedDate(500));
-  if (totalCredits >= 1000)
-    addLevelCertificate("Gold", "goldCertificate.pdf", findLevelAchievedDate(1000));
+  if (totalCredits >= 100) addLevelCertificate("Bronze", "bronzeCertificate.pdf", findLevelAchievedDate(100));
+  if (totalCredits >= 500) addLevelCertificate("Silver", "silverCertificate.pdf", findLevelAchievedDate(500));
+  if (totalCredits >= 1000) addLevelCertificate("Gold", "goldCertificate.pdf", findLevelAchievedDate(1000));
 
   // Merge both lists
   const allCertificates = [
@@ -148,16 +151,12 @@ const UserCertificate = async ({ params }: ParamProps) => {
   return (
     <div className="certificate-data-table-container my-2 w-full max-w-7xl overflow-auto">
       <div className="mb-10">
-        <h2 className="text-xl font-semibold text-[#192f59] mb-4">
-          CEC Progress
-        </h2>
+        <h2 className="text-xl font-semibold text-[#192f59] mb-4">CEC Progress</h2>
         <div className="w-full">
           <Progress value={percentComplete} className="h-3 mb-4" />
           <div className="flex justify-between text-sm text-gray-700">
             <div>
-              <p className="font-semibold text-[#192f59]">
-                {percentComplete.toFixed(1)}%
-              </p>
+              <p className="font-semibold text-[#192f59]">{percentComplete.toFixed(1)}%</p>
               <p>Percent Complete</p>
             </div>
             <div className="text-right">
@@ -165,16 +164,16 @@ const UserCertificate = async ({ params }: ParamProps) => {
               <p>Credits Earned</p>
             </div>
           </div>
-          <div className="mt-3 text-sm text-gray-600">
+          <div className="mt-3 text-sm text-gray-500">
             Current Level:{" "}
             <span
               className={`font-semibold ${level === "Gold"
-                  ? "text-yellow-500"
-                  : level === "Silver"
-                    ? "text-gray-400"
-                    : level === "Bronze"
-                      ? "text-amber-700"
-                      : "text-gray-500"
+                ? "text-yellow-500"
+                : level === "Silver"
+                  ? "text-gray-400"
+                  : level === "Bronze"
+                    ? "text-amber-700"
+                    : "text-gray-500"
                 }`}
             >
               {level}
@@ -182,10 +181,7 @@ const UserCertificate = async ({ params }: ParamProps) => {
           </div>
         </div>
       </div>
-
-      <h2 className="mb-5 text-xl font-semibold text-[#192f59]">
-        Certificate
-      </h2>
+      <h2 className="mb-5 text-xl font-semibold text-[#192f59]">Certificate</h2>
       <div className="inner-data-table p-px">
         <DataTable
           filter={"filename"}

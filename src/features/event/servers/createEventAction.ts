@@ -40,7 +40,11 @@ export const createEvent = async (_previousState: unknown, formData: FormData) =
   if (!title) {
     errors.titleError = "Title is required";
   } else {
-    const matchTitle = await prisma.event.findFirst({ where: { title } });
+    const matchTitle = await prisma.event.findFirst({ 
+      where: { 
+        title 
+      } 
+    });
     if (matchTitle) {
       errors.titleError = "Title has been used";
     }

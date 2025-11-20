@@ -11,6 +11,7 @@ export default async function ProfileId({ params }: ParamProps) {
     where: {
       slug: slug,
     },
+
     select: {
       name: true,
       email: true,
@@ -36,11 +37,9 @@ export default async function ProfileId({ params }: ParamProps) {
   }
 
   return (
-      <div className="my-2">
-          <h2 className="mb-2 text-xl font-semibold text-[#192f59]">
-            Profile Details
-          </h2>
-        <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-y-5 text-base text-gray-700">
+    <div className="my-2">
+      <h2 className="mb-2 text-xl font-semibold text-[#192f59]">Profile Details</h2>
+      <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-y-5 text-base text-gray-700">
         <div>
           <p className="font-semibold">Name</p>
           <p>{data?.name || "—"}</p>

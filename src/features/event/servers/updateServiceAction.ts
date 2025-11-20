@@ -12,8 +12,14 @@ export const updateServiceAction = async (
   const status = formData.get("status") as string;
 
   const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { slug: true, isActive: true },
+    where: { 
+      id: userId 
+    },
+
+    select: { 
+      slug: true, 
+      isActive: true 
+    },
   });
 
   try {
@@ -21,6 +27,7 @@ export const updateServiceAction = async (
       where: {
         id: id,
       },
+
       data: {
         status,
       },
@@ -31,6 +38,7 @@ export const updateServiceAction = async (
         where: {
           id: userId,
         },
+
         data: {
           isActive: true,
         },

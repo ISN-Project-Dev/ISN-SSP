@@ -7,12 +7,14 @@ const UserService = async () => {
     where: {
       participationType: "helper",
     },
+
     include: {
       user: {
         select: {
           name: true,
         },
       },
+
       event: {
         select: {
           title: true,
@@ -23,10 +25,7 @@ const UserService = async () => {
 
   return (
     <div className="user-report-data-table-container my-2 w-full max-w-7xl overflow-auto">
-      <h2 className="mb-5 text-xl font-semibold text-[#192f59]">
-        Service Management
-      </h2>
-      {/* Admin User Data Table */}
+      <h2 className="mb-5 text-xl font-semibold text-[#192f59]">Service Management</h2>
       <div className="inner-data-table p-px">
         <DataTable
           filter={"username"}

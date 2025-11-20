@@ -92,7 +92,9 @@ export async function deleteSession() {
 
   if (sessionToken) {
     await prisma.session.delete({
-      where: { id: (sessionToken as TSessionData).sessionId },
+      where: { 
+        id: (sessionToken as TSessionData).sessionId 
+      },
     });
   }
 }

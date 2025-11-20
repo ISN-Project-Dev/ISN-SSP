@@ -7,6 +7,7 @@ type ParamProps = {
 export default async function ProfileId({ params }: ParamProps) {
   const id = (await params).id;
   const slug = (await params).slug;
+
   return (
     <>
       <UploadFileForm id={id} slug={slug} />

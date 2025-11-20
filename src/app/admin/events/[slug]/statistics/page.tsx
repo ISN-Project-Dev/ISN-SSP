@@ -2,12 +2,15 @@ import prisma from "@/databases/db"
 import EventStatistics from "@features/admin/components/EventStatistics"
 
 type ParamProps = {
-  params: Promise<{ slug: string }>;
+    params: Promise<{ slug: string }>;
 };
 
 export default async function EventStatisticsPage({ params }: ParamProps) {
     const event = await prisma.event.findUnique({
-        where: { slug: (await params).slug },
+        where: {
+            slug: (await params).slug
+        },
+
         include: {
             eventRegistrations: {
                 include: {
@@ -16,16 +19,14 @@ export default async function EventStatisticsPage({ params }: ParamProps) {
                     },
                 },
             },
-            feedbacks: true,
 
+            feedbacks: true,
         },
     })
 
     if (!event) {
         return (
-            <main className="flex flex-col items-center justify-center h-screen text-gray-500">
-                Event not found
-            </main>
+            <main className="flex flex-col items-center justify-center h-screen text-gray-500">Event not found</main>
         )
     }
 

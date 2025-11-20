@@ -5,28 +5,60 @@ export const deleteUser = async (id: string) => {
   try {
     await prisma.$transaction([
       // Delete sessions
-      prisma.session.deleteMany({ where: { userId: id } }),
+      prisma.session.deleteMany({
+        where: {
+          userId: id
+        }
+      }),
 
       // Delete feedback
-      prisma.feedback.deleteMany({ where: { userId: id } }),
+      prisma.feedback.deleteMany({
+        where: {
+          userId: id
+        }
+      }),
 
       // Delete event registrations
-      prisma.eventRegistration.deleteMany({ where: { userId: id } }),
+      prisma.eventRegistration.deleteMany({
+        where: {
+          userId: id
+        }
+      }),
 
       // Delete announcements
-      prisma.announcement.deleteMany({ where: { userId: id } }),
+      prisma.announcement.deleteMany({
+        where: {
+          userId: id
+        }
+      }),
 
       // Delete report submissions
-      prisma.reportSubmission.deleteMany({ where: { userId: id } }),
+      prisma.reportSubmission.deleteMany({
+        where: {
+          userId: id
+        }
+      }),
 
       // Delete RiskEvaluation
-      prisma.riskEvaluation.deleteMany({ where: { userId: id } }),
+      prisma.riskEvaluation.deleteMany({
+        where: {
+          userId: id
+        }
+      }),
 
       // Delete UserDetail
-      prisma.userDetail.deleteMany({ where: { userId: id } }),
+      prisma.userDetail.deleteMany({
+        where: {
+          userId: id
+        }
+      }),
 
       // Finally delete user
-      prisma.user.delete({ where: { id } }),
+      prisma.user.delete({
+        where: {
+          id
+        }
+      }),
     ]);
     return { success: true };
   } catch (error) {

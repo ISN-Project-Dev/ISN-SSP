@@ -66,7 +66,10 @@ if (title) {
   const matchTitle = await prisma.event.findFirst({
     where: {
       title: title,
-      NOT: { id: eventId },
+      
+      NOT: { 
+        id: eventId 
+      },
     },
   });
 
@@ -109,6 +112,7 @@ if (Object.keys(errors).length > 0) {
           where: {
             id: eventImageId,
           },
+
           data: {
             filename: eventImage.name,
             contentType: eventImage.type,
@@ -141,7 +145,10 @@ if (Object.keys(errors).length > 0) {
       }
 
       await prisma.eventCertificate.update({
-        where: { id: eventCertificateId },
+        where: { 
+          id: eventCertificateId 
+        },
+
         data: {
           filename: certificate.name,
           contentType: certificate.type,
@@ -172,7 +179,10 @@ if (Object.keys(errors).length > 0) {
 
   try {
     await prisma.event.update({
-      where: { id: eventId },
+      where: { 
+        id: eventId 
+      },
+
       data: {
         title: title,
         slug: slug,

@@ -17,8 +17,10 @@ const UserReport = async ({ params }: ParamProps) => {
     where: {
       userId: userData?.id,
     },
+
     select: {
-      id: true, // Include the id
+      id: true,
+      
       event: {
         select: {
           title: true,
@@ -44,18 +46,15 @@ const UserReport = async ({ params }: ParamProps) => {
       eventRegistrationId: report.eventRegistrationId,
       userId: userData?.id,
       userSlug: userData?.slug,
-      eventTitle: eventRegistration?.event.title, // Fallback if title is missing
+      eventTitle: eventRegistration?.event.title,
       status: report.status,
-      submittedAt: report.submittedAt, // Optional, include other fields if needed
+      submittedAt: report.submittedAt,
     };
   });
 
   return (
     <div className="user-report-data-table-container my-2 w-full max-w-7xl overflow-auto">
-      <h2 className="mb-5 text-xl font-semibold text-[#192f59]">
-        Report
-      </h2>
-      {/* Admin User Data Table */}
+      <h2 className="mb-5 text-xl font-semibold text-[#192f59]">Report</h2>
       <div className="inner-data-table p-px">
         <DataTable
           filter={"eventTitle"}

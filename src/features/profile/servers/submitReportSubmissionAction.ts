@@ -39,6 +39,7 @@ export const submitReportSubmission = async (
       where: {
         id: reportSubmissionId,
       },
+      
       data: {
         submittedAt: new Date(),
         status: "Submitted",

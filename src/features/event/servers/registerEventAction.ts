@@ -40,8 +40,13 @@ export const registerEvent = async (
     createReportSubmission(eventId, userId, data.id);
 
     const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { isActive: true },
+      where: { 
+        id: userId 
+      },
+      
+      select: { 
+        isActive: true 
+      },
     });
 
     if (!user?.isActive) {
@@ -49,6 +54,7 @@ export const registerEvent = async (
         where: {
           id: userId,
         },
+
         data: {
           isActive: true,
         },
