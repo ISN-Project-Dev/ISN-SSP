@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Progress } from "@/components/ui/progress"
 import Image from "next/image";
 
-interface BarChartHorizontalProps {
+interface FeedbackRatingBarChartProps {
     data: any[]
     averageRating?: string
     totalResponses?: number
@@ -16,7 +16,7 @@ export function FeedbackRatingBarChart({
     averageRating = "0.0",
     totalResponses = 0,
     feedbacks = [],
-}: BarChartHorizontalProps) {
+}: FeedbackRatingBarChartProps) {
     const hasFeedback = feedbacks && feedbacks.length > 0
     const total = data.reduce((sum, d) => sum + d.count, 0)
 
@@ -94,7 +94,7 @@ export function FeedbackRatingBarChart({
                     ) : (
                         <div className="flex flex-col items-center justify-center text-center text-gray-500 mt-4">
                             <Image
-                                src="/noData.png"
+                                src="/dataNotAvailable.png"
                                 alt="No feedback"
                                 className="h-14 w-14 mb-2 opacity-60"
                                 draggable="false"

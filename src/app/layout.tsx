@@ -1,12 +1,12 @@
-//import from package.json
+// Import from package.json
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import MainLayout from "@/components/layouts/MainLayout";
 
-//import from file
+// Import from file
 import "./globals.css";
 
-//Text Font
+// Text Font
 const dmSans = DM_Sans({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {

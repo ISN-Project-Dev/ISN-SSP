@@ -40,7 +40,11 @@ export const createEvent = async (_previousState: unknown, formData: FormData) =
   if (!title) {
     errors.titleError = "Title is required";
   } else {
-    const matchTitle = await prisma.event.findFirst({ where: { title } });
+    const matchTitle = await prisma.event.findFirst({ 
+      where: { 
+        title 
+      } 
+    });
     if (matchTitle) {
       errors.titleError = "Title has been used";
     }
@@ -75,10 +79,10 @@ if (eventImage && eventImage.size > 0 && eventImage.name !== "undefined") {
   eventImageId = imageRecord.id;
 }
 
-// CASE 2: No uploaded image → use default isn.png
+// CASE 2: No uploaded image → use default isnEventImage.png
 else {
   try {
-    const filePath = path.join(process.cwd(), "public/isn.png");
+    const filePath = path.join(process.cwd(), "public/isnEventImage.png");
     const defaultImageBuffer = readFileSync(filePath);
 
     const defaultRecord = await prisma.eventImage.create({

@@ -1,7 +1,6 @@
 import prisma from "@/databases/db";
 import HandleProfileForm from "@/features/auth/components/HandleProfileForm";
 import { verifySession } from "@/libs/dal";
-
 // import prisma from "@/databases/db";
 import { getProfileDTO } from "@/libs/dto";
 
@@ -18,6 +17,7 @@ const EditProfile = async ({ params }: ParamProps) => {
     where: {
       slug: slug,
     },
+
     select: {
       id: true,
       slug: true,

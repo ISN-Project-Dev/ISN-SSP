@@ -27,14 +27,19 @@ export const editUser = async (_previousState: unknown, formData: FormData) => {
   }
 
   const currentUser = await prisma.user.findUnique({
-    where: { id },
+    where: { 
+      id 
+    },
   });
 
   if (currentUser && name !== currentUser.name) {
     const existingUser = await prisma.user.findFirst({
       where: {
         name: name,
-        NOT: { id },
+
+        NOT: { 
+          id 
+        },
       },
     });
 
@@ -58,7 +63,10 @@ export const editUser = async (_previousState: unknown, formData: FormData) => {
 
   try {
     await prisma.user.update({
-      where: { id },
+      where: { 
+        id 
+      },
+
       data: {
         name,
         slug,

@@ -11,45 +11,42 @@ type ParamProps = {
 
 const UserDashboard = async ({ params }: ParamProps) => {
   const userData = await prisma.user.findUnique({
-    where: { slug: (await params).slug },
+    where: {
+      slug: (await params).slug
+    },
   });
 
   const riskData = await prisma.riskEvaluation.findUnique({
-    where: { userId: userData?.id },
+    where: {
+      userId: userData?.id
+    },
   });
 
-  const radarData = riskData
-    ? [
-        { subject: "Mobility", value: riskData.mobility || 0, fullMark: 100 },
-        { subject: "Stability", value: riskData.stability || 0, fullMark: 100 },
-        { subject: "Symmetry", value: riskData.symmetry || 0, fullMark: 100 },
-      ]
-    : [];
+  const radarData = riskData ? [
+    { subject: "Mobility", value: riskData.mobility || 0, fullMark: 100 },
+    { subject: "Stability", value: riskData.stability || 0, fullMark: 100 },
+    { subject: "Symmetry", value: riskData.symmetry || 0, fullMark: 100 },
+  ] : [];
 
-  const bodyData = riskData
-    ? {
-        neck: riskData.neckRiskIndex || 0,
-        shoulder: riskData.shoulderRiskIndex || 0,
-        torso: riskData.torsoRiskIndex || 0,
-        pelvic: riskData.pelvicRiskIndex || 0,
-        lowerLimb: riskData.lowerLimbRiskIndex || 0,
-      }
-    : {
-        neck: 0,
-        shoulder: 0,
-        torso: 0,
-        pelvic: 0,
-        lowerLimb: 0,
-      };
+  const bodyData = riskData ? {
+    neck: riskData.neckRiskIndex || 0,
+    shoulder: riskData.shoulderRiskIndex || 0,
+    torso: riskData.torsoRiskIndex || 0,
+    pelvic: riskData.pelvicRiskIndex || 0,
+    lowerLimb: riskData.lowerLimbRiskIndex || 0,
+  } : {
+    neck: 0,
+    shoulder: 0,
+    torso: 0,
+    pelvic: 0,
+    lowerLimb: 0,
+  };
 
   return (
     <div className="user-data-table-container w-full max-w-7xl mx-auto">
       <UserDashboardButton id={userData?.id || ""} />
       {riskData ? (
         <div className="border-none bg-white mt-10">
-          {/* <h2 className="text-xl font-semibold text-[#192f59] text-center mb-8">
-            Exercise Risk Evaluation Summary
-          </h2> */}
           <div className="flex flex-col lg:flex-row justify-center items-start gap-4">
             <div className="flex flex-col items-center w-full lg:w-[45%]">
               <div className="w-full">
@@ -78,9 +75,7 @@ const UserDashboard = async ({ params }: ParamProps) => {
           </div>
         </div>
       ) : (
-        <p className="text-center text-gray-500 mt-10">
-          No risk evaluation data available.
-        </p>
+        <p className="text-center text-gray-500 mt-10">No risk evaluation data available.</p>
       )}
     </div>
   );

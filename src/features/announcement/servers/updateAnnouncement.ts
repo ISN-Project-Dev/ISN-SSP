@@ -23,7 +23,12 @@ export async function updateAnnouncement(_: any, formData: FormData) {
     };
   }
 
-  const announcement = await prisma.announcement.findUnique({ where: { slug } });
+  const announcement = await prisma.announcement.findUnique({
+    where: { 
+      slug 
+    }
+  });
+
   if (!announcement) throw new Error("Announcement not found");
 
   if (announcement.userId !== session.userId) {
@@ -33,7 +38,10 @@ export async function updateAnnouncement(_: any, formData: FormData) {
   const newSlug = title.toLowerCase().replace(/\s+/g, "-");
 
   await prisma.announcement.update({
-    where: { slug },
+    where: { 
+      slug 
+    },
+
     data: {
       title,
       description,

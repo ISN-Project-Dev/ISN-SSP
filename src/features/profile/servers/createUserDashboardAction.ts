@@ -53,6 +53,7 @@ export const createUserDashboard = async (
           where: {
             userId: id,
           },
+          
           data: {
             overallScore: parseFloat(row["Overall score"] || "0"), // Convert to numbers
             riskIndex: parseFloat(row["Risk index"] || "0"),

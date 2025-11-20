@@ -16,9 +16,16 @@ const EventHistory = async ({ params }: ParamProps) => {
     where: {
       userId: userData?.id as string,
     },
+
     include: {
       event: true,
-      user: { select: { slug: true } },
+
+      user: {
+        select: {
+          slug: true
+        }
+      },
+
       feedback: true,
     },
   });

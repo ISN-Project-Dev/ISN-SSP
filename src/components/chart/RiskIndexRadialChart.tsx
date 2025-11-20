@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 import { ResponsiveContainer, RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface RiskScoreGaugeProps {
+interface RiskIndexRadialChartProps {
     value: number;
     max?: number;
     label?: string;
 }
 
-const RiskIndexRadialChart: React.FC<RiskScoreGaugeProps> = ({
+const RiskIndexRadialChart: React.FC<RiskIndexRadialChartProps> = ({
     value,
     max = 100,
     label = "Risk Index",

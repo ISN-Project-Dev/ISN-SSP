@@ -86,7 +86,10 @@ export const handleProfile = async (
 
   if (userDetailId) {
     await prisma.userDetail.update({
-      where: { id: userDetailId },
+      where: { 
+        id: userDetailId 
+      },
+
       data: {
         gender: gender,
         age: age,

@@ -12,8 +12,13 @@ export async function updateReportAction(formData: FormData): Promise<void> {
   }
 
   await prisma.reportSubmission.update({
-    where: { id },
-    data: { status },
+    where: { 
+      id 
+    },
+    
+    data: { 
+      status 
+    },
   });
 
   revalidatePath("/profile/admin/adminReport");
