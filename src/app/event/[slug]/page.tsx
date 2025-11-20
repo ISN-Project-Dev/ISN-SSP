@@ -28,7 +28,7 @@ const EventId = async ({ params }: ParamProps) => {
 <>
   <div className="relative w-full">
     <Image
-      src="/bluebg.jpg"
+      src="/blueBackground.jpg"
       alt="Header Background"
       className="w-full h-32 md:h-40 opacity-50 object-cover"
       width={1920}
@@ -51,7 +51,7 @@ const EventId = async ({ params }: ParamProps) => {
         />
       ) : (
         <Image
-          src="/ISN.png"
+          src="/isn.png"
           alt="Event Default Image"
           fill
           className="object-cover"

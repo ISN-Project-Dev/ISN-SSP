@@ -24,13 +24,17 @@ export async function decrypt(session: string | undefined = "") {
   if (!secretKey) {
     console.error("SESSION_SECRET is not defined!");
   }
+
   if (!encodedKey) {
     console.error("Something wrong with encodedKey!");
   }
+
   if (!session) return null;
+
   const { payload } = await jwtVerify(session, encodedKey, {
     algorithms: ["HS256"],
   });
+
   return payload;
 }
 
@@ -41,13 +45,13 @@ export async function createSession(
 ) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-  // 1. Create a session in the database
+  // Create a session in the database
   const sessionData = await prisma.session.create({
     data: {
       userId: userId,
       userRole: role,
       userSlug: slug,
-      expiresAt: expiresAt, // Store expiration date in database
+      expiresAt: expiresAt,
     },
   });
 
@@ -71,8 +75,8 @@ export async function updateSession(): Promise<void | null> {
   }
 
   const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-
   const cookieStore = await cookies();
+
   cookieStore.set("session", session, {
     httpOnly: true,
     secure: true,

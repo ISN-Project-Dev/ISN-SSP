@@ -21,9 +21,7 @@ const TextareaField = ({
 }: FormType) => {
   return (
     <div className="grid w-full items-center gap-1.5">
-      <Label htmlFor={name}>
-        {label}
-      </Label>
+      <Label htmlFor={name}>{label}</Label>
       <Textarea
         defaultValue={defaultValue}
         id={name}

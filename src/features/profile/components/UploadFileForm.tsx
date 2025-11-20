@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { submitReportSubmission } from "../servers/submitReportSubmissionAction";
-import UploadField from "@/components/common/UploadField";
+import UploadFile from "@/components/common/UploadFile";
 import { Button } from "@/components/ui/button";
 
 type UploadFileFormProps = {
@@ -21,7 +21,7 @@ export default function UploadFileForm({ id, slug }: UploadFileFormProps) {
       <div className="file-input-container">
         <input type="hidden" name="reportSubmissionId" value={id} />
         <input type="hidden" name="slug" value={slug} />
-        <UploadField
+        <UploadFile
           label="Report File"
           type="file"
           name="reportFile"

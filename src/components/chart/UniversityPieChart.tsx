@@ -1,11 +1,9 @@
 "use client"
 
-import { Pie, PieChart, ResponsiveContainer } from "recharts"
+import { Pie, PieChart } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartConfig, ChartContainer, ChartTooltip } from "@/components/ui/chart"
 import Image from "next/image";
-
-export const description = "A pie chart where lighter colors represent higher values"
 
 const chartConfig = {
     count: {
@@ -54,14 +52,12 @@ export function UniversityPieChart({ data }: { data: any[] }) {
         return (
             <Card className="flex flex-col">
                 <CardHeader>
-                    <CardTitle className="text-lg font-semibold text-[#192f59]">
-                        University
-                    </CardTitle>
+                    <CardTitle className="text-lg font-semibold text-[#192f59]">University</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col items-center justify-center text-gray-500">
                         <Image
-                            src="/nodata.png"
+                            src="/noData.png"
                             alt="No data available"
                             className="h-20 w-20 mb-3 opacity-60"
                             draggable="false"
@@ -69,9 +65,7 @@ export function UniversityPieChart({ data }: { data: any[] }) {
                             height={56}
                         />
                         <p className="font-medium">No university data available yet</p>
-                        <p className="text-xs text-gray-400 mt-1">
-                            Once participants register, this chart will appear.
-                        </p>
+                        <p className="text-xs text-gray-400 mt-1">Once participants register, this chart will appear.</p>
                     </div>
                 </CardContent>
             </Card>
@@ -86,38 +80,38 @@ export function UniversityPieChart({ data }: { data: any[] }) {
             <CardContent className="flex flex-col sm:flex-row items-center justify-between pb-4">
                 <div className="flex-[2] flex justify-center">
                     <ChartContainer config={chartConfig} className="w-[90%] max-w-[320px] h-[250px] aspect-square">
-                            <PieChart>
-                                <ChartTooltip content={<UniversityTooltip />} />
-                                <Pie
-                                    data={coloredData}
-                                    dataKey="count"
-                                    nameKey="label"
-                                    outerRadius={95}
-                                    stroke="#fff"
-                                    strokeWidth={2}
-                                    labelLine={false}
-                                    label={({ cx, cy, midAngle, outerRadius, value }: any) => {
-                                        const RADIAN = Math.PI / 180
-                                        const radius = outerRadius + 20
-                                        const x = cx + radius * Math.cos(-midAngle * RADIAN)
-                                        const y = cy + radius * Math.sin(-midAngle * RADIAN)
-                                        const percentage = ((value / total) * 100).toFixed(0)
+                        <PieChart>
+                            <ChartTooltip content={<UniversityTooltip />} />
+                            <Pie
+                                data={coloredData}
+                                dataKey="count"
+                                nameKey="label"
+                                outerRadius={95}
+                                stroke="#fff"
+                                strokeWidth={2}
+                                labelLine={false}
+                                label={({ cx, cy, midAngle, outerRadius, value }: any) => {
+                                    const RADIAN = Math.PI / 180
+                                    const radius = outerRadius + 20
+                                    const x = cx + radius * Math.cos(-midAngle * RADIAN)
+                                    const y = cy + radius * Math.sin(-midAngle * RADIAN)
+                                    const percentage = ((value / total) * 100).toFixed(0)
 
-                                        return (
-                                            <text
-                                                x={x}
-                                                y={y}
-                                                fill="#192f59"
-                                                textAnchor="middle"
-                                                dominantBaseline="middle"
-                                                className="text-xs"
-                                            >
-                                                {percentage}%
-                                            </text>
-                                        )
-                                    }}
-                                />
-                            </PieChart>
+                                    return (
+                                        <text
+                                            x={x}
+                                            y={y}
+                                            fill="#192f59"
+                                            textAnchor="middle"
+                                            dominantBaseline="middle"
+                                            className="text-xs"
+                                        >
+                                            {percentage}%
+                                        </text>
+                                    )
+                                }}
+                            />
+                        </PieChart>
                     </ChartContainer>
                 </div>
                 <div className="flex-[1] flex flex-col gap-3 text-sm items-start">

@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { ResponsiveContainer, RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,12 +23,15 @@ const HealthScoreRadialChart: React.FC<ScoreGaugeProps> = ({
         const increment = value / total;
         const timer = setInterval(() => {
             start += increment;
+
             if (start >= value) {
                 start = value;
                 clearInterval(timer);
             }
+
             setAnimatedValue(start);
         }, step);
+
         return () => clearInterval(timer);
     }, [value]);
 
@@ -38,7 +42,6 @@ const HealthScoreRadialChart: React.FC<ScoreGaugeProps> = ({
     };
 
     const { text: statusText, color, light } = getStatus(animatedValue);
-
     const gaugeValue = (animatedValue / 100) * 100;
     const data = [{ name: "value", value: gaugeValue }];
 
@@ -48,9 +51,11 @@ const HealthScoreRadialChart: React.FC<ScoreGaugeProps> = ({
                 <CardTitle>{label}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center">
-                {/* Gauge */}
                 <div className="relative w-full h-[180px]">
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ResponsiveContainer
+                        width="100%"
+                        height="100%"
+                    >
                         <RadialBarChart
                             cx="50%"
                             cy="50%"
@@ -61,9 +66,21 @@ const HealthScoreRadialChart: React.FC<ScoreGaugeProps> = ({
                             data={data}
                         >
                             <defs>
-                                <linearGradient id="scoreGaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor={light} />
-                                    <stop offset="100%" stopColor={color} />
+                                <linearGradient
+                                    id="scoreGaugeGradient"
+                                    x1="0%"
+                                    y1="0%"
+                                    x2="100%"
+                                    y2="0%"
+                                >
+                                    <stop
+                                        offset="0%"
+                                        stopColor={light}
+                                    />
+                                    <stop
+                                        offset="100%"
+                                        stopColor={color}
+                                    />
                                 </linearGradient>
                             </defs>
                             <RadialBar
@@ -72,15 +89,15 @@ const HealthScoreRadialChart: React.FC<ScoreGaugeProps> = ({
                                 background={{ fill: "#e6e6e6" }}
                                 fill="url(#scoreGaugeGradient)"
                             />
-                            <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
+                            <PolarAngleAxis
+                                type="number"
+                                domain={[0, 100]}
+                                tick={false}
+                            />
                         </RadialBarChart>
                     </ResponsiveContainer>
                     <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                        <p
-                            className="text-3xl font-semibold text-gray-500"
-                        >
-                            {animatedValue.toFixed(0)}
-                        </p>
+                        <p className="text-3xl font-semibold text-gray-500">{animatedValue.toFixed(0)}</p>
                     </div>
                 </div>
                 <div

@@ -38,6 +38,7 @@ export const getUser = cache(async () => {
     return user;
   } catch (error) {
     console.log("Failed to fetch user");
+
     return null;
   }
 });
@@ -55,6 +56,7 @@ export const getUserBySlug = cache(async (slug: string) => {
     return user;
   } catch (error) {
     console.log("Failed to fetch user");
+
     return null;
   }
 });

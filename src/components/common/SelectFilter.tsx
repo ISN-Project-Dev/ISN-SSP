@@ -1,13 +1,5 @@
 import * as React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type Option = {
   value: string;
@@ -22,7 +14,7 @@ type FormType = {
   defaultValue?: any;
   error?: string;
   onChange?: (value: string) => void;
-  className?: string; 
+  className?: string;
 };
 
 export function SelectFilter({
@@ -37,14 +29,21 @@ export function SelectFilter({
 }: FormType) {
   return (
     <div className="grid w-full items-center gap-1.5">
-      <Select name={name} defaultValue={defaultValue} onValueChange={onChange}>
+      <Select
+        name={name}
+        defaultValue={defaultValue}
+        onValueChange={onChange}
+      >
         <SelectTrigger className={`w-full ${className || ""}`}>
           <SelectValue placeholder={placeholder || label} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             {options.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
+              <SelectItem
+                key={option.value}
+                value={option.value}
+              >
                 {option.label}
               </SelectItem>
             ))}

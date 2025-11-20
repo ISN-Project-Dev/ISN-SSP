@@ -37,12 +37,9 @@ export function FeedbackRatingBarChart({
             <CardContent className="flex flex-col lg:flex-row justify-between items-start gap-8">
                 <div className="flex-1 w-full flex flex-col justify-center">
                     <div className="flex flex-col sm:flex-row items-center lg:items-center justify-center gap-6 w-full">
-                        {/* Average Rating */}
                         <div className="flex flex-col items-center text-center lg:text-left">
                             <div className="flex items-center gap-2">
-                                <span className="text-5xl font-bold text-[#192f59]">
-                                    {averageRating}
-                                </span>
+                                <span className="text-5xl font-bold text-[#192f59]">{averageRating}</span>
                                 <span className="text-gray-500 text-lg">/ 5</span>
                             </div>
                             <div className="flex mt-2">
@@ -60,7 +57,6 @@ export function FeedbackRatingBarChart({
                             </div>
                             <p className="text-md text-gray-500 mt-2">Average Rating</p>
                         </div>
-                        {/* Bar Chart with counts */}
                         <div className="flex flex-col gap-3 w-full max-w-[330px]">
                             {ratingData.map((r, idx) => (
                                 <div
@@ -83,7 +79,6 @@ export function FeedbackRatingBarChart({
                         </div>
                     </div>
                 </div>
-                {/* Feedback */}
                 <div className="flex-1 w-full">
                     {hasFeedback ? (
                         <div className="flex flex-col gap-2 h-[220px] overflow-y-auto pr-2">
@@ -99,7 +94,7 @@ export function FeedbackRatingBarChart({
                     ) : (
                         <div className="flex flex-col items-center justify-center text-center text-gray-500 mt-4">
                             <Image
-                                src="/nodata.png"
+                                src="/noData.png"
                                 alt="No feedback"
                                 className="h-14 w-14 mb-2 opacity-60"
                                 draggable="false"

@@ -38,7 +38,7 @@ export default function AnnouncementForm({
     <>
       <div className="relative w-full">
         <Image
-          src="/bluebg.jpg"
+          src="/blueBackground.jpg"
           alt="Header Background"
           className="w-full h-40 opacity-50"
           width={1920}

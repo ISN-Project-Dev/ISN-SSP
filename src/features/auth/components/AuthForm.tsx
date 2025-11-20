@@ -10,7 +10,7 @@ export default function AuthForm({ children }: AuthFormProps) {
       <section className="auth-form w-full max-w-lg space-y-8 rounded-lg bg-white px-8 py-8 shadow-md">
         <div className="image-auth-form flex justify-center py-4">
           <Image
-            src="/ISN_Name_Logo.png"
+            src="/isnName.png"
             width={200}
             height={200}
             alt="ISN Logo"
