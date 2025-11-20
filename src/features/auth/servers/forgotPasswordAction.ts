@@ -5,10 +5,10 @@ import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 
 const transporter = nodemailer.createTransport({
-  service: "gmail", // Or another email service provider
+  service: "gmail", // or another email service provider
   auth: {
-    user: process.env.EMAIL_USER, // Your email address
-    pass: process.env.EMAIL_PASSWORD, // Your email password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 
@@ -19,7 +19,10 @@ export const forgotPassword = async (
   const email = formData.get("email") as string;
 
   if (!email) {
-    return { error: `Please fill in the form`, fieldData: { email } };
+    return {
+      error: `Please fill in the form`,
+      fieldData: { email }
+    };
   }
 
   const user = await prisma.user.findUnique({
@@ -38,9 +41,7 @@ export const forgotPassword = async (
   const resetToken = jwt.sign(
     { userId: user.id },
     process.env.JWT_SECRET_KEY!,
-    {
-      expiresIn: "1h",
-    },
+    { expiresIn: "1h" },
   );
 
   const resetLink = `${process.env.RESET_PASSWORD_URL}/auth/resetPassword/${resetToken}`;

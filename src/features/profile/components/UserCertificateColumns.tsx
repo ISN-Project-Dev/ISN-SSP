@@ -44,12 +44,15 @@ export const UserCertificateColumns: ColumnDef<UserCertificateData>[] = [
     ),
     cell: ({ row }) => {
       const date = row.original.generatedDate;
+
       if (!date) return <span className="text-gray-400 italic">Pending</span>;
+
       const formatted = new Date(date).toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
       });
+
       return <span>{formatted}</span>;
     },
   },
@@ -67,6 +70,7 @@ export const UserCertificateColumns: ColumnDef<UserCertificateData>[] = [
     ),
     cell: ({ row }) => {
       const cec = row.original.cecEarned ?? 0;
+
       return <span className="font-medium text-[#192f59]">{cec}</span>;
     },
   },
@@ -78,7 +82,10 @@ export const UserCertificateColumns: ColumnDef<UserCertificateData>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button
+              variant="ghost"
+              className="h-8 w-8 p-0"
+            >
               <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
@@ -92,16 +99,17 @@ export const UserCertificateColumns: ColumnDef<UserCertificateData>[] = [
 
                 if (!downloadUrl || !downloadUrl.startsWith("data:")) {
                   console.error("Invalid Base64 URL or file not found.");
+
                   return;
                 }
 
                 try {
                   const link = document.createElement("a");
-                  link.href = downloadUrl; // Use the base64 data URL
-                  link.download = filename; // Set the filename for download
-                  document.body.appendChild(link); // Append link to the DOM (some browsers require this)
-                  link.click(); // Trigger the download
-                  document.body.removeChild(link); // Clean up the DOM
+                  link.href = downloadUrl; // use the base64 data URL
+                  link.download = filename; // set the filename for download
+                  document.body.appendChild(link); // append link to the DOM (some browsers require this)
+                  link.click(); // trigger the download
+                  document.body.removeChild(link); // clean up the DOM
                 } catch (error) {
                   console.error("Failed to download file:", error);
                 }

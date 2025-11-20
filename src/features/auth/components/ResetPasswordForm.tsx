@@ -1,4 +1,5 @@
 "use client";
+
 import { resetPassword } from "@/features/auth/servers/resetPasswordAction";
 import { useActionState } from "react";
 
@@ -13,13 +14,13 @@ export default function ResetPassowrdForm({
 
   return (
     <form action={action}>
-      <input type="hidden" name="token" value={tokenValue} />
-      <h2 className="text-center text-2xl font-semibold text-gray-800">
-        Reset Your Password
-      </h2>
-
+      <input
+        type="hidden"
+        name="token"
+        value={tokenValue}
+      />
+      <h2 className="text-center text-2xl font-semibold text-gray-800">Reset Your Password</h2>
       <div className="space-y-6">
-        {/* New Password Input */}
         <div>
           <label
             htmlFor="password"
@@ -36,8 +37,6 @@ export default function ResetPassowrdForm({
             className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
-        {/* Repeated Password Input */}
         <div>
           <label
             htmlFor="repeat-password"
@@ -55,9 +54,7 @@ export default function ResetPassowrdForm({
           />
         </div>
       </div>
-
       <span style={{ color: "red" }}>{data?.error}</span>
-
       <button
         disabled={isPending}
         type="submit"

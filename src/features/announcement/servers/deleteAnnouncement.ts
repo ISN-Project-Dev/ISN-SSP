@@ -5,9 +5,11 @@ import { verifySession } from "@/libs/dal";
 
 export async function deleteAnnouncement(_: any, formData: FormData) {
   const session = await verifySession();
+
   if (!session?.userId) throw new Error("Unauthorized");
 
   const slug = formData.get("slug") as string;
+
   if (!slug) throw new Error("Missing announcement slug");
 
   const announcement = await prisma.announcement.findUnique({

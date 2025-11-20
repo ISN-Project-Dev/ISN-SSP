@@ -1,4 +1,5 @@
 "use client";
+
 import FormField from "@/components/common/FormField";
 import { Button } from "@/components/ui/button";
 import { forgotPassword } from "@/features/auth/servers/forgotPasswordAction";
@@ -9,12 +10,8 @@ export default function ForgotPasswordForm() {
 
   return (
     <form action={action}>
-      <h2 className="text-center mb-10 text-2xl font-semibold">
-        Forgot Password
-      </h2>
-
+      <h2 className="text-center mb-10 text-2xl font-semibold">Forgot Password</h2>
       <div className="space-y-5">
-        {/* Email Input */}
         <FormField
           label="Email"
           type="email"
@@ -22,10 +19,8 @@ export default function ForgotPasswordForm() {
           placeholder="Enter your Email"
         />
       </div>
-
       <span style={{ color: "red" }}>{data?.error}</span>
       <span style={{ color: "green" }}>{data?.message}</span>
-
       <Button
         disabled={isPending}
         type="submit"

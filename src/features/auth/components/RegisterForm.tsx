@@ -11,9 +11,7 @@ export default function RegisterForm() {
 
   return (
     <form action={action}>
-      <h2 className="text-[#192f59] text-center mb-10 text-2xl font-semibold">
-        Register Form
-      </h2>
+      <h2 className="text-[#192f59] text-center mb-10 text-2xl font-semibold">Register Form</h2>
       <div className="space-y-5">
         <FormField
           defaultValue={data?.fieldData?.name}

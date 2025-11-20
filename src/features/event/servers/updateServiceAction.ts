@@ -12,13 +12,13 @@ export const updateServiceAction = async (
   const status = formData.get("status") as string;
 
   const user = await prisma.user.findUnique({
-    where: { 
-      id: userId 
+    where: {
+      id: userId
     },
 
-    select: { 
-      slug: true, 
-      isActive: true 
+    select: {
+      slug: true,
+      isActive: true
     },
   });
 
@@ -47,5 +47,6 @@ export const updateServiceAction = async (
   } catch (error) {
     console.error(error, "Error registering event");
   }
+
   revalidatePath(`/profile/${user?.slug}/service`);
 };

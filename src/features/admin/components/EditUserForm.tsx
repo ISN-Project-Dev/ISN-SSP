@@ -37,9 +37,20 @@ const EditUserForm = ({ initialData }: UserFormProps) => {
       </div>
       <div className="event-page mt-16 mb-20 px-10 flex items-center justify-center">
         <div className="event-form w-full max-w-lg rounded-lg bg-white p-8 shadow-md">
-          <form className="space-y-5" action={updateAction}>
-            <input name="id" type="hidden" value={initialData?.id ?? ""} />
-            <input name="slug" type="hidden" value={initialData?.slug ?? ""} />
+          <form
+            className="space-y-5"
+            action={updateAction}
+          >
+            <input
+              name="id"
+              type="hidden"
+              value={initialData?.id ?? ""}
+            />
+            <input
+              name="slug"
+              type="hidden"
+              value={initialData?.slug ?? ""}
+            />
             <FormField
               defaultValue={data?.fieldData.name || initialData?.name}
               label="Name"

@@ -5,7 +5,7 @@ import prisma from "@/databases/db";
 import { parse } from "papaparse";
 
 type RiskEvaluationRow = {
-  "Overall score": string; // CSV data is read as strings
+  "Overall score": string;
   "Risk index": string;
   "neck risk index": string;
   "shoulder and upper limbs risk index": string;
@@ -40,12 +40,12 @@ export const createUserDashboard = async (
 
     // Parse the CSV content
     const parsedData = parse<RiskEvaluationRow>(fileContent, {
-      header: true, // Treat the first row as headers
+      header: true, // treat the first row as headers
       skipEmptyLines: true,
     });
 
     // Access the parsed rows
-    const rows = parsedData.data; // Array of rows from the CSV
+    const rows = parsedData.data; // array of rows from the CSV
 
     if (matchHealth) {
       for (const row of rows) {
@@ -53,17 +53,13 @@ export const createUserDashboard = async (
           where: {
             userId: id,
           },
-          
+
           data: {
             overallScore: parseFloat(row["Overall score"] || "0"), // Convert to numbers
             riskIndex: parseFloat(row["Risk index"] || "0"),
             neckRiskIndex: parseFloat(row["neck risk index"] || "0"),
-            shoulderRiskIndex: parseFloat(
-              row["shoulder and upper limbs risk index"] || "0",
-            ),
-            lowerLimbRiskIndex: parseFloat(
-              row["lower limbs risk index"] || "0",
-            ),
+            shoulderRiskIndex: parseFloat(row["shoulder and upper limbs risk index"] || "0"),
+            lowerLimbRiskIndex: parseFloat(row["lower limbs risk index"] || "0"),
             pelvicRiskIndex: parseFloat(row["pelvic risk index"] || "0"),
             torsoRiskIndex: parseFloat(row["torso risk index"] || "0"),
             mobility: parseFloat(row["Mobility"] || "0"),
@@ -74,19 +70,15 @@ export const createUserDashboard = async (
         });
       }
     } else {
-      // Example: Save each row to the database
+      // Save each row to the database
       for (const row of rows) {
         await prisma.riskEvaluation.create({
           data: {
             overallScore: parseFloat(row["Overall score"] || "0"), // Convert to numbers
             riskIndex: parseFloat(row["Risk index"] || "0"),
             neckRiskIndex: parseFloat(row["neck risk index"] || "0"),
-            shoulderRiskIndex: parseFloat(
-              row["shoulder and upper limbs risk index"] || "0",
-            ),
-            lowerLimbRiskIndex: parseFloat(
-              row["lower limbs risk index"] || "0",
-            ),
+            shoulderRiskIndex: parseFloat(row["shoulder and upper limbs risk index"] || "0"),
+            lowerLimbRiskIndex: parseFloat(row["lower limbs risk index"] || "0"),
             pelvicRiskIndex: parseFloat(row["pelvic risk index"] || "0"),
             torsoRiskIndex: parseFloat(row["torso risk index"] || "0"),
             mobility: parseFloat(row["Mobility"] || "0"),
@@ -101,6 +93,7 @@ export const createUserDashboard = async (
     return { success: true };
   } catch (error) {
     console.error("Error processing CSV:", error);
+
     return { fileError: "Failed to process the file. Please try again." };
   }
 };

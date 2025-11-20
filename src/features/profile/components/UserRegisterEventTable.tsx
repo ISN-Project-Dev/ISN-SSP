@@ -19,7 +19,7 @@ type UserRegisterEventData = {
     type: string | null;
     creditHour: number;
   };
-    user: {
+  user: {
     slug: string;
   };
   feedback?: {
@@ -35,9 +35,7 @@ type Props = {
 export default function UserRegisterEventTable({ isStudent, eventData }: Props) {
   return (
     <div className="user-registration-event-data-table-container my-2 w-full max-w-7xl overflow-auto">
-      <h2 className="mb-5 text-xl font-semibold text-[#192f59]">
-        Event History
-      </h2>
+      <h2 className="mb-5 text-xl font-semibold text-[#192f59]">Event History</h2>
       <div className="inner-data-table max-w-[880px] p-px">
         <DataTable
           filter="eventTitle"

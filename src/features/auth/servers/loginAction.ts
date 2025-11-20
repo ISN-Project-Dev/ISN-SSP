@@ -7,7 +7,10 @@ import { createSession } from "@/libs/session";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export const login = async (_previousState: unknown, formData: FormData) => {
+export const login = async (
+  _previousState: unknown,
+  formData: FormData
+) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
@@ -54,6 +57,7 @@ export const login = async (_previousState: unknown, formData: FormData) => {
     await createSession(user.id, user.role, user.slug);
   } catch (error) {
     console.error("Login error:", error);
+
     return {
       error: "An unexpected error occurred. Please try again later.",
     };

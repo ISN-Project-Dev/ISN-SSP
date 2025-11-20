@@ -9,9 +9,7 @@ export default function LoginForm() {
   const [data, action, isPending] = useActionState(login, undefined);
   return (
     <form action={action}>
-      <h2 className="text-[#192f59] text-center mb-10 text-2xl font-semibold">
-        Login Form
-      </h2>
+      <h2 className="text-[#192f59] text-center mb-10 text-2xl font-semibold">Login Form</h2>
       <div className="space-y-5">
         <FormField
           label="Email"

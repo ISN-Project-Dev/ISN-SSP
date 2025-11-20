@@ -26,6 +26,7 @@ const FeedbackForm = ({
     async (_prev: any, formData: FormData) => {
       return await submitFeedback(_prev, formData);
     },
+
     undefined
   );
 
@@ -45,13 +46,19 @@ const FeedbackForm = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="hidden" name="eventId" value={eventId} />
-      <input type="hidden" name="eventRegistrationId" value={eventRegistrationId} />
+      <input
+        type="hidden"
+        name="eventId"
+        value={eventId}
+      />
+      <input
+        type="hidden"
+        name="eventRegistrationId"
+        value={eventRegistrationId}
+      />
       <div className="space-y-8">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
-            Rating
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-3">Rating</label>
           <div className="flex items-center space-x-1">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
@@ -64,17 +71,13 @@ const FeedbackForm = ({
               >
                 <Star
                   className={`h-8 w-8 transition-colors ${(hover || rating) >= star
-                      ? "text-yellow-300 fill-yellow-300"
-                      : "text-gray-300"
+                    ? "text-yellow-300 fill-yellow-300"
+                    : "text-gray-300"
                     }`}
                 />
               </button>
             ))}
-            {rating > 0 && (
-              <span className="pl-5 text-sm text-gray-500">
-                {rating}/5 stars
-              </span>
-            )}
+            {rating > 0 && (<span className="pl-5 text-sm text-gray-500">{rating}/5 stars</span>)}
           </div>
           {state?.ratingError && (<p className="text-sm text-red-700 mt-1">{state.ratingError}</p>)}
         </div>

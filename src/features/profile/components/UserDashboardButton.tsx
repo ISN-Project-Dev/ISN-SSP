@@ -8,10 +8,7 @@ type TId = {
 };
 
 export default function UserDashboardButton({ id }: TId) {
-  const [data, action, isPending] = useActionState(
-    createUserDashboard,
-    undefined,
-  );
+  const [data, action, isPending] = useActionState(createUserDashboard, undefined);
 
   return (
     <form
@@ -25,7 +22,6 @@ export default function UserDashboardButton({ id }: TId) {
           accept=".csv"
           className="block w-full text-sm border border-gray-200 rounded-lg file:cursor-pointer file:mr-5 file:border-0 file:bg-gray-200 file:px-3 file:py-1 file:h-9 file:text-sm file:font-medium hover:file:bg-gray-200"
         />
-
         <Button
           type="submit"
           disabled={isPending}
@@ -34,7 +30,11 @@ export default function UserDashboardButton({ id }: TId) {
           Upload File
         </Button>
       </div>
-      <input name="id" type="hidden" value={id} />
+      <input
+        name="id"
+        type="hidden"
+        value={id}
+      />
       <div className="text-center mt-1">
         {data?.fileError && (
           <p className="text-red-500 text-sm">{data.fileError}</p>

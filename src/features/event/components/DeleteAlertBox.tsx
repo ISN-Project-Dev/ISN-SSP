@@ -11,6 +11,7 @@ export default function DeleteAlertBox({ id }: { id: string }) {
   const handleDelete = async () => {
     try {
       const result = await deleteEvent(id);
+
       if (result.success) {
         router.push("/event");
       }

@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { updateReportAction } from "@/features/profile/servers/updateReportAction";
@@ -86,11 +85,7 @@ export const AdminReportColumns: ColumnDef<AdminReportData>[] = [
 
             return (
                 <div className="flex items-center w-full">
-                    <span
-                        className={`px-3 py-1 rounded-lg text-xs font-semibold text-center w-20 ${color}`}
-                    >
-                        {label}
-                    </span>
+                    <span className={`px-3 py-1 rounded-lg text-xs font-semibold text-center w-20 ${color}`}>{label}</span>
                 </div>
             );
         },
@@ -102,19 +97,24 @@ export const AdminReportColumns: ColumnDef<AdminReportData>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
+                        <Button
+                            variant="ghost"
+                            className="h-8 w-8 p-0"
+                        >
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                  <DropdownMenuSeparator />
+                        <DropdownMenuSeparator />
                         <DropdownMenuItem
                             onClick={() => {
                                 if (!row.original.downloadUrl) {
                                     console.error("No file data found for this report.");
+
                                     return;
                                 }
+
                                 const link = document.createElement("a");
                                 link.href = row.original.downloadUrl;
                                 link.download = row.original.reportName;
@@ -126,19 +126,41 @@ export const AdminReportColumns: ColumnDef<AdminReportData>[] = [
                             Download
                         </DropdownMenuItem>
                         <form action={updateReportAction}>
-                            <input type="hidden" name="id" value={row.original.id} />
-                            <input type="hidden" name="status" value="Approved" />
+                            <input
+                                type="hidden"
+                                name="id"
+                                value={row.original.id}
+                            />
+                            <input
+                                type="hidden"
+                                name="status"
+                                value="Approved"
+                            />
                             <DropdownMenuItem asChild>
-                                <button type="submit" className="w-full text-left cursor-pointer">
+                                <button
+                                    type="submit"
+                                    className="w-full text-left cursor-pointer"
+                                >
                                     Approve
                                 </button>
                             </DropdownMenuItem>
                         </form>
                         <form action={updateReportAction}>
-                            <input type="hidden" name="id" value={row.original.id} />
-                            <input type="hidden" name="status" value="Rejected" />
+                            <input
+                                type="hidden"
+                                name="id"
+                                value={row.original.id}
+                            />
+                            <input
+                                type="hidden"
+                                name="status"
+                                value="Rejected"
+                            />
                             <DropdownMenuItem asChild>
-                                <button type="submit" className="w-full text-left cursor-pointer">
+                                <button
+                                    type="submit"
+                                    className="w-full text-left cursor-pointer"
+                                >
                                     Reject
                                 </button>
                             </DropdownMenuItem>

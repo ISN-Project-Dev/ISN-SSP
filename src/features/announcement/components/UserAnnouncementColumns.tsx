@@ -42,9 +42,7 @@ export const UserAnnouncementColumns: ColumnDef<Announcement>[] = [
           {row.original.title}
         </Link>
         {row.original.type === "event" && row.original.event?.title && (
-          <p className="text-xs text-muted-foreground">
-            Related: <strong>{row.original.event.title}</strong>
-          </p>
+          <p className="text-xs text-muted-foreground">Related: <strong>{row.original.event.title}</strong></p>
         )}
       </div>
     ),

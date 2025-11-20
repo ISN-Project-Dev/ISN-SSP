@@ -90,19 +90,18 @@ export const UserReportSubmissionColumns: ColumnDef<UserReportSubmissionData>[] 
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
+              <Button
+                variant="ghost"
+                className="h-8 w-8 p-0"
+              >
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-                          <DropdownMenuItem asChild>
-              <Link
-                href={`/profile/${row.original.userSlug}/report/${row.original.id}`}
-              >
-                Submit Report
-              </Link>
+              <DropdownMenuItem asChild>
+                <Link href={`/profile/${row.original.userSlug}/report/${row.original.id}`}>Submit Report</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
