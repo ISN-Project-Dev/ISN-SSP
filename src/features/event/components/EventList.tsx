@@ -83,7 +83,7 @@ export default function EventList({ eventData, isAdmin }: Props) {
         {filteredEvents.length === 0 && (
           <p className="text-center py-20 text-gray-500 text-md">No events found.</p>
         )}
-        <div className="grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="w-full grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {filteredEvents.map((event) => (
             <EventCard key={event.id} event={event} />
           ))}
