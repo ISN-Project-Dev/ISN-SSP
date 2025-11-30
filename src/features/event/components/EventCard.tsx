@@ -73,7 +73,7 @@ export default function EventCard({ event }: EventCardProps) {
           )}
         </div>
         <div className="p-4">
-          <h2 className="text-md font-semibold text-[#192f59]">{event.title}</h2>
+          <h2 className="text-md font-semibold text-[#192f59] line-clamp-1">{event.title}</h2>
           <p className="text-sm h-10 text-gray-600 line-clamp-2 mt-1">{event.description}</p>
           <div className="mt-4 flex flex-wrap gap-5 text-sm text-gray-700">
             <div className="flex items-center gap-1">
