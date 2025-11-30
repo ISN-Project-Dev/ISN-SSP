@@ -25,6 +25,18 @@ const EventId = async ({ params }: ParamProps) => {
     },
   });
 
+  function formatEventDate(start: Date | null, end: Date | null) {
+    if (!start || !end) return "Not provided";
+
+    const format = (date: Date) => new Date(date).toLocaleDateString("en-GB");
+
+    if (new Date(start).toDateString() === new Date(end).toDateString()) {
+      return format(start);
+    }
+
+    return `${format(start)} - ${format(end)}`;
+  }
+
   return (
     <>
       <div className="relative w-full">
@@ -76,9 +88,10 @@ const EventId = async ({ params }: ParamProps) => {
             { title: "Venue", value: eventIdData?.venue },
             {
               title: "Date",
-              value: eventIdData?.date
-                ? new Date(eventIdData.date).toLocaleDateString("en-GB")
-                : "",
+              value: formatEventDate(
+                eventIdData?.startDate ?? null,
+                eventIdData?.endDate ?? null
+              ),
             },
             { title: "Event Level", value: eventIdData?.courseLevel },
             { title: "Number of People", value: eventIdData?.numberOfPeople },

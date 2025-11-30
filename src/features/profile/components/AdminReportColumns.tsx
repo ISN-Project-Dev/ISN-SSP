@@ -108,22 +108,32 @@ export const AdminReportColumns: ColumnDef<AdminReportData>[] = [
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
-                            onClick={() => {
+                            onClick={async () => {
                                 if (!row.original.downloadUrl) {
                                     console.error("No file data found for this report.");
-
                                     return;
                                 }
 
-                                const link = document.createElement("a");
-                                link.href = row.original.downloadUrl;
-                                link.download = row.original.reportName;
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
+                                try {
+                                    const base64 = row.original.downloadUrl.split(",")[1];
+                                    const byteCharacters = atob(base64);
+                                    const byteNumbers = new Array(byteCharacters.length);
+
+                                    for (let i = 0; i < byteCharacters.length; i++) {
+                                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                    }
+
+                                    const byteArray = new Uint8Array(byteNumbers);
+                                    const blob = new Blob([byteArray], { type: "application/pdf" });
+                                    const fileURL = URL.createObjectURL(blob);
+
+                                    window.open(fileURL, "_blank");
+                                } catch (error) {
+                                    console.error("Failed to open PDF:", error);
+                                }
                             }}
                         >
-                            Download
+                            View
                         </DropdownMenuItem>
                         <form action={updateReportAction}>
                             <input

@@ -30,6 +30,16 @@ const UserCertificate = async ({ params }: ParamProps) => {
     },
   });
 
+  const calculateEventDays = (start: Date, end: Date) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    const diffTime = endDate.getTime() - startDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+    return diffDays > 0 ? diffDays : 1;
+  };
+
   const reportSubmissionData = await prisma.reportSubmission.findMany({
     where: {
       userId: userData?.id as string,
@@ -43,11 +53,12 @@ const UserCertificate = async ({ params }: ParamProps) => {
   );
 
   const totalCredits = eventRegistrationData.reduce((sum, reg) => {
-    if (approvedEventRegistrationIds.has(reg.id)) {
-      const credit = reg.event?.creditHour ?? 0;
+    if (approvedEventRegistrationIds.has(reg.id) && reg.event?.startDate && reg.event?.endDate) {
+      const days = calculateEventDays(reg.event.startDate, reg.event.endDate);
+      const credit = (reg.event.creditHour ?? 0) * days;
+
       return sum + credit;
     }
-
     return sum;
   }, 0);
 
@@ -78,6 +89,9 @@ const UserCertificate = async ({ params }: ParamProps) => {
         const eventCertificate = event.eventCertificate;
         const base64Data = eventCertificate.data.toString("base64");
         const downloadUrl = `data:${eventCertificate.contentType};base64,${base64Data}`;
+        const eventDays = event.startDate && event.endDate
+          ? calculateEventDays(event.startDate, event.endDate)
+          : 1;
 
         return {
           id: eventCertificate.id,
@@ -85,7 +99,7 @@ const UserCertificate = async ({ params }: ParamProps) => {
           contentType: eventCertificate.contentType,
           downloadUrl,
           generatedDate: approvedReport?.updatedAt || approvedReport?.submittedAt || null,
-          cecEarned: event.creditHour ?? 0,
+          cecEarned: (event.creditHour ?? 0) * eventDays,
         };
       }
 
@@ -103,9 +117,17 @@ const UserCertificate = async ({ params }: ParamProps) => {
     const reportsSorted = reportSubmissionData
       .map((r) => ({
         ...r,
-        creditHour: eventRegistrationData.find(
-          (reg) => reg.id === r.eventRegistrationId
-        )?.event?.creditHour ?? 0,
+        creditHour: (() => {
+          const event = eventRegistrationData.find(
+            (reg) => reg.id === r.eventRegistrationId
+          )?.event;
+
+          if (!event?.startDate || !event?.endDate) return 0;
+
+          const days = calculateEventDays(event.startDate, event.endDate);
+
+          return (event.creditHour ?? 0) * days;
+        })(),
       }))
       .sort((a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime());
 

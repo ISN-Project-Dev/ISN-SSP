@@ -16,7 +16,7 @@ const RegisterServiceButton = ({
   const [data, action, _isPending] = useActionState(registerEvent, undefined);
 
   return (
-    <div className="flex w-full max-w-4xl flex-col justify-center items-center mt-20 gap-5">
+    <div className="flex w-full max-w-4xl px-10 flex-col justify-center items-center mt-20 gap-5">
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 w-full justify-center">
         <form
           action={action}

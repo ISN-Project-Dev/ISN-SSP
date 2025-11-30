@@ -14,8 +14,10 @@ export const editEvent = async (
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const venue = formData.get("venue") as string;
-  const dateStr = formData.get("date") as string;
-  const date = dateStr ? new Date(dateStr) : null;
+  const startDateStr = formData.get("startDate") as string;
+  const endDateStr = formData.get("endDate") as string;
+  const startDate = startDateStr ? new Date(startDateStr) : null;
+  const endDate = endDateStr ? new Date(endDateStr) : null;
   const courseLevel = formData.get("courseLevel") as string;
   const type = formData.get("type") as string;
   const creditHour = Number(formData.get("creditHour"));
@@ -30,7 +32,8 @@ export const editEvent = async (
     title,
     description,
     venue,
-    date: date ? date.toISOString().split("T")[0] : "",
+    startDate: startDate ? startDate.toISOString().split("T")[0] : "",
+    endDate: endDate ? endDate.toISOString().split("T")[0] : "",
     courseLevel,
     type,
     creditHour,
@@ -46,8 +49,14 @@ export const editEvent = async (
   if (!venue) {
     errors.venueError = "Venue is required";
   }
-  if (!date) {
-    errors.dateError = "Date is required";
+  if (!startDate) {
+    errors.startDateError = "Start date is required";
+  }
+  if (!endDate) {
+    errors.endDateError = "End date is required";
+  }
+  if (startDate && endDate && endDate < startDate) {
+    errors.endDateError = "End date cannot be before start date";
   }
   if (!courseLevel) {
     errors.courseLevelError = "Event level is required";
@@ -170,7 +179,8 @@ export const editEvent = async (
   // Conditionally add fields to the update object
   if (description) updateData.description = description;
   if (venue) updateData.venue = venue;
-  if (date) updateData.date = date;
+  if (startDate) updateData.startDate = startDate;
+  if (endDate) updateData.endDate = endDate;
   if (courseLevel) updateData.courseLevel = courseLevel;
   if (type) updateData.type = type;
   if (creditHour >= 0) updateData.creditHour = creditHour;

@@ -112,7 +112,8 @@ model Event {
     title              String
     description        String
     venue              String?
-    date               DateTime?
+    startDate          DateTime?
+    endDate            DateTime?
     courseLevel        String
     creditHour         Int
     numberOfPeople     Int?

@@ -17,7 +17,8 @@ type EventFormProps = {
     title: string;
     description: string;
     venue: string | null;
-    date: Date | null;
+    startDate: Date | null;
+    endDate: Date | null;
     courseLevel: string;
     type: string | null;
     creditHour: number;
@@ -108,25 +109,37 @@ const EventForm = ({
               defaultValue={state?.fieldData?.description ?? initialData?.description ?? ""}
               error={state?.descriptionError}
             />
+            <FormField
+              label="Venue"
+              name="venue"
+              type="text"
+              defaultValue={state?.fieldData?.venue ?? initialData?.venue ?? ""}
+              error={state?.venueError}
+            />
             <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-5">
               <FormField
-                label="Venue"
-                name="venue"
-                type="text"
-                defaultValue={state?.fieldData?.venue ?? initialData?.venue ?? ""}
-                error={state?.venueError}
-              />
-              <FormField
-                label="Date"
-                name="date"
+                label="Start Date"
+                name="startDate"
                 type="date"
                 defaultValue={
-                  state?.fieldData?.date ?? (
-                    initialData?.date
-                      ? new Date(initialData.date).toISOString().split("T")[0]
-                      : "")
+                  state?.fieldData?.startDate ??
+                  (initialData?.startDate
+                    ? new Date(initialData.startDate).toISOString().split("T")[0]
+                    : "")
                 }
-                error={state?.dateError}
+                error={state?.startDateError}
+              />
+              <FormField
+                label="End Date"
+                name="endDate"
+                type="date"
+                defaultValue={
+                  state?.fieldData?.endDate ??
+                  (initialData?.endDate
+                    ? new Date(initialData.endDate).toISOString().split("T")[0]
+                    : "")
+                }
+                error={state?.endDateError}
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-5">

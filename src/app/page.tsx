@@ -6,11 +6,22 @@ import Link from "next/link";
 import { CheckCircleIcon } from '@heroicons/react/20/solid'
 
 export default async function Home() {
+  const today = new Date();
+
   const eventDataRaw = await prisma.event.findMany({
     where: {
-      date: {
-        gte: new Date(),
-      },
+      OR: [
+        {
+          startDate: {
+            gte: today, // future events
+          },
+        },
+        {
+          endDate: {
+            gte: today, // currently ongoing events
+          },
+        },
+      ],
     },
 
     include: {
@@ -20,12 +31,10 @@ export default async function Home() {
           contentType: true,
         },
       },
-
-      // eventCertificate: true,
     },
 
-    orderBy: { 
-      date: "asc" 
+    orderBy: {
+      startDate: "asc",
     },
 
     take: 6,

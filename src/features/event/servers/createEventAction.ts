@@ -7,7 +7,7 @@ import { readFileSync } from "fs";
 import path from "path";
 
 export const createEvent = async (
-  _previousState: unknown, 
+  _previousState: unknown,
   formData: FormData
 ) => {
   const slug = (formData.get("title") as string)
@@ -16,8 +16,10 @@ export const createEvent = async (
   const title = formData.get("title") as string;
   const description = formData.get("description") as string;
   const venue = formData.get("venue") as string;
-  const dateStr = formData.get("date") as string;
-  const date = dateStr ? new Date(dateStr) : null;
+  const startDateStr = formData.get("startDate") as string;
+  const endDateStr = formData.get("endDate") as string;
+  const startDate = startDateStr ? new Date(startDateStr) : null;
+  const endDate = endDateStr ? new Date(endDateStr) : null;
   const courseLevel = formData.get("courseLevel") as string;
   const type = formData.get("type") as string;
   const creditHour = Number(formData.get("creditHour"));
@@ -31,7 +33,8 @@ export const createEvent = async (
     title,
     description,
     venue,
-    date: dateStr,
+    startDate: startDateStr,
+    endDate: endDateStr,
     courseLevel,
     type,
     creditHour,
@@ -54,7 +57,9 @@ export const createEvent = async (
 
   if (!description) errors.descriptionError = "Description is required";
   if (!venue) errors.venueError = "Venue is required";
-  if (!date) errors.dateError = "Date is required";
+  if (!startDate) errors.startDateError = "Start date is required";
+  if (!endDate) errors.endDateError = "End date is required";
+  if (startDate && endDate && endDate < startDate) errors.endDateError = "End date cannot be before start date";
   if (!courseLevel) errors.courseLevelError = "Event level is required";
   if (!type) errors.typeError = "Event type is required";
   if (creditHour < 1) errors.creditHourError = "Credit hour cannot be lower than 1";
@@ -107,7 +112,8 @@ export const createEvent = async (
         title,
         description,
         venue,
-        date: date ? (date as Date).toISOString().split("T")[0] : "",
+        startDate: startDate ? (startDate as Date).toISOString().split("T")[0] : "",
+        endDate: endDate ? (endDate as Date).toISOString().split("T")[0] : "",
         courseLevel,
         type,
         creditHour,
@@ -139,7 +145,8 @@ export const createEvent = async (
         title: title,
         description: description,
         venue: venue,
-        date: date,
+        startDate: startDate,
+        endDate: endDate,
         courseLevel: courseLevel,
         type: type,
         creditHour: creditHour,
