@@ -39,17 +39,16 @@ export default async function Admin() {
 
   // Separate events based on date
   const now = new Date();
-
   const upcomingEvents = eventData.filter((event) => {
-    if (!event.date) return false;
+    if (!event.startDate || !event.endDate) return false;
 
-    return new Date(event.date) >= now;
+    return new Date(event.endDate) >= now;
   });
 
   const endedEvents = eventData.filter((event) => {
-    if (!event.date) return true;
+    if (!event.startDate || !event.endDate) return true;
 
-    return new Date(event.date) < now;
+    return new Date(event.endDate) < now;
   });
 
   const rawEvents = await prisma.event.findMany({
@@ -75,6 +74,16 @@ export default async function Admin() {
 
   const userData = await prisma.user.findMany();
 
+  const calculateEventDays = (start: Date, end: Date) => {
+    const startDate = new Date(start)
+    const endDate = new Date(end)
+
+    const diffTime = endDate.getTime() - startDate.getTime()
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1
+
+    return diffDays > 0 ? diffDays : 1
+  }
+
   // Fetch all users with their event registrations and event credit hours
   const users = await prisma.user.findMany({
     include: {
@@ -88,10 +97,14 @@ export default async function Admin() {
 
   // Compute total credit hours for each user
   const userCredits = users.map((user) => {
-    const totalCredit = user.eventRegistrations.reduce(
-      (sum, reg) => sum + (reg.event?.creditHour || 0),
-      0
-    )
+    const totalCredit = user.eventRegistrations.reduce((sum, reg) => {
+      if (!reg.event?.startDate || !reg.event?.endDate) return sum
+
+      const days = calculateEventDays(reg.event.startDate, reg.event.endDate)
+      const eventCredit = (reg.event.creditHour ?? 0) * days
+
+      return sum + eventCredit
+    }, 0)
 
     return { ...user, totalCredit }
   })
@@ -102,6 +115,7 @@ export default async function Admin() {
   const goldCount = userCredits.filter((u) => u.totalCredit >= 1000).length
 
   const totalMedallions = bronzeCount + silverCount + goldCount
+
   const medalData = [
     { label: "Bronze", count: bronzeCount },
     { label: "Silver", count: silverCount },
@@ -110,11 +124,10 @@ export default async function Admin() {
 
   const monthlyHeldEvents = await prisma.event.findMany({
     select: {
-      date: true
+      startDate: true
     },
-
     where: {
-      date: {
+      startDate: {
         not: null
       },
     },
@@ -124,15 +137,43 @@ export default async function Admin() {
   const eventsByMonth = Array(12).fill(0)
 
   monthlyHeldEvents.forEach((event) => {
-    const eventDate = new Date(event.date as Date)
-    const monthIndex = eventDate.getMonth()
-    eventsByMonth[monthIndex] += 1
-  })
+    if (!event.startDate) return;
+
+    const eventDate = new Date(event.startDate);
+    const monthIndex = eventDate.getMonth();
+    eventsByMonth[monthIndex] += 1;
+  });
 
   const monthlyEventData = monthNames.map((month, index) => ({
     month,
     count: eventsByMonth[index],
   }))
+
+  const eventTypeRaw = await prisma.event.groupBy({
+    by: ["type"],
+    _count: {
+      type: true,
+    },
+  });
+
+  const eventTypeData = eventTypeRaw.map((e) => ({
+    type: e.type || "Unknown",
+    count: e._count.type,
+  }));
+
+  const popularEventsRaw = await prisma.event.findMany({
+    include: {
+      eventRegistrations: true,
+    },
+  });
+
+  const popularEventData = popularEventsRaw
+    .map((e) => ({
+      label: e.title,
+      participants: e.eventRegistrations.length,
+    }))
+    .sort((a, b) => b.participants - a.participants)
+    .slice(0, 5);
 
   return (
     <main className="admin-main flex flex-col items-center justify-center px-4 py-6">
@@ -161,34 +202,8 @@ export default async function Admin() {
           data={medalData}
           total={totalMedallions}
         />
-        <EventTypesPieChart
-          data={(
-            await prisma.event.groupBy({
-              by: ["type"],
-              _count: {
-                type: true
-              },
-            })
-          ).map((e) => ({
-            type: e.type || "Unknown",
-            count: e._count.type,
-          }))}
-        />
-        <PopularEventsBarChart
-          data={(
-            await prisma.event.findMany({
-              include: {
-                eventRegistrations: true
-              },
-            })
-          )
-            .map((e) => ({
-              label: e.title,
-              participants: e.eventRegistrations.length,
-            }))
-            .sort((a, b) => b.participants - a.participants)
-            .slice(0, 5)}
-        />
+        <EventTypesPieChart data={eventTypeData} />
+        <PopularEventsBarChart data={popularEventData} />
         <MonthlyEventsLineChart data={monthlyEventData} />
       </div>
       <div className="event-data-table-container my-8 w-full max-w-7xl px-10 overflow-auto">

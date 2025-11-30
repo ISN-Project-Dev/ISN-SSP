@@ -14,11 +14,28 @@ export type AdminEventData = {
   description: string;
   courseLevel: string;
   creditHour: number;
-  date: Date | null;
+  startDate: Date | null;
+  endDate: Date | null;
   eventCertificate: {
     filename: string;
   } | null;
 };
+
+function getEventStatus(startDate: Date | null, endDate: Date | null) {
+  if (!startDate || !endDate) return { label: "Unknown", color: "bg-gray-200 text-gray-600" };
+
+  const now = new Date();
+
+  if (now < new Date(startDate)) {
+    return { label: "Upcoming", color: "bg-green-100 text-green-700" };
+  }
+
+  if (now >= new Date(startDate) && now <= new Date(endDate)) {
+    return { label: "Ongoing", color: "bg-blue-100 text-blue-700" };
+  }
+
+  return { label: "Ended", color: "bg-gray-100 text-gray-700" };
+}
 
 export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
   {
@@ -105,8 +122,7 @@ export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
     },
   },
   {
-    id: "Status",
-    accessorKey: "date",
+    id: "status",
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -118,13 +134,14 @@ export const AdminEventDataColumns: ColumnDef<AdminEventData>[] = [
       </Button>
     ),
     cell: ({ row }) => {
-      const date = row.original.date ? new Date(row.original.date) : null;
-      const now = new Date();
-      const isUpcoming = date && date >= now;
+      const { startDate, endDate } = row.original;
+      const status = getEventStatus(startDate, endDate);
 
       return (
         <div className="flex items-center w-full">
-          <span className={`px-3 py-1 rounded-lg text-xs font-semibold text-center w-20 ${isUpcoming ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"}`}>{isUpcoming ? "Upcoming" : "Ended"}</span>
+          <span className={`px-3 py-1 rounded-lg text-xs font-semibold text-center w-24 ${status.color}`}>
+            {status.label}
+          </span>
         </div>
       );
     },

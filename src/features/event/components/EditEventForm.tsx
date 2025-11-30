@@ -17,7 +17,8 @@ type EventFormProps = {
     title: string;
     description: string;
     venue: string | null;
-    date: Date | null;
+    startDate: Date | null;
+    endDate: Date | null;
     courseLevel: string;
     type: string | null;
     creditHour: number;
@@ -110,31 +111,38 @@ const EditEventForm = ({
               defaultValue={initialData?.description ?? ""}
               error={errors?.descriptionError}
             />
-            <div className="grid grid-cols-3 items-start gap-5">
-              <div className="col-span-2">
-                <FormField
-                  label="Venue"
-                  name="venue"
-                  type="text"
-                  defaultValue={initialData?.venue ?? ""}
-                  error={errors?.venueError}
-                />
-              </div>
-              <div className="col-span-1">
-                <FormField
-                  label="Date"
-                  name="date"
-                  type="date"
-                  defaultValue={
-                    initialData?.date
-                      ? new Date(initialData.date).toISOString().split("T")[0]
-                      : ""
-                  }
-                  error={errors?.dateError}
-                />
-              </div>
+            <FormField
+              label="Venue"
+              name="venue"
+              type="text"
+              defaultValue={initialData?.venue ?? ""}
+              error={errors?.venueError}
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-5">
+              <FormField
+                label="Start Date"
+                name="startDate"
+                type="date"
+                defaultValue={
+                  initialData?.startDate
+                    ? new Date(initialData.startDate).toISOString().split("T")[0]
+                    : ""
+                }
+                error={errors?.startDateError}
+              />
+              <FormField
+                label="End Date"
+                name="endDate"
+                type="date"
+                defaultValue={
+                  initialData?.endDate
+                    ? new Date(initialData.endDate).toISOString().split("T")[0]
+                    : ""
+                }
+                error={errors?.endDateError}
+              />
             </div>
-            <div className="grid grid-cols-2 items-start gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-5">
               <SelectField
                 label="Event Level"
                 name="courseLevel"
@@ -158,7 +166,7 @@ const EditEventForm = ({
                 defaultValue={initialData?.type ?? ""}
               />
             </div>
-            <div className="grid grid-cols-2 items-start gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 items-start gap-5">
               <FormField
                 label="Credit Hour"
                 name="creditHour"

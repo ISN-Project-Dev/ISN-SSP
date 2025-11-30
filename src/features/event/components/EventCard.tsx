@@ -9,7 +9,8 @@ type EventCardProps = {
     title: string;
     description: string;
     venue: string | null;
-    date: Date | null;
+    startDate: Date | null;
+    endDate: Date | null;
     courseLevel: string;
     type: string | null;
     creditHour: number;
@@ -22,24 +23,36 @@ type EventCardProps = {
   };
 };
 
-function formatDate(dateStr: Date) {
-  const date = new Date(dateStr);
-  const day = date.getDate().toString().padStart(2, "0");
-  const month = date.toLocaleString("default", { month: "short" });
+function formatDateRange(start: Date | null, end: Date | null) {
+  if (!start || !end) return "--";
 
-  return { day, month };
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  const format = (date: Date) => {
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = date.toLocaleString("default", { month: "short" });
+    return `${day} ${month}`;
+  };
+
+  if (startDate.toDateString() === endDate.toDateString()) {
+    return format(startDate);
+  }
+
+  return `${format(startDate)} - ${format(endDate)}`;
 }
 
+
 export default function EventCard({ event }: EventCardProps) {
-  const { day, month } = event.date ? formatDate(event.date) : { day: "--", month: "--" };
+  const dateText = formatDateRange(event.startDate, event.endDate);
 
   return (
     <div className="relative overflow-hidden rounded-lg bg-white shadow-lg">
       <Link href={`event/${event.slug}`}>
         <div className="relative">
-          <div className="absolute top-2 left-2 rounded-md bg-white size-14 flex flex-col items-center border-2 border-[#192f59] justify-center shadow-lg text-center text-xs font-bold text-gray-700">
-            <p className="text-lg">{day}</p>
-            <p className="text-xs">{month}</p>
+          {/* Date Badge */}
+          <div className="absolute top-2 left-2 rounded-md bg-white border-2 border-[#192f59] shadow-lg text-xs font-bold text-gray-700 px-3 py-2">
+            {dateText}
           </div>
           {event.eventImageUrl ? (
             <Image

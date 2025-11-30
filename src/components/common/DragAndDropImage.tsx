@@ -85,6 +85,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({
               sizes="100%"
               alt="Preview"
               className="rounded-lg object-cover"
+              priority
             />
             <button
               type="button"
