@@ -87,8 +87,9 @@ export const createEvent = async (
     eventImageId = imageRecord.id;
   } else {
     try {
-      const filePath = path.join(process.cwd(), "public/isnEventImage.png");
-      const defaultImageBuffer = readFileSync(filePath);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/isnEventImage.png`);
+      const arrayBuffer = await res.arrayBuffer();
+      const defaultImageBuffer = Buffer.from(arrayBuffer);
 
       const defaultRecord = await prisma.eventImage.create({
         data: {
