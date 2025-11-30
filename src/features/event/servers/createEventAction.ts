@@ -3,8 +3,6 @@
 import prisma from "@/databases/db";
 import convertFileToBufferService from "@/features/files/services/convertFileToBufferService";
 import { redirect } from "next/navigation";
-import { readFileSync } from "fs";
-import path from "path";
 
 export const createEvent = async (
   _previousState: unknown,

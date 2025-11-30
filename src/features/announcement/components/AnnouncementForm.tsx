@@ -42,11 +42,10 @@ export default function AnnouncementForm({
           width={1920}
           height={200}
         />
-        <h2 className="absolute inset-0 flex items-center justify-center text-[#192f59] text-3xl font-bold bg-blue-50/30">Create Event</h2>
+        <h2 className="absolute inset-0 flex items-center justify-center text-[#192f59] text-3xl font-bold bg-blue-50/30">Create Announcement</h2>
       </div>
       <div className="event-page mt-16 mb-20 px-10 flex items-center justify-center">
         <div className="event-form w-full max-w-3xl rounded-lg bg-white px-20 py-10 shadow-md">
-          <h2 className="event-form-title text-[#192f59] mb-10 text-center text-2xl font-semibold">{actionType} Announcement Form</h2>
           <form
             className="space-y-5"
             action={dispatchAction}

@@ -71,7 +71,7 @@ export function FeedbackRatingBarChart({
                                         value={r.percent}
                                         className="flex-1 h-3 bg-gray-200 mx-2"
                                     />
-                                    <div className="w-16 text-right text-xs text-gray-500">
+                                    <div className="w-20 text-right text-xs text-gray-500">
                                         {r.count} {r.count === 1 || r.count === 0 ? "response" : "responses"}{" "}
                                     </div>
                                 </div>
