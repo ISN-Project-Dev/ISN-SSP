@@ -46,7 +46,7 @@ const UserDashboard = async ({ params }: ParamProps) => {
     <div className="user-data-table-container w-full max-w-7xl mx-auto">
       <UserDashboardButton id={userData?.id || ""} />
       {riskData ? (
-        <div className="border-none bg-white mt-10">
+        <div className="border-none bg-white">
           <div className="flex flex-col lg:flex-row justify-center items-start gap-4">
             <div className="flex flex-col items-center w-full lg:w-[45%]">
               <div className="w-full">
