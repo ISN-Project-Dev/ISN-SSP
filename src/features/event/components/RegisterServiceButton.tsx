@@ -35,7 +35,7 @@ const RegisterServiceButton = ({
           <input
             type="hidden"
             name="participationType"
-            value="particapant"
+            value="participant"
           />
           <button className="w-full sm:w-auto text-base px-5 py-3 rounded-lg bg-[#192f59] text-white hover:bg-[#2f4369] focus:ring-1 focus:ring-[#2f4369]">Register Event</button>
         </form>
