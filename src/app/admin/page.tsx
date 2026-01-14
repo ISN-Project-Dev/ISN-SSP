@@ -95,9 +95,23 @@ export default async function Admin() {
     },
   })
 
+  const approvedReports = await prisma.reportSubmission.findMany({
+    where: {
+      status: "Approved",
+    },
+    select: {
+      eventRegistrationId: true,
+    },
+  })
+
+  const approvedRegistrationIds = new Set(
+    approvedReports.map((r) => r.eventRegistrationId)
+  )
+
   // Compute total credit hours for each user
   const userCredits = users.map((user) => {
     const totalCredit = user.eventRegistrations.reduce((sum, reg) => {
+      if (!approvedRegistrationIds.has(reg.id)) return sum
       if (!reg.event?.startDate || !reg.event?.endDate) return sum
 
       const days = calculateEventDays(reg.event.startDate, reg.event.endDate)
