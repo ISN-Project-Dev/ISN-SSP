@@ -160,9 +160,9 @@ const UserCertificate = async ({ params }: ParamProps) => {
   };
 
   // Use real achievement dates
-  if (totalCredits >= 100) addLevelCertificate("Bronze", "bronzeCertificate.pdf", findLevelAchievedDate(100));
-  if (totalCredits >= 500) addLevelCertificate("Silver", "silverCertificate.pdf", findLevelAchievedDate(500));
-  if (totalCredits >= 1000) addLevelCertificate("Gold", "goldCertificate.pdf", findLevelAchievedDate(1000));
+  if (totalCredits >= 100) addLevelCertificate("Bronze", "Bronze Certificate.pdf", findLevelAchievedDate(100));
+  if (totalCredits >= 500) addLevelCertificate("Silver", "Silver Certificate.pdf", findLevelAchievedDate(500));
+  if (totalCredits >= 1000) addLevelCertificate("Gold", "Gold Certificate.pdf", findLevelAchievedDate(1000));
 
   // Merge both lists
   const allCertificates = [

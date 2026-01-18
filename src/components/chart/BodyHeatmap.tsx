@@ -44,7 +44,7 @@ export default function BodyHeatmap({ data }: BodyHeatmapProps) {
 
     return (
         <div className="w-full max-w-[480px] mx-auto bg-white rounded-lg border border-blue p-3">
-            <div className="relative w-full mt-5 h-[330px] flex justify-center">
+            <div className="relative w-full mt-5 h-[350px] flex justify-center">
                 <Image
                     src="/humanBodyMap.png"
                     alt="Body Map"
@@ -100,9 +100,10 @@ export default function BodyHeatmap({ data }: BodyHeatmapProps) {
                             />
                             <YAxis
                                 type="number"
+                                domain={[0, 100]}
                                 axisLine={false}
                                 tickLine={false}
-                                width={25}
+                                width={22}
                             />
                             <ChartTooltip
                                 cursor={false}

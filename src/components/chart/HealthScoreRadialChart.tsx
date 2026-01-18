@@ -44,11 +44,26 @@ const HealthScoreRadialChart: React.FC<HealthScoreRadialChartProps> = ({
     const { text: statusText, color, light } = getStatus(animatedValue);
     const gaugeValue = (animatedValue / 100) * 100;
     const data = [{ name: "value", value: gaugeValue }];
+    const [showTooltip, setShowTooltip] = useState(false);
+
+    const getTooltipText = (status: string) => {
+        switch (status) {
+            case "POOR":
+                return "Consider improving activity and lifestyle habits.";
+            case "FAIR":
+                return "You are on the right track with room for improvement.";
+            case "EXCELLENT":
+                return "Keep maintaining your current routine.";
+            default:
+                return "";
+        }
+    };
 
     return (
         <Card className="bg-white shadow-none border border-blue">
             <CardHeader className="text-lg text-center font-semibold text-[#192f59]">
                 <CardTitle>{label}</CardTitle>
+                <p className="text-xs text-gray-500 mt-1">Max: 100</p>
             </CardHeader>
             <CardContent className="flex flex-col items-center">
                 <div className="relative w-full h-[180px]">
@@ -100,11 +115,21 @@ const HealthScoreRadialChart: React.FC<HealthScoreRadialChartProps> = ({
                         <p className="text-3xl font-semibold text-gray-500">{animatedValue.toFixed(0)}</p>
                     </div>
                 </div>
-                <div
-                    className="px-8 py-3 rounded-sm text-white font-medium text-md"
-                    style={{ backgroundColor: color }}
-                >
-                    {statusText}
+                <div className="relative">
+                    <div
+                        className="w-40 text-center py-2 rounded-sm text-white font-medium text-md cursor-pointer"
+                        style={{ backgroundColor: color }}
+                        onMouseEnter={() => setShowTooltip(true)}
+                        onMouseLeave={() => setShowTooltip(false)}
+                    >
+                        {statusText}
+                    </div>
+
+                    {showTooltip && (
+                        <div className="absolute top-full mt-3 left-1/2 -translate-x-1/2 z-50 bg-white text-gray-800 text-sm px-4 py-3 rounded-md shadow-lg border border-gray-200 w-72 text-center">
+                            {getTooltipText(statusText)}
+                        </div>
+                    )}
                 </div>
             </CardContent>
         </Card>
