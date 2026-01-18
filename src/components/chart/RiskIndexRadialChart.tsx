@@ -41,18 +41,33 @@ const RiskIndexRadialChart: React.FC<RiskIndexRadialChartProps> = ({
         const percent = (v / max) * 100;
 
         if (percent < 15) return { text: "LOW RISK", color: "#4caf50", light: "#c8e6c9" };
-        if (percent < 20) return { text: "MODERATE RISK", color: "#2e7d32", light: "#a5d6a7" };
+        if (percent < 20) return { text: "MODERATE RISK", color: "#ffb300", light: "#ffe082" };
         return { text: "HIGH RISK", color: "#f44336", light: "#ef9a9a" };
     };
 
     const { text: statusText, color, light } = getStatus(animatedValue);
     const gaugeValue = (animatedValue / max) * 100;
     const data = [{ name: "value", value: gaugeValue }];
+    const [showTooltip, setShowTooltip] = useState(false);
+
+    const getTooltipText = (status: string) => {
+        switch (status) {
+            case "LOW RISK":
+                return "Your current health indicators are within a safe range.";
+            case "MODERATE RISK":
+                return "Some indicators may need attention to prevent future issues.";
+            case "HIGH RISK":
+                return "Immediate attention and lifestyle adjustments are recommended.";
+            default:
+                return "";
+        }
+    };
 
     return (
         <Card className="bg-white shadow-none border border-blue">
             <CardHeader className="text-lg text-center font-semibold text-[#192f59]">
                 <CardTitle>{label}</CardTitle>
+                <p className="text-xs text-gray-500 mt-1">Max: 25</p>
             </CardHeader>
             <CardContent className="flex flex-col items-center">
                 <div className="relative w-full h-[180px]">
@@ -95,7 +110,7 @@ const RiskIndexRadialChart: React.FC<RiskIndexRadialChartProps> = ({
                             />
                             <PolarAngleAxis
                                 type="number"
-                                domain={[0, 100]}
+                                domain={[0, 25]}
                                 tick={false}
                             />
                         </RadialBarChart>
@@ -104,11 +119,21 @@ const RiskIndexRadialChart: React.FC<RiskIndexRadialChartProps> = ({
                         <p className="text-3xl font-semibold text-gray-500">{animatedValue.toFixed(0)}</p>
                     </div>
                 </div>
-                <div
-                    className="px-8 py-3 rounded-sm text-white font-medium text-md"
-                    style={{ backgroundColor: color }}
-                >
-                    {statusText}
+                <div className="relative">
+                    <div
+                        className="w-40 text-center py-2 rounded-sm text-white font-medium text-md cursor-pointer"
+                        style={{ backgroundColor: color }}
+                        onMouseEnter={() => setShowTooltip(true)}
+                        onMouseLeave={() => setShowTooltip(false)}
+                    >
+                        {statusText}
+                    </div>
+
+                    {showTooltip && (
+                        <div className="absolute top-full mt-3 left-1/2 -translate-x-1/2 z-50 bg-white text-gray-800 text-sm px-4 py-3 rounded-md shadow-lg border border-gray-200 w-72 text-center">
+                            {getTooltipText(statusText)}
+                        </div>
+                    )}
                 </div>
             </CardContent>
         </Card>
